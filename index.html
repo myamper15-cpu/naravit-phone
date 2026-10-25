@@ -506,14 +506,46 @@ function toggleLike(el) {
 function renderDMList() {
   // Keeps the sample conversations available in the inbox.
 }
+
 function openChat(person) {
-  currentChat = person === 'phuwin' ? 'phuwin' : 'pond';
-  const name = currentChat === 'pond' ? 'Pond Naravit' : 'Phuwin Tangsakyuen';
-  $('chatTitle').textContent = name;
-  $('chatName').textContent = name;
-  $('chatAvatar').textContent = currentChat === 'pond' ? 'P' : 'F';
+  const people = {
+    pond: {name:'Pond Naravit', initial:'P'},
+    phuwin: {name:'Phuwin Tangsakyuen GMMTV', initial:'P'},
+    tee_vtp: {name:'tee_vtp', initial:'T'},
+    dew_jsu: {name:'dew_jsu', initial:'D'},
+    dunk: {name:'Dunk Natachai B.', initial:'D'},
+    chen_rcj: {name:'chen_rcj', initial:'C'}
+  };
+
+  const info = people[person] || people.pond;
+  currentChat = person;
+
+  if (!chats[currentChat]) {
+    chats[currentChat] = [];
+  }
+
+  $('chatTitle').textContent = info.name;
+  $('chatName').textContent = info.name;
+  $('chatAvatar').textContent = info.initial;
+
   renderChatMessages();
   openApp('dmChat');
+}
+
+function filterDMPeople(query) {
+  let visible = 0;
+
+  document.querySelectorAll('#dmPeopleList .dm-person').forEach(row => {
+    const matches = row.dataset.search
+      .toLowerCase()
+      .includes(query.toLowerCase());
+
+    row.style.display = matches ? 'flex' : 'none';
+
+    if (matches) visible++;
+  });
+
+  $('dmNoResults').style.display = visible ? 'none' : 'block';
 }
 function renderChatMessages() {
   const box = $('chatMessages');
