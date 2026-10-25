@@ -227,10 +227,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 
 <section class="screen" id="messages" style="background:#fff;color:#111;padding:0 16px 90px;box-sizing:border-box;">
 
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px;">
-    <button onclick="goHome()" style="border:1px solid #eee;border-radius:28px;background:#fafafa;padding:10px 17px;font-size:16px;font-weight:600;">Exit</button>
-    <button onclick="alert('Edit mode can be added later.')" style="border:0;background:transparent;color:#087cff;font-size:15px;">Edit</button>
-  </div>
+  
+<div style="display:flex;justify-content:flex-end;padding:10px 16px;">
+  <button onclick="goHome()" style="border:0;background:#f2f2f7;color:#007aff;border-radius:20px;padding:8px 16px;font-size:15px;cursor:pointer;">
+    ✕ Exit
+  </button>
+</div>
 
   <div style="text-align:center;margin-top:-39px;pointer-events:none;">
     <div style="font-size:23px;font-weight:750;">Messages</div>
@@ -290,10 +292,11 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 
 <section class="screen" id="appleChat" style="background:#fff;color:#111;padding:0 14px 15px;">
 
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
-    <button onclick="openApp('messages')" style="border:0;background:none;color:#087cff;font-size:17px;">‹ Messages</button>
-    <button onclick="goHome()" style="border:0;background:none;color:#087cff;font-size:15px;">Exit</button>
-  </div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
+  <button onclick="openApp('messages')" style="border:0;background:none;color:#087cff;font-size:17px;cursor:pointer;">‹ Messages</button>
+  <button onclick="goHome()" style="border:0;background:none;color:#087cff;font-size:15px;cursor:pointer;">Exit</button>
+</div>
+
 
   <div style="text-align:center;padding:12px 0 15px;">
     <div id="appleChatAvatar" style="width:58px;height:58px;border-radius:50%;background:#b7c4d4;color:white;font-size:25px;font-weight:700;display:grid;place-items:center;margin:auto;">P</div>
