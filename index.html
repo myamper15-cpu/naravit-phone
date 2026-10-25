@@ -740,17 +740,32 @@ const appleConversations = {
 
 let activeAppleConversation = 'phu';
 
+
 function openAppleChat(person) {
+  const chat = appleConversations[person];
+
+  if (!chat) {
+    alert('Conversation not found: ' + person);
+    return;
+  }
+
+  const name = document.getElementById('appleChatName');
+  const avatar = document.getElementById('appleChatAvatar');
+
+  if (!name || !avatar || !document.getElementById('appleChatMessages')) {
+    alert('Missing appleChat HTML section. Please check that you added the appleChat section.');
+    return;
+  }
+
   activeAppleConversation = person;
 
-  const chat = appleConversations[person] || appleConversations.new;
-
-  $('appleChatName').textContent = chat.name;
-  $('appleChatAvatar').textContent = chat.initial;
+  name.textContent = chat.name;
+  avatar.textContent = chat.initial;
 
   renderAppleChatMessages();
   openApp('appleChat');
 }
+
 
 function renderAppleChatMessages() {
   const box = $('appleChatMessages');
