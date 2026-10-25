@@ -696,6 +696,119 @@ renderCalendar();
 renderYears();
 renderInstagram();
 updateTime();
+
+const appleConversations = {
+  phu: {
+    name: 'phu ❤️',
+    initial: 'P',
+    messages: [
+      {from:'them', text:'hiii ❤️'},
+      {from:'me', text:'hello phu!'},
+      {from:'them', text:'kumusta ka?'}
+    ]
+  },
+  joong: {
+    name: 'joong',
+    initial: 'J',
+    messages: [
+      {from:'them', text:'hello? sino po sila?'},
+      {from:'me', text:'hi joong!'}
+    ]
+  },
+  mom: {
+    name: 'mom',
+    initial: 'M',
+    messages: [
+      {from:'them', text:'ayan number nila dalawa'},
+      {from:'me', text:'okay ma ❤️'}
+    ]
+  },
+  dunk: {
+    name: 'dunk',
+    initial: 'D',
+    messages: [
+      {from:'them', text:'hello po san po kayo'},
+      {from:'me', text:'nandito lang po'}
+    ]
+  },
+  new: {
+    name: 'New Message',
+    initial: '+',
+    messages: []
+  }
+};
+
+let activeAppleConversation = 'phu';
+
+function openAppleChat(person) {
+  activeAppleConversation = person;
+
+  const chat = appleConversations[person] || appleConversations.new;
+
+  $('appleChatName').textContent = chat.name;
+  $('appleChatAvatar').textContent = chat.initial;
+
+  renderAppleChatMessages();
+  openApp('appleChat');
+}
+
+function renderAppleChatMessages() {
+  const box = $('appleChatMessages');
+  box.innerHTML = '';
+
+  const chat = appleConversations[activeAppleConversation];
+
+  chat.messages.forEach(message => {
+    const bubble = document.createElement('div');
+
+    bubble.textContent = message.text;
+    bubble.style.maxWidth = '78%';
+    bubble.style.padding = '10px 14px';
+    bubble.style.borderRadius = '19px';
+    bubble.style.fontSize = '16px';
+    bubble.style.lineHeight = '1.35';
+    bubble.style.overflowWrap = 'anywhere';
+
+    if (message.from === 'me') {
+      bubble.style.alignSelf = 'flex-end';
+      bubble.style.background = '#087cff';
+      bubble.style.color = '#fff';
+    } else {
+      bubble.style.alignSelf = 'flex-start';
+      bubble.style.background = '#e9e9eb';
+      bubble.style.color = '#111';
+    }
+
+    box.appendChild(bubble);
+  });
+
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendAppleMessage() {
+  const input = $('appleChatInput');
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const chat = appleConversations[activeAppleConversation];
+  chat.messages.push({from:'me', text:text});
+
+  const preview = $('preview-' + activeAppleConversation);
+  if (preview) preview.textContent = text;
+
+  input.value = '';
+  renderAppleChatMessages();
+}
+
+function filterAppleMessages(query) {
+  document.querySelectorAll('#appleMessageList .apple-convo').forEach(row => {
+    row.style.display = row.dataset.search
+      .toLowerCase()
+      .includes(query.toLowerCase()) ? 'block' : 'none';
+  });
+}
+
 </script>
 </body>
 </html>
