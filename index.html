@@ -401,11 +401,23 @@ function openApp(id) {
   if (id === 'igPost') renderPost(0);
   if (id === 'contacts') filterContacts('');
 }
+
 function goHome() {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  $('home').classList.add('active');
-  $('homeDock').style.display = 'flex';
+  document.querySelectorAll('.screen').forEach(function(screen) {
+    screen.classList.remove('active');
+  });
+
+  const home = document.getElementById('home');
+  if (home) {
+    home.classList.add('active');
+  }
+
+  const dock = document.getElementById('homeDock');
+  if (dock) {
+    dock.style.display = 'flex';
+  }
 }
+
 function openExternal(url) {
   window.open(url,'_blank','noopener,noreferrer');
 }
