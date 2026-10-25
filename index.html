@@ -292,10 +292,17 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 
 <section class="screen" id="appleChat" style="background:#fff;color:#111;padding:0 14px 15px;">
 
-<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
-  <button onclick="openApp('messages')" style="border:0;background:none;color:#087cff;font-size:17px;cursor:pointer;">‹ Messages</button>
-  <button onclick="goHome()" style="border:0;background:none;color:#087cff;font-size:15px;cursor:pointer;">Exit</button>
+
+<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 10px; border-bottom:1px solid #eee;">
+  <button type="button" onclick="openApp('messages')" style="border:none; background:transparent; color:#007aff; font-size:17px; cursor:pointer;">
+    ‹ Messages
+  </button>
+
+  <button type="button" onclick="goHome()" style="border:none; background:#f2f2f7; color:#007aff; border-radius:20px; padding:8px 14px; font-size:15px; cursor:pointer;">
+    ✕ Exit
+  </button>
 </div>
+
 
 
   <div style="text-align:center;padding:12px 0 15px;">
