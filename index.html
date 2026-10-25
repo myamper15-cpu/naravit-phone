@@ -17,7 +17,7 @@ body {
   margin: 0;
   background: #171717;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
 .phone {
@@ -68,7 +68,6 @@ body {
 
 .date {
   font-size: 19px;
-  margin-top: 0;
 }
 
 .lock-bottom {
@@ -78,10 +77,6 @@ body {
   right: 0;
 }
 
-.lock-bottom p {
-  font-size: 14px;
-}
-
 .lock-button {
   border: 1px solid #ffffff80;
   background: #ffffff24;
@@ -89,11 +84,6 @@ body {
   border-radius: 25px;
   padding: 13px 25px;
   font-size: 15px;
-  cursor: pointer;
-}
-
-.lock-button:active {
-  background: #ffffff55;
 }
 
 .home-indicator {
@@ -107,8 +97,6 @@ body {
   transform: translateX(-50%);
   z-index: 10;
 }
-
-/* PASSCODE SCREEN */
 
 #passcode {
   padding-top: 125px;
@@ -153,37 +141,25 @@ body {
   background: #ffffff30;
   color: white;
   font-size: 29px;
-  font-weight: 300;
-  cursor: pointer;
-}
-
-.key:active {
-  background: #ffffff70;
 }
 
 .pass-actions {
   display: flex;
   justify-content: space-around;
-  gap: 10px;
-  margin: 12px 20px;
-  font-size: 14px;
+  margin: 12px 15px;
 }
 
 .pass-actions button {
   color: white;
-  background: none;
-  border: none;
+  background: transparent;
+  border: 0;
   font-size: 14px;
-  cursor: pointer;
 }
 
 #error {
-  font-size: 14px;
   min-height: 20px;
-  color: white;
+  font-size: 14px;
 }
-
-/* HOME SCREEN */
 
 .apps {
   padding: 90px 24px 90px;
@@ -209,7 +185,6 @@ body {
   font-size: 27px;
   margin: 0 auto 6px;
   border: 0;
-  cursor: pointer;
 }
 
 .dock {
@@ -229,14 +204,12 @@ body {
   margin: 0;
 }
 
-/* WALLPAPER SETTINGS */
-
 .settings {
   position: absolute;
   inset: 0;
   background: #f4f4f8;
   color: #171717;
-  padding: 70px 22px 35px;
+  padding: 65px 22px 35px;
   text-align: left;
   overflow-y: auto;
 }
@@ -246,22 +219,20 @@ body {
 }
 
 .settings input {
+  display: block;
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 14px;
+  margin: 12px 0;
+  font-size: 15px;
 }
 
 .settings button {
   padding: 12px;
   margin: 5px 0;
-  border: none;
+  border: 0;
   border-radius: 10px;
   background: #2878ee;
   color: white;
-  cursor: pointer;
+  font-size: 14px;
 }
 
 .settings .back {
@@ -269,18 +240,17 @@ body {
   color: #171717;
 }
 
-.settings .wallpaper-choice {
+.settings .choice {
   display: block;
   width: 100%;
   text-align: left;
 }
 
-.settings small {
-  display: block;
-  margin-top: 8px;
+.hint {
+  font-size: 12px;
   color: #666;
+  line-height: 1.5;
 }
-
 </style>
 </head>
 
@@ -295,87 +265,68 @@ body {
 
   <!-- LOCK SCREEN -->
   <section class="screen active" id="lock">
-
     <div class="lock-clock" id="clock">9:41</div>
     <div class="date" id="date"></div>
 
     <div class="lock-bottom">
       <p>🔦　　　　　　　　　📷</p>
-
       <button class="lock-button" onclick="showPasscode()">
         Tap to unlock
       </button>
-
       <p>Tap to enter passcode</p>
     </div>
-
   </section>
 
-  <!-- PASSCODE SCREEN -->
+  <!-- PASSCODE -->
   <section class="screen" id="passcode">
-
     <h2>Enter Passcode</h2>
-
     <div class="dots" id="dots"></div>
-
     <p id="error"></p>
-
     <div class="keypad" id="keypad"></div>
 
     <div class="pass-actions">
       <button onclick="showScreen('lock')">Cancel</button>
       <button onclick="showSettings()">Wallpaper</button>
     </div>
-
   </section>
 
   <!-- HOME SCREEN -->
   <section class="screen" id="home">
-
     <div style="padding-top:65px;font-size:14px" id="homeDate"></div>
 
     <div class="apps">
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Phone 📞')">📞</button>
         Phone
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Messages 💬')">💬</button>
         Messages
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Photos 🖼️')">🌄</button>
         Photos
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="showSettings()">⚙️</button>
         Settings
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Music 🎵')">🎵</button>
         Music
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Calendar 📅')">📅</button>
         Calendar
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="appMessage('Camera 📸')">📸</button>
         Camera
       </div>
-
       <div class="app">
         <button class="app-icon" onclick="lockPhone()">🔒</button>
         Lock
       </div>
-
     </div>
 
     <div class="dock">
@@ -384,12 +335,10 @@ body {
       <button class="app-icon" onclick="appMessage('Safari 🌐')">🌐</button>
       <button class="app-icon" onclick="showSettings()">⚙️</button>
     </div>
-
   </section>
 
-  <!-- SETTINGS SCREEN -->
+  <!-- WALLPAPER SETTINGS -->
   <section class="screen" id="settings">
-
     <div class="settings">
 
       <button class="back" onclick="showScreen('home')">
@@ -397,66 +346,61 @@ body {
       </button>
 
       <h2>Wallpaper</h2>
+      <p>Choose a photo saved on your iPhone.</p>
 
-      <p>Paste a direct image URL below.</p>
+      <label for="photoPicker">
+        <strong>📸 Choose from Photos</strong>
+      </label>
 
       <input
-        id="wallpaperURL"
-        type="url"
-        placeholder="https://example.com/photo.jpg"
+        id="photoPicker"
+        type="file"
+        accept="image/*"
+        onchange="uploadWallpaper(event)"
       >
 
-      <button onclick="changeWallpaper()">
-        Set wallpaper
-      </button>
+      <p id="photoStatus" class="hint">
+        Select a picture to make it your wallpaper.
+      </p>
 
-      <p>Choose a wallpaper:</p>
+      <hr>
 
-      <button class="wallpaper-choice"
+      <p>Or choose a sample wallpaper:</p>
+
+      <button class="choice"
         onclick="preset('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1000')">
         🌌 Night Mountains
       </button>
 
-      <button class="wallpaper-choice"
+      <button class="choice"
         onclick="preset('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1000')">
         🌅 Golden Sunrise
       </button>
 
-      <button class="wallpaper-choice"
+      <button class="choice"
         onclick="preset('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1000')">
         🌸 Flowers
       </button>
 
-      <button class="wallpaper-choice"
-        onclick="preset('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=1000')">
-        🌄 Nature
-      </button>
-
-      <small>
-        Internet is required for online wallpapers.
-      </small>
+      <p class="hint">
+        Your chosen photo is stored in this browser when possible.
+        Very large photos may exceed available browser storage.
+      </p>
 
     </div>
-
   </section>
 
   <div class="home-indicator"></div>
-
 </div>
 
 <script>
 
-/* ==================================
-   CHANGE YOUR PASSCODE HERE
-   Default passcode: 1234
-   ================================== */
-
+/* CHANGE YOUR PASSCODE HERE */
 const PASSCODE = "0705";
 
 let entered = "";
 
-/* CHANGE SCREENS */
-
+/* SCREEN NAVIGATION */
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
@@ -465,36 +409,106 @@ function showScreen(id) {
   document.getElementById(id).classList.add("active");
 }
 
-/* PASSCODE */
+/* RESTORE SAVED WALLPAPER */
+function applyWallpaper(url) {
+  document.getElementById("phone").style.backgroundImage =
+    "linear-gradient(#0002,#0003),url(" +
+    JSON.stringify(url) + ")";
 
+  document.getElementById("photoStatus").textContent =
+    "Wallpaper updated successfully!";
+}
+
+try {
+  const savedWallpaper = localStorage.getItem("myPhoneWallpaper");
+
+  if (savedWallpaper) {
+    document.getElementById("phone").style.backgroundImage =
+      "linear-gradient(#0002,#0003),url(" +
+      JSON.stringify(savedWallpaper) + ")";
+  }
+} catch (error) {
+  console.log("Saved wallpaper could not be restored.");
+}
+
+/* CHOOSE A PHOTO FROM IPHONE */
+function uploadWallpaper(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Please select an image.");
+    return;
+  }
+
+  const status = document.getElementById("photoStatus");
+  status.textContent = "Loading your photo...";
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const url = e.target.result;
+
+    applyWallpaper(url);
+
+    try {
+      localStorage.setItem("myPhoneWallpaper", url);
+      status.textContent =
+        "Wallpaper saved! It should remain after refreshing.";
+    } catch (error) {
+      status.textContent =
+        "Wallpaper applied for this visit, but it was too large to save permanently. Try a smaller photo.";
+    }
+
+    showScreen("home");
+  };
+
+  reader.onerror = function() {
+    status.textContent = "Could not read the photo. Please try another.";
+  };
+
+  reader.readAsDataURL(file);
+}
+
+/* SAMPLE WALLPAPERS */
+function preset(url) {
+  document.getElementById("phone").style.backgroundImage =
+    "linear-gradient(#0002,#0003),url(" +
+    JSON.stringify(url) + ")";
+
+  try {
+    localStorage.setItem("myPhoneWallpaper", url);
+  } catch (error) {
+    console.log("Wallpaper could not be saved.");
+  }
+
+  showScreen("home");
+}
+
+/* PASSCODE SCREEN */
 function showPasscode() {
   entered = "";
   updateDots();
-
   document.getElementById("error").textContent = "";
-
   showScreen("passcode");
 }
 
 function updateDots() {
   document.getElementById("dots").innerHTML =
-    Array.from({ length: PASSCODE.length }, (_, i) =>
+    Array.from({length: PASSCODE.length}, (_, i) =>
       `<span class="dot ${i < entered.length ? "filled" : ""}"></span>`
     ).join("");
 }
 
 function pressKey(number) {
-
   if (entered.length >= PASSCODE.length) return;
 
   entered += number;
-
   updateDots();
 
   if (entered.length === PASSCODE.length) {
-
     if (entered === PASSCODE) {
-
       showScreen("home");
 
       document.getElementById("homeDate").textContent =
@@ -503,121 +517,66 @@ function pressKey(number) {
           month: "long",
           day: "numeric"
         });
-
     } else {
-
       document.getElementById("error").textContent =
         "Incorrect passcode. Try again.";
 
       setTimeout(() => {
         entered = "";
         updateDots();
-
         document.getElementById("error").textContent = "";
       }, 900);
-
     }
-
   }
 }
 
-/* KEYPAD */
-
+/* BUILD NUMBER KEYPAD */
 const keypad = document.getElementById("keypad");
 
 for (let i = 1; i <= 9; i++) {
-
   const button = document.createElement("button");
-
   button.className = "key";
   button.textContent = i;
   button.type = "button";
-
   button.onclick = () => pressKey(String(i));
-
   keypad.appendChild(button);
-
 }
 
 keypad.appendChild(document.createElement("div"));
 
 const zero = document.createElement("button");
-
 zero.className = "key";
 zero.textContent = "0";
 zero.type = "button";
 zero.onclick = () => pressKey("0");
-
 keypad.appendChild(zero);
 
 const del = document.createElement("button");
-
 del.className = "key";
 del.textContent = "⌫";
 del.type = "button";
-
 del.onclick = () => {
   entered = entered.slice(0, -1);
   updateDots();
-
   document.getElementById("error").textContent = "";
 };
-
 keypad.appendChild(del);
 
-/* LOCK PHONE */
-
+/* LOCK AND SETTINGS */
 function lockPhone() {
   showScreen("lock");
 }
 
-/* SETTINGS */
-
 function showSettings() {
   showScreen("settings");
 }
-
-/* WALLPAPER */
-
-function changeWallpaper() {
-
-  const url = document.getElementById("wallpaperURL").value.trim();
-
-  if (!url.startsWith("https://")) {
-    alert("Please enter a valid HTTPS image URL.");
-    return;
-  }
-
-  setWallpaper(url);
-}
-
-function preset(url) {
-
-  document.getElementById("wallpaperURL").value = url;
-
-  setWallpaper(url);
-}
-
-function setWallpaper(url) {
-
-  document.getElementById("phone").style.backgroundImage =
-    "linear-gradient(#0002,#0003),url(" +
-    JSON.stringify(url) + ")";
-
-  showScreen("home");
-
-}
-
-/* APP PLACEHOLDERS */
 
 function appMessage(message) {
   alert(message);
 }
 
 /* LIVE CLOCK */
-
 function updateTime() {
-
   const now = new Date();
 
   const time = now.toLocaleTimeString([], {
@@ -626,7 +585,6 @@ function updateTime() {
   });
 
   document.getElementById("clock").textContent = time;
-
   document.getElementById("statusTime").textContent = time;
 
   document.getElementById("date").textContent =
@@ -635,14 +593,11 @@ function updateTime() {
       month: "long",
       day: "numeric"
     });
-
 }
 
 updateTime();
-
 setInterval(updateTime, 1000);
 
 </script>
-
 </body>
 </html>
