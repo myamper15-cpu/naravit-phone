@@ -224,7 +224,70 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 <section class="screen" id="callScreen"><div class="phoneperson"><div class="avatar" id="callAvatar">P</div><h2 id="callName">Pond Naravit</h2><div class="muted" id="callStatus">calling…</div></div><div class="callcontrols"><div><button>🎙</button><span>mute</span></div><div><button>▣</button><span>speaker</span></div><div><button>＋</button><span>add</span></div><div><button>◉</button><span>FaceTime</span></div><div><button class="endcall" onclick="endCall()">☎</button><span>end</span></div><div><button>⌨</button><span>keypad</span></div></div></section>
 <section class="screen" id="contacts"><div class="appheader"><button class="back" onclick="goHome()">‹ Home</button><h1>Contacts</h1></div><input class="input" placeholder="Search Contacts" oninput="filterContacts(this.value)"><div class="panel" id="contactList"><div class="rowitem" onclick="showContact('Pond Naravit','P')"><div class="avatar">P</div><div class="rowtext"><strong>Pond Naravit</strong></div><span class="chev">›</span></div><div class="rowitem" onclick="showContact('Phuwin Tangsakyuen','F')"><div class="avatar" style="background:#e2d7ef">F</div><div class="rowtext"><strong>Phuwin Tangsakyuen</strong></div><span class="chev">›</span></div></div></section>
 <section class="screen" id="contactDetail"><div class="appheader"><button class="back" onclick="openApp('contacts')">‹ Contacts</button><h1>Contact</h1></div><div class="panel"><div class="contactbig"><div class="avatar" id="detailAvatar">P</div><h2 id="detailName">Pond Naravit</h2></div><div class="contactactions"><button onclick="openCall(document.getElementById('detailName').textContent)">☎ call</button><button onclick="openChat('pond')">✉ message</button></div></div></section>
-<section class="screen" id="messages"><div class="appheader"><button class="back" onclick="goHome()">‹ Home</button><h1>Messages</h1></div><div class="panel"><div class="rowitem" onclick="openChat('pond')"><div class="avatar">P</div><div class="rowtext"><strong>Pond Naravit</strong><small>iMessage</small></div><span class="chev">›</span></div><div class="rowitem" onclick="openChat('phuwin')"><div class="avatar" style="background:#e2d7ef">F</div><div class="rowtext"><strong>Phuwin Tangsakyuen</strong><small>iMessage</small></div><span class="chev">›</span></div></div></section>
+
+<section class="screen" id="messages" style="background:#fff;color:#111;padding:0 16px 90px;box-sizing:border-box;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px;">
+    <button onclick="goHome()" style="border:1px solid #eee;border-radius:28px;background:#fafafa;padding:10px 17px;font-size:16px;font-weight:600;">Exit</button>
+    <button onclick="alert('Edit mode can be added later.')" style="border:0;background:transparent;color:#087cff;font-size:15px;">Edit</button>
+  </div>
+
+  <div style="text-align:center;margin-top:-39px;pointer-events:none;">
+    <div style="font-size:23px;font-weight:750;">Messages</div>
+    <div style="font-size:14px;color:#888;font-weight:600;margin-top:3px;">Syncing with iCloud Paused</div>
+  </div>
+
+  <div style="height:34px;"></div>
+
+  <div id="appleMessageList">
+
+    <div class="apple-convo" data-search="phu love heart" onclick="openAppleChat('phu')" style="padding:13px 0 23px;border-bottom:1px solid #dedede;cursor:pointer;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <strong style="font-size:21px;">phu ❤️</strong>
+        <span style="color:#888;font-size:15px;white-space:nowrap;">Yesterday <span style="font-size:23px;color:#c7c7cc;">›</span></span>
+      </div>
+      <div id="preview-phu" style="color:#8e8e93;font-size:17px;line-height:1.45;margin-top:5px;">J&amp;T DELIVERY! TN: JT0026256868389, Rider: AR_D_Wilfred Ducusin. ...</div>
+    </div>
+
+    <div class="apple-convo" data-search="joong" onclick="openAppleChat('joong')" style="padding:23px 0 47px;border-bottom:1px solid #dedede;cursor:pointer;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <strong style="font-size:21px;">joong</strong>
+        <span style="color:#888;font-size:15px;white-space:nowrap;">10/9/26 <span style="font-size:23px;color:#c7c7cc;">›</span></span>
+      </div>
+      <div id="preview-joong" style="color:#8e8e93;font-size:17px;margin-top:5px;">hello? sino po sila?</div>
+    </div>
+
+    <div class="apple-convo" data-search="mom mother" onclick="openAppleChat('mom')" style="padding:23px 0 47px;border-bottom:1px solid #dedede;cursor:pointer;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <strong style="font-size:21px;">mom</strong>
+        <span style="color:#888;font-size:15px;white-space:nowrap;">10/8/26 <span style="font-size:23px;color:#c7c7cc;">›</span></span>
+      </div>
+      <div id="preview-mom" style="color:#8e8e93;font-size:17px;margin-top:5px;">ayan number nila dalawa</div>
+    </div>
+
+    <div class="apple-convo" data-search="dunk natachai" onclick="openAppleChat('dunk')" style="padding:23px 0;border-bottom:1px solid #dedede;cursor:pointer;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <strong style="font-size:21px;">dunk</strong>
+        <span style="color:#888;font-size:15px;white-space:nowrap;">10/8/26 <span style="font-size:23px;color:#c7c7cc;">›</span></span>
+      </div>
+      <div id="preview-dunk" style="color:#8e8e93;font-size:17px;margin-top:5px;">hello po san po kayo</div>
+    </div>
+
+  </div>
+
+  <div id="dmNoResults" style="display:none;text-align:center;padding:24px;color:#777;font-size:14px;">No conversations found.</div>
+
+  <div style="position:absolute;bottom:14px;left:16px;right:16px;display:flex;align-items:center;gap:12px;background:#fff;">
+    <div style="flex:1;border:1px solid #eee;background:#f8f8f8;border-radius:35px;padding:12px 16px;display:flex;align-items:center;gap:12px;color:#888;">
+      <span style="font-size:22px;color:#111;">⌕</span>
+      <input placeholder="Search" oninput="filterAppleMessages(this.value)" style="border:0;outline:0;background:transparent;min-width:0;width:100%;font-size:17px;">
+      <span style="font-size:20px;color:#555;">🎙</span>
+    </div>
+    <button onclick="openAppleChat('new')" aria-label="Compose message" style="width:51px;height:51px;flex-shrink:0;border:1px solid #eee;border-radius:50%;background:#fafafa;font-size:24px;">📝</button>
+  </div>
+
+</section>
+
 <div class="photo-view" id="photoView"><button class="closephoto" onclick="closePhoto()">×</button><img id="photoViewImg" alt="Selected photo"><div class="phototools"><button class="btn secondary" onclick="deletePhoto()">🗑 Delete</button><button class="btn secondary" onclick="closePhoto()">Done</button></div></div>
 <script>
 const $ = id => document.getElementById(id);
