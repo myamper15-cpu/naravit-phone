@@ -226,10 +226,11 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 <section class="screen" id="contactDetail"><div class="appheader"><button class="back" onclick="openApp('contacts')">‹ Contacts</button><h1>Contact</h1></div><div class="panel"><div class="contactbig"><div class="avatar" id="detailAvatar">P</div><h2 id="detailName">Pond Naravit</h2></div><div class="contactactions"><button onclick="openCall(document.getElementById('detailName').textContent)">☎ call</button><button onclick="openChat('pond')">✉ message</button></div></div></section>
 
 <section class="screen" id="messages" style="background:#fff;color:#111;padding:0 16px 90px;box-sizing:border-box;">
-
-  
-<div style="display:flex;justify-content:flex-end;padding:10px 16px;">
-  <button onclick="goHome()" style="border:0;background:#f2f2f7;color:#007aff;border-radius:20px;padding:8px 16px;font-size:15px;cursor:pointer;">
+<div style="display:flex; justify-content:flex-end; padding:10px 16px;">
+  <button
+    type="button"
+    onclick="goHome()"
+    style="border:none; background:#f2f2f7; color:#007aff; border-radius:20px; padding:8px 16px; font-size:15px; cursor:pointer;">
     ✕ Exit
   </button>
 </div>
@@ -297,13 +298,13 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
   <!-- TOP NAVIGATION -->
   <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 10px; border-bottom:1px solid #eee; background:#fff;">
 
-    <button
-      type="button"
-      onclick="openApp('messages')"
-      style="border:none; background:transparent; color:#007aff; font-size:17px; cursor:pointer;">
-      ‹ Messages
-    </button>
-
+<button
+  type="button"
+  onclick="openApp('messages')"
+  style="border:none; background:transparent; color:#007aff; font-size:17px; cursor:pointer; padding:8px 0;">
+  ‹ Messages
+</button>
+    
     <span style="font-size:17px; font-weight:600;">iMessage</span>
 
     <button
