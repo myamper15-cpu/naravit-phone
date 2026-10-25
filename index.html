@@ -598,6 +598,18 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
+try {
+  const savedWallpaper = localStorage.getItem("myPhoneWallpaper");
+
+  if (savedWallpaper) {
+    document.getElementById("phone").style.backgroundImage =
+      "linear-gradient(#0002,#0003),url(" +
+      JSON.stringify(savedWallpaper) + ")";
+  }
+} catch (error) {
+  console.log("Could not restore wallpaper.");
+}
+
 </script>
 </body>
 </html>
