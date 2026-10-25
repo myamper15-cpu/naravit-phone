@@ -163,7 +163,7 @@ body {
 
 /* HOME SCREEN */
 .apps {
-  padding: 90px 24px 125px;
+  padding: 90px 24px 155px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 27px 12px;
@@ -179,7 +179,7 @@ body {
   position: relative;
   width: 58px;
   height: 58px;
-  border-radius: 14px;
+  border-radius: 15px;
   display: grid;
   place-items: center;
   margin: 0 auto 6px;
@@ -197,17 +197,33 @@ body {
   width: 78%;
   height: 78%;
   display: block;
-  filter: drop-shadow(0 1px 1px #0002);
 }
 
-/* GLOSSY CLASSIC GREEN PHONE */
+/* GLOSSY GREEN PHONE */
 .phone-icon {
-  background:
-    linear-gradient(180deg,
-      #60ff7c 0%,
-      #36ed60 40%,
-      #12c941 72%,
-      #08b832 100%);
+  background: linear-gradient(
+    180deg,
+    #60ff7c 0%,
+    #36ed60 40%,
+    #12c941 72%,
+    #08b832 100%
+  );
+  border: 1px solid #8dffa0;
+  box-shadow:
+    inset 0 2px 3px #ffffffa6,
+    inset 0 -3px 5px #008e2a45,
+    0 2px 4px #0002;
+}
+
+/* GLOSSY GREEN MESSAGES */
+.message-icon {
+  background: linear-gradient(
+    180deg,
+    #60ff7c 0%,
+    #36ed60 40%,
+    #12c941 72%,
+    #08b832 100%
+  );
   border: 1px solid #8dffa0;
   box-shadow:
     inset 0 2px 3px #ffffffa6,
@@ -226,27 +242,6 @@ body {
   border-radius: 50%;
   background: linear-gradient(#ffffff3d, #ffffff00);
   pointer-events: none;
-}
-
-.phone-icon svg,
-.message-icon svg {
-  position: relative;
-  z-index: 1;
-}
-
-/* GLOSSY CLASSIC GREEN MESSAGES */
-.message-icon {
-  background:
-    linear-gradient(180deg,
-      #63ff7a 0%,
-      #39ed58 40%,
-      #18ce40 73%,
-      #0ab936 100%);
-  border: 1px solid #8bff9b;
-  box-shadow:
-    inset 0 2px 3px #ffffffa6,
-    inset 0 -3px 5px #008e2a45,
-    0 2px 4px #0002;
 }
 
 .photos-icon {
@@ -278,46 +273,55 @@ body {
   background: linear-gradient(#707780, #30343a);
 }
 
-/* GLASS DOCK LIKE YOUR REFERENCE */
+.contacts-icon {
+  background: linear-gradient(#f4f2e7, #d7d5c9);
+  border: 1px solid #ffffff80;
+}
+
+/* FOUR-ICON TRANSLUCENT GLASS DOCK */
 .dock {
   position: absolute;
-  bottom: 27px;
+  bottom: 25px;
   left: 6%;
   width: 88%;
-  min-height: 150px;
-  padding: 27px 24px;
+  min-height: 112px;
+  padding: 18px 13px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  gap: 30px;
-  background:
-    linear-gradient(115deg,
-      #a7a18b70 0%,
-      #d3cebb52 45%,
-      #8e89785c 100%);
-  border: 2px solid #e8e4d4a1;
-  border-radius: 85px;
-  backdrop-filter: blur(24px) saturate(115%);
-  -webkit-backdrop-filter: blur(24px) saturate(115%);
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(
+    120deg,
+    rgba(185, 181, 159, 0.48),
+    rgba(222, 218, 198, 0.32),
+    rgba(153, 149, 130, 0.45)
+  );
+  border: 2px solid rgba(245, 242, 224, 0.7);
+  border-radius: 65px;
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
   box-shadow:
-    inset 0 1px 2px #ffffff65,
-    inset 0 -2px 4px #34312524,
-    0 8px 24px #0002;
+    inset 0 2px 3px rgba(255,255,255,0.28),
+    inset 0 -2px 4px rgba(30,28,20,0.12),
+    0 8px 22px rgba(0,0,0,0.12);
 }
 
 .dock .app-icon {
-  flex: 0 0 48%;
-  width: 48%;
-  max-width: 150px;
-  height: auto;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 82px;
+  width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 27%;
+  height: auto;
   margin: 0;
+  padding: 0;
+  border-radius: 27%;
+  overflow: hidden;
 }
 
 .dock .app-icon svg {
-  width: 78%;
-  height: 78%;
+  width: 82%;
+  height: 82%;
 }
 
 /* SETTINGS */
@@ -408,13 +412,13 @@ body {
 
 @media (max-height: 700px) {
   .dock {
-    min-height: 112px;
-    padding: 17px 24px;
-    bottom: 23px;
+    min-height: 90px;
+    padding: 12px;
+    bottom: 20px;
   }
 
   .dock .app-icon {
-    max-width: 112px;
+    max-width: 65px;
   }
 
   .apps {
@@ -463,17 +467,9 @@ body {
     <div class="apps">
       <div class="app">
         <button class="app-icon phone-icon" aria-label="Phone" onclick="showScreen('calls')">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <defs>
-              <linearGradient id="handset" x1="0" y1="0" x2="0.7" y2="1">
-                <stop offset="0" stop-color="#ffffff"/>
-                <stop offset="1" stop-color="#d9f6df"/>
-              </linearGradient>
-            </defs>
-            <path d="M27 13 C22 10 17 14 14 20 C8 33 20 53 36 69 C51 85 70 94 82 86 C88 82 91 76 86 72 L69 62 C65 60 62 63 58 67 C53 71 43 62 37 56 C30 49 24 40 29 35 C33 31 36 28 33 24 Z"
-              fill="#087d2b" opacity=".18" transform="translate(2 3)"/>
+          <svg viewBox="0 0 100 100">
             <path d="M26 13 C21 10 16 14 13 20 C7 33 19 53 35 69 C50 85 69 94 81 86 C87 82 90 76 85 72 L68 62 C64 60 61 63 57 67 C52 71 42 62 36 56 C29 49 23 40 28 35 C32 31 35 28 32 24 Z"
-              fill="url(#handset)" stroke="#ffffff" stroke-width="1.4"/>
+              fill="#eaffed" stroke="#ffffff" stroke-width="1.5"/>
           </svg>
         </button>
         Phone
@@ -481,18 +477,9 @@ body {
 
       <div class="app">
         <button class="app-icon message-icon" aria-label="Messages" onclick="appMessage('Messages 💬')">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <path d="M50 13 C28 13 11 28 11 47 C11 58 17 68 27 74 L23 87 L40 78 C43 79 47 80 51 80 C73 80 90 65 90 46 C90 28 72 13 50 13 Z"
-              fill="#087d2b" opacity=".17" transform="translate(1 3)"/>
+          <svg viewBox="0 0 100 100">
             <path d="M50 12 C28 12 11 27 11 46 C11 57 17 67 27 73 L23 86 L40 77 C43 78 47 79 51 79 C73 79 90 64 90 45 C90 27 72 12 50 12 Z"
-              fill="url(#bubble)" stroke="#ffffff" stroke-width="1.4"/>
-            <defs>
-              <linearGradient id="bubble" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#ffffff"/>
-                <stop offset=".68" stop-color="#f4fff6"/>
-                <stop offset="1" stop-color="#d9f7df"/>
-              </linearGradient>
-            </defs>
+              fill="#ffffff" stroke="#ffffff" stroke-width="1.5"/>
           </svg>
         </button>
         Messages
@@ -529,38 +516,47 @@ body {
       </div>
     </div>
 
-    <!-- TWO-ICON GLASS DOCK -->
+    <!-- FOUR-ICON GLASS DOCK -->
     <div class="dock">
+
+      <!-- PHONE -->
       <button class="app-icon phone-icon" aria-label="Phone" onclick="showScreen('calls')">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M27 13 C22 10 17 14 14 20 C8 33 20 53 36 69 C51 85 70 94 82 86 C88 82 91 76 86 72 L69 62 C65 60 62 63 58 67 C53 71 43 62 37 56 C30 49 24 40 29 35 C33 31 36 28 33 24 Z"
-            fill="#087d2b" opacity=".18" transform="translate(2 3)"/>
+        <svg viewBox="0 0 100 100">
           <path d="M26 13 C21 10 16 14 13 20 C7 33 19 53 35 69 C50 85 69 94 81 86 C87 82 90 76 85 72 L68 62 C64 60 61 63 57 67 C52 71 42 62 36 56 C29 49 23 40 28 35 C32 31 35 28 32 24 Z"
-            fill="url(#dockHandset)" stroke="#ffffff" stroke-width="1.4"/>
-          <defs>
-            <linearGradient id="dockHandset" x1="0" y1="0" x2=".7" y2="1">
-              <stop offset="0" stop-color="#ffffff"/>
-              <stop offset="1" stop-color="#d9f6df"/>
-            </linearGradient>
-          </defs>
+            fill="#eaffed" stroke="#ffffff" stroke-width="1.5"/>
         </svg>
       </button>
 
+      <!-- MESSAGES -->
       <button class="app-icon message-icon" aria-label="Messages" onclick="appMessage('Messages 💬')">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M50 13 C28 13 11 28 11 47 C11 58 17 68 27 74 L23 87 L40 78 C43 79 47 80 51 80 C73 80 90 65 90 46 C90 28 72 13 50 13 Z"
-            fill="#087d2b" opacity=".17" transform="translate(1 3)"/>
+        <svg viewBox="0 0 100 100">
           <path d="M50 12 C28 12 11 27 11 46 C11 57 17 67 27 73 L23 86 L40 77 C43 78 47 79 51 79 C73 79 90 64 90 45 C90 27 72 12 50 12 Z"
-            fill="url(#dockBubble)" stroke="#ffffff" stroke-width="1.4"/>
-          <defs>
-            <linearGradient id="dockBubble" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".68" stop-color="#f4fff6"/>
-              <stop offset="1" stop-color="#d9f7df"/>
-            </linearGradient>
-          </defs>
+            fill="#ffffff" stroke="#ffffff" stroke-width="1.5"/>
         </svg>
       </button>
+
+      <!-- FACETIME -->
+      <button class="app-icon message-icon" aria-label="FaceTime" onclick="appMessage('FaceTime 📹')">
+        <svg viewBox="0 0 100 100">
+          <rect x="13" y="25" width="49" height="50" rx="10" fill="#ffffff"/>
+          <path d="M64 40 L83 27 Q89 25 89 34 L89 66 Q89 75 83 72 L64 60 Z" fill="#ffffff"/>
+        </svg>
+      </button>
+
+      <!-- CONTACTS -->
+      <button class="app-icon contacts-icon" aria-label="Contacts" onclick="showScreen('calls')">
+        <svg viewBox="0 0 100 100">
+          <rect x="0" y="0" width="100" height="100" rx="22" fill="#e9e8dc"/>
+          <circle cx="48" cy="36" r="19" fill="#a6a397"/>
+          <path d="M15 83 C17 62 31 53 48 53 C66 53 80 64 82 83 Q48 103 15 83 Z" fill="#a6a397"/>
+          <circle cx="48" cy="36" r="10" fill="#ffffff"/>
+          <path d="M27 78 C30 65 38 60 48 60 C59 60 67 66 70 78 Q48 92 27 78 Z" fill="#ffffff"/>
+          <rect x="85" y="0" width="15" height="100" rx="4" fill="#36c5ee"/>
+          <rect x="85" y="34" width="15" height="32" fill="#ff9e23"/>
+          <rect x="85" y="66" width="15" height="34" fill="#36dc79"/>
+        </svg>
+      </button>
+
     </div>
   </section>
 
