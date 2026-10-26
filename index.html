@@ -23,96 +23,77 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
 .phone {
   position: relative;
   width: 100%;
   height: 100vh;
   height: 100dvh;
   max-width: 430px;
-  margin: 0 auto;
+  margin: auto;
   overflow: hidden;
   isolation: isolate;
-  background-color: #b5aa82;
-  background-image:
-    linear-gradient(180deg, #0002, #0003),
-    radial-gradient(ellipse at 50% 70%, #8e866d, #c6b98c 55%, #776e5b);
+  background: #777365;
+  touch-action: pan-x pan-y;
+}
+
+/* SHARED WALLPAPER LAYER */
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(#0002, #0002),
+    linear-gradient(135deg, #c6b98c, #777365, #b9ad8b);
   background-size: cover;
   background-position: center;
-}
-
-/* WALLPAPER PICKER */
-.wallpaper-picker {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-.change-wallpaper {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 20;
-  padding: 7px 10px;
-  border-radius: 20px;
-  background: #0007;
-  border: 1px solid #ffffff55;
-  color: white;
-  font-size: 11px;
+  background-repeat: no-repeat;
 }
 
 /* STATUS BAR */
-.topbar {
+.status-bar {
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 28px);
-  left: 10%;
-  right: 8%;
+  top: calc(env(safe-area-inset-top, 0px) + 24px);
+  left: 7%;
+  right: 7%;
+  z-index: 3;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-size: 22px;
-  font-weight: 750;
+  align-items: center;
+  font-size: 19px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.status-right {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.battery {
+  padding: 2px 5px;
+  border-radius: 7px;
+  color: #222;
+  background: white;
+  font-size: 13px;
+}
+
+/* LOCK SCREEN ELEMENTS */
+.lock-ui {
+  position: absolute;
+  inset: 0;
   z-index: 2;
 }
 
-.status-icons {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.signal {
-  display: flex;
-  align-items: end;
-  gap: 2px;
-  height: 17px;
-}
-
-.signal i {
-  display: block;
-  width: 4px;
-  background: white;
-  border-radius: 2px;
-}
-
-.signal i:nth-child(1) { height: 6px; }
-.signal i:nth-child(2) { height: 9px; }
-.signal i:nth-child(3) { height: 13px; }
-.signal i:nth-child(4) { height: 17px; }
-
-.battery {
-  min-width: 34px;
-  padding: 1px 4px;
-  border-radius: 5px;
-  background: #ffffffeb;
-  color: #333;
-  font-size: 13px;
-  text-align: center;
-  font-weight: 800;
-}
-
-/* LOCK SCREEN */
-.lock-glyph {
+.lock-icon {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 92px);
   left: 50%;
@@ -120,93 +101,112 @@ html, body {
   font-size: 25px;
 }
 
-.date {
+.lock-date {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 169px);
-  left: 0;
-  right: 0;
+  width: 100%;
   text-align: center;
   font-size: 25px;
   font-weight: 700;
-  text-shadow: 0 1px 5px #0003;
+  text-shadow: 0 1px 5px #0004;
 }
 
-.clock {
+.lock-clock {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 205px);
   left: 0;
   right: 0;
   text-align: center;
-  font-size: clamp(110px, 29vw, 150px);
-  font-weight: 300;
-  letter-spacing: -6px;
+  font-size: clamp(105px, 29vw, 150px);
   line-height: 1;
-  color: #ffffff61;
-  -webkit-text-stroke: 1px #ffffff5c;
-  text-shadow: 0 2px 2px #0002;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: -6px;
+  font-weight: 300;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff65;
+  -webkit-text-stroke: 1px #ffffff70;
+  text-shadow: 0 2px 3px #0002;
 }
 
-/* FLASHLIGHT AND CAMERA */
-.bottom-controls {
+.lock-message {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 125px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 750;
+  text-shadow: 0 2px 5px #0005;
+  pointer-events: none;
+}
+
+.lock-bottom {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 47px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 45px);
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 11%;
-  gap: 8px;
+  align-items: center;
+  padding: 0 12%;
 }
 
-.round {
-  width: 70px;
-  height: 70px;
-  flex: 0 0 70px;
-  border: 1px solid #ffffff6b;
+.round-button {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #ffffff80;
   border-radius: 50%;
+  color: white;
+  background: #ffffff35;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 30px;
   display: grid;
   place-items: center;
-  background: #ffffff33;
-  color: white;
-  font-size: 29px;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
 }
 
-.focus {
+.focus-label {
   font-size: clamp(12px, 3.6vw, 19px);
   font-weight: 700;
   white-space: nowrap;
   text-shadow: 0 1px 4px #0005;
 }
 
+.swipe-hint {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 125px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 650;
+  text-shadow: 0 1px 5px #0006;
+}
+
 /* HOME INDICATOR */
 .home-indicator {
   position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
   width: 135px;
   height: 5px;
-  border-radius: 100px;
+  border-radius: 20px;
   background: white;
-  z-index: 12;
+  z-index: 20;
 }
 
 /* PASSCODE */
 .passcode {
   position: absolute;
   inset: 0;
+  z-index: 10;
   display: none;
-  z-index: 15;
-  background: #17171dcc;
+  text-align: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 85px) 20px 35px;
+  background: #191919c9;
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  text-align: center;
-  padding: calc(env(safe-area-inset-top, 0px) + 85px) 20px 50px;
 }
 
 .passcode.show {
@@ -214,16 +214,16 @@ html, body {
 }
 
 .passcode h2 {
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 500;
-  margin-bottom: 25px;
+  margin: 0 0 28px;
 }
 
 .dots {
   display: flex;
   justify-content: center;
   gap: 17px;
-  margin: 25px 0;
+  margin: 28px 0;
 }
 
 .dot {
@@ -239,20 +239,20 @@ html, body {
 
 .keypad {
   display: grid;
-  grid-template-columns: repeat(3, 68px);
+  grid-template-columns: repeat(3, 70px);
   gap: 12px;
   justify-content: center;
-  margin: 22px auto;
+  margin: 25px auto;
 }
 
 .key {
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   border: 1px solid #ffffff35;
   border-radius: 50%;
-  background: #ffffff27;
+  background: #ffffff25;
   color: white;
-  font-size: 28px;
+  font-size: 29px;
 }
 
 .pass-message {
@@ -261,51 +261,49 @@ html, body {
 }
 
 .cancel {
-  background: transparent;
   color: white;
   border: 0;
-  font-size: 16px;
-  padding: 12px;
+  background: transparent;
+  padding: 12px 25px;
 }
 
-/* HOME SCREEN */
-
+/* HOME SCREEN: PHOTO ONLY BEHIND THE CONTENT */
 .home-screen {
-  display: none;
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 4;
+  display: none;
   overflow: hidden;
-  color: white;
-
-  /* Show the same photo, without lock-screen elements */
   background: transparent;
+  color: white;
 }
 
 .home-screen.show {
   display: block;
 }
 
+/* WIDGETS */
 .widgets {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 92px);
   left: 6%;
   right: 6%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 5%;
 }
 
 .calendar-widget,
 .spotify-widget {
   aspect-ratio: 1 / 1;
+  min-width: 0;
   border-radius: 28px;
   overflow: hidden;
 }
 
 .calendar-widget {
   padding: 23px 16px;
-  background: white;
+  background: #fff;
   color: #111;
 }
 
@@ -332,51 +330,48 @@ html, body {
 
 .spotify-widget {
   padding: 18px 12px 14px;
-  background: rgba(92, 108, 128, .86);
+  background: rgba(82, 98, 119, .91);
   border: 1px solid #ffffff35;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .spotify-top {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 7px;
 }
 
 .album-art {
   width: 68%;
   aspect-ratio: 1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #263b50, #aab3bd);
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #263b50, #9eabb5);
-  color: white;
-  font-family: Georgia, serif;
-  font-size: 45px;
+  font-size: 43px;
 }
 
 .spotify-logo {
   width: 32px;
   height: 32px;
+  border-radius: 50%;
+  background: white;
+  color: #536174;
   display: grid;
   place-items: center;
-  background: white;
-  color: #5c6878;
-  border-radius: 50%;
-  font-size: 25px;
-  font-weight: 900;
+  font-size: 23px;
 }
 
 .spotify-bottom {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 5px;
+  align-items: center;
+  gap: 4px;
 }
 
 .song-title {
@@ -415,7 +410,7 @@ html, body {
   font-weight: 700;
 }
 
-/* APPS */
+/* APP GRID */
 .app-grid {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 60px);
@@ -434,7 +429,8 @@ html, body {
   align-items: center;
   gap: 7px;
   font-size: clamp(10px, 3.4vw, 17px);
-  font-weight: 600;
+  font-weight: 650;
+  text-shadow: 0 1px 4px #0004;
   white-space: nowrap;
 }
 
@@ -445,7 +441,7 @@ html, body {
   border-radius: 23%;
   display: grid;
   place-items: center;
-  font-size: 40px;
+  font-size: 39px;
   color: white;
   box-shadow: 0 2px 5px #0002;
 }
@@ -456,8 +452,7 @@ html, body {
 
 .instagram-app {
   background: linear-gradient(35deg, #ffd35e, #ff1768, #8529db);
-  font-size: 60px;
-  font-weight: 300;
+  font-size: 58px;
 }
 
 .photos-app {
@@ -467,7 +462,7 @@ html, body {
 
 .facebook-app {
   background: #0866ff;
-  font-size: 70px;
+  font-size: 69px;
   font-weight: 800;
 }
 
@@ -478,7 +473,7 @@ html, body {
 
 .weather-app {
   background: linear-gradient(#43b9ff, #0876d8);
-  font-size: 38px;
+  font-size: 37px;
 }
 
 .clock-app {
@@ -502,10 +497,11 @@ html, body {
   padding: 9px 18px;
   border: 1px solid #ffffff70;
   border-radius: 24px;
-  background: #ffffff26;
+  background: #ffffff30;
   color: white;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 650;
+  backdrop-filter: blur(12px);
 }
 
 /* DOCK */
@@ -522,7 +518,7 @@ html, body {
   gap: 10px;
   border: 1px solid #ffffff70;
   border-radius: 35px;
-  background: rgba(220, 215, 198, .30);
+  background: rgba(220, 215, 198, .38);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
 }
@@ -535,7 +531,7 @@ html, body {
   border-radius: 23%;
   display: grid;
   place-items: center;
-  font-size: 42px;
+  font-size: 41px;
   color: white;
 }
 
@@ -547,10 +543,92 @@ html, body {
 
 .contacts-app {
   background: linear-gradient(#eeeee5, #bcbcb1);
+}
+
+/* OWNER CONTROLS */
+.owner-button {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  right: 12px;
+  z-index: 8;
+  border: 1px solid #ffffff60;
+  border-radius: 20px;
+  padding: 7px 11px;
+  background: #1118;
+  color: white;
+  font-size: 11px;
+}
+
+.owner-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background: #111c;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.owner-panel.show {
+  display: flex;
+}
+
+.owner-card {
+  width: 100%;
+  max-width: 320px;
+  padding: 24px;
+  border: 1px solid #ffffff40;
+  border-radius: 24px;
+  background: #292929f2;
+  text-align: center;
+}
+
+.owner-card h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.owner-card p {
+  color: #ddd;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.owner-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ffffff50;
+  border-radius: 12px;
+  background: #ffffff15;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  margin: 8px 0 12px;
+}
+
+.owner-action {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  font-weight: 700;
+}
+
+.owner-cancel {
+  background: #ffffff20;
   color: white;
 }
 
-/* SHORT SCREENS */
+#wallpaperFile {
+  display: none;
+}
+
 @media (max-height: 750px) {
   .widgets {
     top: calc(env(safe-area-inset-top, 0px) + 65px);
@@ -577,24 +655,38 @@ html, body {
     row-gap: 12px;
   }
 
-  .search-button {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
-  }
-
   .home-dock {
     height: 78px;
   }
 
+  .search-button {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
+  }
+
   .app-icon {
-    font-size: 34px;
+    font-size: 32px;
   }
 
   .instagram-app {
-    font-size: 50px;
+    font-size: 48px;
   }
 
   .facebook-app {
-    font-size: 58px;
+    font-size: 56px;
+  }
+
+  .passcode {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+  }
+
+  .keypad {
+    gap: 8px;
+    margin: 15px auto;
+  }
+
+  .key {
+    width: 62px;
+    height: 62px;
   }
 }
 </style>
@@ -603,41 +695,40 @@ html, body {
 <body>
 <main class="phone" id="phone">
 
-  <label class="change-wallpaper" for="wallpaperFile">
-    Change wallpaper
-  </label>
+  <!-- ONE WALLPAPER FOR BOTH SCREENS -->
+  <div class="wallpaper" id="wallpaper"></div>
 
-  <input
-    class="wallpaper-picker"
-    id="wallpaperFile"
-    type="file"
-    accept="image/*"
-  >
-
-  <!-- LOCK SCREEN -->
-  <div class="topbar">
-    <span class="tm">TM</span>
-    <span class="status-icons">
-      <span class="signal">
-        <i></i><i></i><i></i><i></i>
-      </span>
-      <span class="wifi">◔</span>
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <span id="statusTime">9:41 ☾</span>
+    <span class="status-right">
+      <span>▂▄▆</span>
+      <span>◉</span>
       <span class="battery">33</span>
     </span>
   </div>
 
-  <div class="lock-glyph">🔒</div>
-  <div class="date" id="date">Mon Oct 26</div>
-  <div class="clock" id="clock">4:41</div>
+  <!-- LOCK SCREEN -->
+  <section class="lock-ui" id="lockUI">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-date" id="lockDate">Mon Oct 26</div>
+    <div class="lock-clock" id="lockClock">9:41</div>
 
-  <div class="bottom-controls">
-    <button class="round" id="flashlight" aria-label="Flashlight">🔦</button>
-    <div class="focus">☾ Do Not Disturb</div>
-    <button class="round" id="camera" aria-label="Camera">📷</button>
-  </div>
+    <div class="lock-message">Swipe up to unlock</div>
+
+    <div class="lock-bottom">
+      <button class="round-button" id="flashlight">🔦</button>
+      <div class="focus-label">☾ Do Not Disturb</div>
+      <button class="round-button" id="camera">📷</button>
+    </div>
+  </section>
 
   <!-- HOME SCREEN -->
   <section class="home-screen" id="homeScreen">
+
+    <button class="owner-button" id="ownerButton">
+      Owner settings
+    </button>
 
     <div class="widgets">
       <div class="calendar-widget">
@@ -717,46 +808,92 @@ html, body {
       <button class="dock-app facetime-app">▣</button>
       <button class="dock-app contacts-app">👤</button>
     </div>
-
-    <div class="home-indicator"></div>
   </section>
 
   <!-- PASSCODE SCREEN -->
   <section class="passcode" id="passcode">
     <h2>Enter Passcode</h2>
     <div class="dots" id="dots"></div>
-    <div class="pass-message" id="message"></div>
+    <div class="pass-message" id="passMessage"></div>
     <div class="keypad" id="keypad"></div>
-    <button class="cancel" id="cancel">Cancel</button>
+    <button class="cancel" id="cancelButton">Cancel</button>
   </section>
 
-  <div class="home-indicator" id="lockIndicator"></div>
+  <!-- OWNER WALLPAPER SETTINGS -->
+  <section class="owner-panel" id="ownerPanel">
+    <div class="owner-card">
+      <div id="ownerLogin">
+        <h2>Owner Access</h2>
+        <p>Enter your owner PIN to change the wallpaper.</p>
+        <input
+          class="owner-input"
+          id="ownerPin"
+          type="password"
+          inputmode="numeric"
+          maxlength="12"
+          placeholder="Owner PIN"
+        >
+        <p id="ownerMessage"></p>
+        <button class="owner-action" id="verifyOwner">Continue</button>
+        <button class="owner-action owner-cancel" id="closeOwner">Cancel</button>
+      </div>
+
+      <div id="ownerOptions" hidden>
+        <h2>Wallpaper Settings</h2>
+        <p>Choose a new photo for both screens.</p>
+        <button class="owner-action" id="chooseWallpaper">
+          Choose photo
+        </button>
+        <button class="owner-action owner-cancel" id="doneOwner">
+          Done
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <input id="wallpaperFile" type="file" accept="image/*">
+
+  <div class="home-indicator" id="homeIndicator"></div>
 </main>
 
 <script>
+/* CHANGE THESE TWO PINS */
 const PASSCODE = "0705";
-let entered = "";
-let touchStartY = null;
+const OWNER_PIN = "2610";
 
 const phone = document.getElementById("phone");
-const passcode = document.getElementById("passcode");
+const wallpaper = document.getElementById("wallpaper");
+const lockUI = document.getElementById("lockUI");
 const homeScreen = document.getElementById("homeScreen");
+const passcode = document.getElementById("passcode");
 const dots = document.getElementById("dots");
-const message = document.getElementById("message");
-const lockIndicator = document.getElementById("lockIndicator");
+const passMessage = document.getElementById("passMessage");
+const ownerPanel = document.getElementById("ownerPanel");
+
+let entered = "";
+let unlocked = false;
+let touchStartY = null;
+let failedOwnerAttempts = 0;
+let ownerVerified = false;
 
 /* LIVE CLOCK AND DATE */
 function updateClock() {
   const now = new Date();
 
-  document.getElementById("clock").textContent =
+  document.getElementById("lockClock").textContent =
     now.toLocaleTimeString([], {
       hour: "numeric",
       minute: "2-digit",
       hour12: false
     });
 
-  document.getElementById("date").textContent =
+  document.getElementById("statusTime").textContent =
+    now.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit"
+    }) + " ☾";
+
+  document.getElementById("lockDate").textContent =
     now.toLocaleDateString([], {
       weekday: "short",
       month: "short",
@@ -775,6 +912,18 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+/* LOAD THE SAVED WALLPAPER */
+try {
+  const savedWallpaper = localStorage.getItem("iphoneWallpaper");
+
+  if (savedWallpaper) {
+    wallpaper.style.backgroundImage =
+      `url("${savedWallpaper}")`;
+  }
+} catch (error) {
+  console.log("Saved wallpaper is unavailable.");
+}
+
 /* PASSCODE DOTS */
 function updateDots() {
   dots.innerHTML = "";
@@ -786,12 +935,12 @@ function updateDots() {
   }
 }
 
-/* OPEN AND CLOSE PASSCODE */
+/* SWIPE UP TO OPEN PASSCODE */
 function openPasscode() {
-  if (homeScreen.classList.contains("show")) return;
+  if (unlocked) return;
 
   entered = "";
-  message.textContent = "";
+  passMessage.textContent = "";
   updateDots();
   passcode.classList.add("show");
 }
@@ -799,18 +948,20 @@ function openPasscode() {
 function closePasscode() {
   passcode.classList.remove("show");
   entered = "";
-  message.textContent = "";
+  passMessage.textContent = "";
   updateDots();
 }
 
-/* UNLOCK TO HOME SCREEN */
+/* UNLOCK */
 function unlockPhone() {
+  unlocked = true;
   closePasscode();
+
+  lockUI.style.display = "none";
   homeScreen.classList.add("show");
-  lockIndicator.style.display = "none";
 }
 
-/* CHECK PASSCODE */
+/* CHECK THE PASSCODE */
 function pressDigit(number) {
   if (entered.length >= 4) return;
 
@@ -819,21 +970,21 @@ function pressDigit(number) {
 
   if (entered.length === 4) {
     if (entered === PASSCODE) {
-      message.textContent = "Unlocked!";
-      setTimeout(unlockPhone, 350);
+      passMessage.textContent = "Unlocked!";
+      setTimeout(unlockPhone, 300);
     } else {
-      message.textContent = "Incorrect passcode";
+      passMessage.textContent = "Incorrect passcode";
 
       setTimeout(() => {
         entered = "";
-        message.textContent = "";
+        passMessage.textContent = "";
         updateDots();
       }, 700);
     }
   }
 }
 
-/* CREATE NUMBER KEYPAD */
+/* BUILD KEYPAD */
 const keypad = document.getElementById("keypad");
 
 ["1","2","3","4","5","6","7","8","9","","0","⌫"]
@@ -847,11 +998,9 @@ const keypad = document.getElementById("keypad");
     button.style.visibility = "hidden";
     button.disabled = true;
   } else if (number === "⌫") {
-    button.style.fontSize = "24px";
-
     button.onclick = () => {
       entered = entered.slice(0, -1);
-      message.textContent = "";
+      passMessage.textContent = "";
       updateDots();
     };
   } else {
@@ -861,17 +1010,16 @@ const keypad = document.getElementById("keypad");
   keypad.appendChild(button);
 });
 
-document.getElementById("cancel").onclick = closePasscode;
+document.getElementById("cancelButton").onclick = closePasscode;
 document.getElementById("camera").onclick = openPasscode;
-
-/* FLASHLIGHT IS A VISUAL DEMO */
 document.getElementById("flashlight").onclick = () => {};
 
-/* SWIPE UP FROM THE LOWER HALF TO OPEN PASSCODE */
+/* TOUCH SWIPE */
 phone.addEventListener("touchstart", event => {
   if (
+    unlocked ||
     passcode.classList.contains("show") ||
-    homeScreen.classList.contains("show")
+    ownerPanel.classList.contains("show")
   ) return;
 
   touchStartY = event.changedTouches[0].clientY;
@@ -879,17 +1027,21 @@ phone.addEventListener("touchstart", event => {
 
 phone.addEventListener("touchend", event => {
   if (
+    unlocked ||
     passcode.classList.contains("show") ||
-    homeScreen.classList.contains("show") ||
+    ownerPanel.classList.contains("show") ||
     touchStartY === null
-  ) return;
+  ) {
+    touchStartY = null;
+    return;
+  }
 
-  const touchEndY = event.changedTouches[0].clientY;
-  const distance = touchStartY - touchEndY;
+  const endY = event.changedTouches[0].clientY;
+  const distance = touchStartY - endY;
 
   if (
-    distance > 55 &&
-    touchStartY > window.innerHeight * 0.45
+    distance > 45 &&
+    touchStartY > window.innerHeight * 0.35
   ) {
     openPasscode();
   }
@@ -897,20 +1049,102 @@ phone.addEventListener("touchend", event => {
   touchStartY = null;
 }, { passive: true });
 
-/* WALLPAPER PICKER */
+/* OWNER-ONLY WALLPAPER SETTINGS */
+document.getElementById("ownerButton").onclick = () => {
+  ownerVerified = false;
+  failedOwnerAttempts = 0;
+
+  document.getElementById("ownerLogin").hidden = false;
+  document.getElementById("ownerOptions").hidden = true;
+  document.getElementById("ownerPin").value = "";
+  document.getElementById("ownerMessage").textContent = "";
+
+  ownerPanel.classList.add("show");
+};
+
+document.getElementById("verifyOwner").onclick = () => {
+  const pin = document.getElementById("ownerPin").value;
+
+  if (pin === OWNER_PIN) {
+    ownerVerified = true;
+    failedOwnerAttempts = 0;
+
+    document.getElementById("ownerLogin").hidden = true;
+    document.getElementById("ownerOptions").hidden = false;
+  } else {
+    failedOwnerAttempts++;
+
+    document.getElementById("ownerMessage").textContent =
+      "Incorrect owner PIN.";
+
+    document.getElementById("ownerPin").value = "";
+
+    if (failedOwnerAttempts >= 5) {
+      document.getElementById("verifyOwner").disabled = true;
+      document.getElementById("ownerMessage").textContent =
+        "Too many attempts. Close and reopen the settings.";
+
+      setTimeout(() => {
+        document.getElementById("verifyOwner").disabled = false;
+        failedOwnerAttempts = 0;
+      }, 15000);
+    }
+  }
+};
+
+function closeOwnerPanel() {
+  ownerVerified = false;
+  ownerPanel.classList.remove("show");
+}
+
+document.getElementById("closeOwner").onclick = closeOwnerPanel;
+document.getElementById("doneOwner").onclick = closeOwnerPanel;
+
+/* SELECT A PHOTO ONLY AFTER OWNER PIN VERIFICATION */
+document.getElementById("chooseWallpaper").onclick = () => {
+  if (!ownerVerified) return;
+  document.getElementById("wallpaperFile").click();
+};
+
 document.getElementById("wallpaperFile").addEventListener(
   "change",
   event => {
+    if (!ownerVerified) return;
+
     const file = event.target.files[0];
     if (!file) return;
 
-    const imageURL = URL.createObjectURL(file);
+    if (!file.type.startsWith("image/")) {
+      alert("Please choose an image.");
+      return;
+    }
 
-    phone.style.backgroundImage =
-      `linear-gradient(180deg, #0002, #0003), url("${imageURL}")`;
+    const reader = new FileReader();
 
-    phone.style.backgroundSize = "cover";
-    phone.style.backgroundPosition = "center";
+    reader.onload = () => {
+      const imageData = reader.result;
+
+      wallpaper.style.backgroundImage =
+        `url("${imageData}")`;
+
+      try {
+        localStorage.setItem("iphoneWallpaper", imageData);
+      } catch (error) {
+        alert(
+          "The photo is applied, but could not be saved. " +
+          "Try a smaller image."
+        );
+      }
+
+      closeOwnerPanel();
+      event.target.value = "";
+    };
+
+    reader.onerror = () => {
+      alert("Could not load this photo. Please try another.");
+    };
+
+    reader.readAsDataURL(file);
   }
 );
 
