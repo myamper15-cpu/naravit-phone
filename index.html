@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +100,7 @@ button{cursor:pointer}
 .agenda{border-top:1px solid #ddd;margin-top:25px;padding-top:18px}
 .agenda p{color:#777}
 
-/* IPHONE-STYLE SETTINGS */
+/* SETTINGS */
 .iphone-settings{position:absolute;inset:0;z-index:45;display:none;overflow-y:auto;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top) + 18px) 16px 65px;background:#f2f2f7;color:#17171b}
 .iphone-settings.show{display:block}
 .settings-header{display:flex;align-items:center;min-height:48px}
@@ -129,9 +130,46 @@ button{cursor:pointer}
 .detail.show{display:block}
 .detail h2{font-size:30px;margin-top:25px}
 .detail p{color:#66666e;line-height:1.6;font-size:16px}
-..settings-indicator {
-  display: none !important;
+.settings-indicator{display:none!important}
+
+/* INSTAGRAM PROFILE */
+.instagram-screen{
+  position:absolute;inset:0;z-index:50;display:none;overflow-y:auto;
+  overscroll-behavior:contain;background:#fff;color:#111;
+  padding-top:calc(env(safe-area-inset-top) + 8px);padding-bottom:25px
 }
+.instagram-screen.show{display:block}
+.ig-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:24px;font-weight:750;gap:8px}
+.ig-topbar button{border:0;background:none;color:#111;font-size:30px;padding:0 5px}
+.ig-username{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.ig-verified{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#3897f0;color:white;font-size:12px}
+.ig-profile{padding:12px 18px}
+.ig-profile-top{display:grid;grid-template-columns:31% 69%;align-items:center;gap:5px}
+.ig-avatar{width:100px;max-width:100%;aspect-ratio:1;border-radius:50%;padding:4px;background:linear-gradient(35deg,#ffbd37,#ff2878,#a52bdf)}
+.ig-avatar-inner{width:100%;height:100%;display:grid;place-items:center;border:3px solid white;border-radius:50%;background:linear-gradient(135deg,#d7d7d7,#777);color:white;font-size:40px}
+.ig-stats{display:flex;justify-content:space-around;text-align:center;gap:4px}
+.ig-stats strong{display:block;font-size:clamp(16px,4.7vw,21px)}
+.ig-stats span{font-size:clamp(11px,3.2vw,14px)}
+.ig-category{color:#777;margin-top:15px;font-size:15px}
+.ig-bio{font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.ig-blue{color:#244bd7}
+.ig-buttons{display:flex;gap:7px;margin-top:15px}
+.ig-buttons button{flex:1;min-width:0;padding:10px 3px;border:0;border-radius:8px;background:#efeff4;color:#111;font-weight:700;font-size:clamp(11px,3.5vw,14px)}
+.ig-pills{display:flex;gap:8px;margin-top:12px}
+.ig-pills span{border:1px solid #ddd;border-radius:18px;padding:6px 10px;font-weight:700;font-size:14px}
+.ig-highlights{display:flex;gap:22px;padding:15px 20px 22px}
+.ig-highlight{text-align:center;font-size:13px}
+.ig-highlight-circle{width:65px;height:65px;border:3px solid #ddd;border-radius:50%;display:grid;place-items:center;font-size:27px;margin-bottom:5px;overflow:hidden;background:#eee}
+.ig-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #ddd}
+.ig-tabs button{border:0;background:white;color:#777;padding:14px 0;font-size:23px}
+.ig-tabs button.active{color:#111;border-bottom:2px solid #111}
+.ig-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.ig-post{aspect-ratio:.78;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#e1e1e1,#a7a7a7,#555);color:white;font-size:38px;position:relative}
+.ig-post:nth-child(3n+2){background:linear-gradient(145deg,#e7eaf0,#a8b7cb,#eee)}
+.ig-post:nth-child(3n){background:linear-gradient(145deg,#a7a08d,#43473f,#222)}
+.ig-post small{position:absolute;bottom:8px;left:6px;font-size:11px;text-shadow:0 1px 5px #000}
+.ig-home-indicator{position:sticky;bottom:5px;width:110px;height:5px;margin:15px auto 0;border-radius:10px;background:#111}
+
 @media(max-height:750px){
 .widgets{top:calc(env(safe-area-inset-top) + 65px)}
 .calendar-widget{padding:15px 11px}
@@ -199,7 +237,7 @@ button{cursor:pointer}
 
   <div class="app-grid">
     <div class="home-app"><button class="app-icon settings-app" id="openSettings" type="button">⚙️</button><span>Settings</span></div>
-    <div class="home-app"><button class="app-icon instagram-app" type="button">◎</button><span>Instagram</span></div>
+    <div class="home-app"><button class="app-icon instagram-app" id="openInstagram" type="button">◎</button><span>Instagram</span></div>
     <div class="home-app"><button class="app-icon photos-app" type="button">🌈</button><span>Photos</span></div>
     <div class="home-app"><button class="app-icon facebook-app" type="button">f</button><span>Facebook</span></div>
     <div class="home-app"><button class="app-icon music-app" type="button">♫</button><span>Music</span></div>
@@ -304,6 +342,77 @@ button{cursor:pointer}
   <div class="indicator settings-indicator"></div>
 </section>
 
+<!-- INSTAGRAM PROFILE -->
+<section class="instagram-screen" id="instagramScreen">
+  <div class="ig-topbar">
+    <button id="igHome" aria-label="Back to Home">‹</button>
+    <div class="ig-username">ppnaravit <span class="ig-verified">✓</span></div>
+    <span>♧　•••</span>
+  </div>
+
+  <div class="ig-profile">
+    <div class="ig-profile-top">
+      <div class="ig-avatar">
+        <div class="ig-avatar-inner">P</div>
+      </div>
+      <div class="ig-stats">
+        <div><strong>414</strong><span>posts</span></div>
+        <div><strong>6.1M</strong><span>followers</span></div>
+        <div><strong>870</strong><span>following</span></div>
+      </div>
+    </div>
+
+    <div class="ig-category">Personal blog</div>
+    <div class="ig-bio">
+      <strong class="ig-blue">@jasp.er.official</strong><br>
+      Call : (+66)61-414-4046<br>
+      Line OA : @gmmtvartists_work<br>
+      Email : gmmtv.artists@gmail.com<br>
+      <span class="ig-blue">🔗 page.line.me/gmmtvartists_work</span>
+    </div>
+
+    <div class="ig-pills">
+      <span>◎ ppnaravit</span>
+      <span>♧ cute</span>
+    </div>
+
+    <div class="ig-buttons">
+      <button id="igFollowing">Following</button>
+      <button id="igMessage">Message</button>
+      <button id="igContact">Contact</button>
+      <button id="igAdd">♙+</button>
+    </div>
+  </div>
+
+  <div class="ig-highlights">
+    <div class="ig-highlight">
+      <div class="ig-highlight-circle">🐶</div>
+      <span>p</span>
+    </div>
+  </div>
+
+  <div class="ig-tabs">
+    <button class="active" data-tab="posts" aria-label="Posts">▦</button>
+    <button data-tab="reels" aria-label="Reels">▷</button>
+    <button data-tab="reposts" aria-label="Reposts">⇄</button>
+    <button data-tab="tagged" aria-label="Tagged">♙</button>
+  </div>
+
+  <div class="ig-grid" id="igGrid">
+    <div class="ig-post">📷<small>New</small></div>
+    <div class="ig-post">📷<small>New</small></div>
+    <div class="ig-post">🌿</div>
+    <div class="ig-post">🍂</div>
+    <div class="ig-post">📷</div>
+    <div class="ig-post">🌆</div>
+    <div class="ig-post">📷</div>
+    <div class="ig-post">☁️</div>
+    <div class="ig-post">🌳</div>
+  </div>
+
+  <div class="ig-home-indicator"></div>
+</section>
+
 </main>
 
 <script>
@@ -392,7 +501,6 @@ function unlockPhone() {
 
 function pressDigit(number) {
   if (entered.length >= 4) return;
-
   entered += number;
   updateDots();
 
@@ -513,7 +621,6 @@ document.getElementById("chooseWallpaper").onclick = () => {
 
 document.getElementById("wallpaperFile").addEventListener("change", event => {
   if (!ownerVerified) return;
-
   const file = event.target.files[0];
   if (!file) return;
 
@@ -523,7 +630,6 @@ document.getElementById("wallpaperFile").addEventListener("change", event => {
   }
 
   const reader = new FileReader();
-
   reader.onload = () => {
     const imageData = reader.result;
     wallpaper.style.backgroundImage = `url("${imageData}")`;
@@ -609,7 +715,6 @@ function renderCalendar() {
     if (date.toDateString() === new Date().toDateString()) {
       button.classList.add("today");
     }
-
     if (date.toDateString() === selectedDate.toDateString()) {
       button.classList.add("selected");
     }
@@ -670,7 +775,6 @@ document.getElementById("settingsHome").onclick = () => {
 document.querySelectorAll(".settings-row").forEach(row => {
   row.onclick = () => {
     const name = row.dataset.setting;
-
     document.getElementById("detailTitle").textContent = name;
 
     const descriptions = {
@@ -697,6 +801,79 @@ document.querySelectorAll(".settings-row").forEach(row => {
 
 document.getElementById("settingsBack").onclick = () => {
   settingsDetail.classList.remove("show");
+};
+
+/* INSTAGRAM PROFILE */
+const instagramScreen = document.getElementById("instagramScreen");
+
+document.getElementById("openInstagram").onclick = () => {
+  instagramScreen.classList.add("show");
+};
+
+document.getElementById("igHome").onclick = () => {
+  instagramScreen.classList.remove("show");
+};
+
+/* INSTAGRAM PROFILE TABS */
+document.querySelectorAll(".ig-tabs button").forEach(button => {
+  button.onclick = () => {
+    document.querySelectorAll(".ig-tabs button").forEach(tab => {
+      tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const grid = document.getElementById("igGrid");
+    const tab = button.dataset.tab;
+
+    if (tab === "posts") {
+      grid.innerHTML = `
+        <div class="ig-post">📷<small>New</small></div>
+        <div class="ig-post">📷<small>New</small></div>
+        <div class="ig-post">🌿</div>
+        <div class="ig-post">🍂</div>
+        <div class="ig-post">📷</div>
+        <div class="ig-post">🌆</div>
+        <div class="ig-post">📷</div>
+        <div class="ig-post">☁️</div>
+        <div class="ig-post">🌳</div>`;
+    } else if (tab === "reels") {
+      grid.innerHTML = `
+        <div class="ig-post">▷<small>Reel</small></div>
+        <div class="ig-post">▷<small>Reel</small></div>
+        <div class="ig-post">▷<small>Reel</small></div>`;
+    } else if (tab === "reposts") {
+      grid.innerHTML = `
+        <div class="ig-post">⇄</div>
+        <div class="ig-post">⇄</div>
+        <div class="ig-post">⇄</div>`;
+    } else {
+      grid.innerHTML = `
+        <div class="ig-post">♙<small>Tagged</small></div>
+        <div class="ig-post">♙<small>Tagged</small></div>
+        <div class="ig-post">♙<small>Tagged</small></div>`;
+    }
+  };
+});
+
+/* FOLLOW BUTTON DEMO */
+document.getElementById("igFollowing").onclick = event => {
+  event.currentTarget.textContent =
+    event.currentTarget.textContent === "Following"
+      ? "Follow"
+      : "Following";
+};
+
+document.getElementById("igMessage").onclick = () => {
+  alert("This is a simulated Instagram profile.");
+};
+
+document.getElementById("igContact").onclick = () => {
+  alert("Contact details are displayed in the profile bio.");
+};
+
+document.getElementById("igAdd").onclick = () => {
+  alert("This is a simulated Instagram profile.");
 };
 </script>
 </body>
