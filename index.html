@@ -145,6 +145,13 @@ t-size:13px;background:#ffffff2b;padding:11px 18px;border-radius:22px;backdrop-f
 #phone.unlocked:not(.on-home) #homeDock {
   display: none;
 }
+  #passmodal {
+  z-index: 9999;
+}
+
+#passmodal.show {
+  display: flex !important;
+}
 </style></head><body>
 
 <div class="phone" id="phone">
@@ -927,7 +934,12 @@ function filterAppleMessages(query) {
   });
 }
 function showPass() {
-  document.getElementById('passmodal').classList.add('show');
+  const modal = document.getElementById('passmodal');
+
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('show');
+  }
 }
 </script>
 </body>
