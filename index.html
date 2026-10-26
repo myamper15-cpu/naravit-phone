@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#171717">
-<title>iPhone Lock Screen</title>
+<title>My iPhone</title>
 
 <style>
 * {
@@ -32,7 +32,7 @@ html, body {
   margin: 0 auto;
   overflow: hidden;
   isolation: isolate;
-  background: #b5aa82;
+  background-color: #b5aa82;
   background-image:
     linear-gradient(180deg, #0002, #0003),
     radial-gradient(ellipse at 50% 70%, #8e866d, #c6b98c 55%, #776e5b);
@@ -40,7 +40,7 @@ html, body {
   background-position: center;
 }
 
-/* WALLPAPER SELECTOR */
+/* WALLPAPER PICKER */
 .wallpaper-picker {
   position: absolute;
   width: 1px;
@@ -55,27 +55,24 @@ html, body {
   z-index: 20;
   padding: 7px 10px;
   border-radius: 20px;
-  background: #0005;
+  background: #0007;
   border: 1px solid #ffffff55;
-  font-size: 11px;
   color: white;
+  font-size: 11px;
 }
 
-/* TOP STATUS AREA */
+/* STATUS BAR */
 .topbar {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 28px);
-  left: 10.5%;
+  left: 10%;
   right: 8%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 22px;
   font-weight: 750;
-}
-
-.tm {
-  letter-spacing: -.5px;
+  z-index: 2;
 }
 
 .status-icons {
@@ -103,53 +100,46 @@ html, body {
 .signal i:nth-child(3) { height: 13px; }
 .signal i:nth-child(4) { height: 17px; }
 
-.wifi {
-  font-size: 20px;
-}
-
 .battery {
-  height: 18px;
   min-width: 34px;
   padding: 1px 4px;
   border-radius: 5px;
   background: #ffffffeb;
   color: #333;
   font-size: 13px;
-  font-weight: 800;
   text-align: center;
+  font-weight: 800;
 }
 
-/* LOCK ICON */
+/* LOCK SCREEN */
 .lock-glyph {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 92px);
   left: 50%;
   transform: translateX(-50%);
-  font-size: 27px;
+  font-size: 25px;
 }
 
-/* DATE */
 .date {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 169px);
   left: 0;
   right: 0;
   text-align: center;
-  font-size: clamp(21px, 4.8vw, 28px);
+  font-size: 25px;
   font-weight: 700;
   text-shadow: 0 1px 5px #0003;
 }
 
-/* LARGE TRANSLUCENT CLOCK */
 .clock {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 205px);
   left: 0;
   right: 0;
   text-align: center;
-  font-size: clamp(118px, 31vw, 158px);
+  font-size: clamp(110px, 29vw, 150px);
   font-weight: 300;
-  letter-spacing: -7px;
+  letter-spacing: -6px;
   line-height: 1;
   color: #ffffff61;
   -webkit-text-stroke: 1px #ffffff5c;
@@ -158,7 +148,7 @@ html, body {
   white-space: nowrap;
 }
 
-/* BOTTOM CONTROLS */
+/* FLASHLIGHT AND CAMERA */
 .bottom-controls {
   position: absolute;
   left: 0;
@@ -167,27 +157,27 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 11.5%;
+  padding: 0 11%;
   gap: 8px;
 }
 
 .round {
-  width: 76px;
-  height: 76px;
-  flex: 0 0 76px;
+  width: 70px;
+  height: 70px;
+  flex: 0 0 70px;
   border: 1px solid #ffffff6b;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: #ffffff33;
   color: white;
-  font-size: 31px;
+  font-size: 29px;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 
 .focus {
-  font-size: clamp(13px, 3.8vw, 20px);
+  font-size: clamp(12px, 3.6vw, 19px);
   font-weight: 700;
   white-space: nowrap;
   text-shadow: 0 1px 4px #0005;
@@ -203,20 +193,20 @@ html, body {
   height: 5px;
   border-radius: 100px;
   background: white;
-  z-index: 10;
+  z-index: 12;
 }
 
-/* PASSCODE SCREEN */
+/* PASSCODE */
 .passcode {
   position: absolute;
   inset: 0;
   display: none;
+  z-index: 15;
   background: #17171dcc;
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   text-align: center;
-  padding: calc(env(safe-area-inset-top, 0px) + 100px) 20px 50px;
-  z-index: 8;
+  padding: calc(env(safe-area-inset-top, 0px) + 85px) 20px 50px;
 }
 
 .passcode.show {
@@ -249,20 +239,20 @@ html, body {
 
 .keypad {
   display: grid;
-  grid-template-columns: repeat(3, 76px);
-  gap: 13px;
+  grid-template-columns: repeat(3, 68px);
+  gap: 12px;
   justify-content: center;
-  margin: 28px auto;
+  margin: 22px auto;
 }
 
 .key {
-  width: 76px;
-  height: 76px;
+  width: 68px;
+  height: 68px;
   border: 1px solid #ffffff35;
   border-radius: 50%;
   background: #ffffff27;
   color: white;
-  font-size: 29px;
+  font-size: 28px;
 }
 
 .pass-message {
@@ -278,46 +268,7 @@ html, body {
   padding: 12px;
 }
 
-@media (max-height: 700px) {
-  .lock-glyph {
-    top: calc(env(safe-area-inset-top, 0px) + 65px);
-  }
-
-  .date {
-    top: calc(env(safe-area-inset-top, 0px) + 125px);
-  }
-
-  .clock {
-    top: calc(env(safe-area-inset-top, 0px) + 158px);
-    font-size: clamp(100px, 26vw, 130px);
-  }
-
-  .bottom-controls {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 35px);
-  }
-
-  .round {
-    width: 62px;
-    height: 62px;
-    flex-basis: 62px;
-  }
-
-  .passcode {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
-  }
-
-  .keypad {
-    gap: 8px;
-    margin: 15px auto;
-  }
-
-  .key {
-    width: 64px;
-    height: 64px;
-  }
-}
-  
-/* UNLOCKED HOME SCREEN */
+/* HOME SCREEN */
 .home-screen {
   display: none;
   position: absolute;
@@ -326,25 +277,14 @@ html, body {
   overflow: hidden;
   color: white;
   background:
-    linear-gradient(
-      180deg,
-      rgba(65, 59, 48, .12),
-      rgba(100, 92, 74, .18)
-    ),
-    linear-gradient(
-      115deg,
-      #b9ad8b,
-      #777365 48%,
-      #b6ad98 75%,
-      #6b6659
-    );
+    linear-gradient(180deg, #0002, #0003),
+    linear-gradient(115deg, #b9ad8b, #777365 48%, #b6ad98 75%, #6b6659);
 }
 
 .home-screen.show {
   display: block;
 }
 
-/* WIDGETS */
 .widgets {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 92px);
@@ -357,15 +297,14 @@ html, body {
 
 .calendar-widget,
 .spotify-widget {
-  height: auto;
-  aspect-ratio: .88;
+  aspect-ratio: 1 / 1;
   border-radius: 28px;
   overflow: hidden;
 }
 
 .calendar-widget {
-  padding: 30px 18px;
-  background: #fff;
+  padding: 23px 16px;
+  background: white;
   color: #111;
 }
 
@@ -383,15 +322,15 @@ html, body {
 }
 
 .calendar-events {
-  margin-top: 35px;
+  margin-top: 24px;
   color: #85858a;
-  font-size: clamp(15px, 4vw, 24px);
+  font-size: clamp(14px, 3.8vw, 23px);
   line-height: 1.25;
   font-weight: 600;
 }
 
 .spotify-widget {
-  padding: 26px 16px 18px;
+  padding: 18px 12px 14px;
   background: rgba(92, 108, 128, .86);
   border: 1px solid #ffffff35;
   display: flex;
@@ -405,7 +344,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 8px;
+  gap: 7px;
 }
 
 .album-art {
@@ -417,18 +356,18 @@ html, body {
   background: linear-gradient(135deg, #263b50, #9eabb5);
   color: white;
   font-family: Georgia, serif;
-  font-size: 60px;
+  font-size: 45px;
 }
 
 .spotify-logo {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
   background: white;
   color: #5c6878;
   border-radius: 50%;
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 900;
 }
 
@@ -440,32 +379,31 @@ html, body {
 }
 
 .song-title {
-  font-size: clamp(14px, 3.7vw, 22px);
+  font-size: clamp(13px, 3.5vw, 21px);
   font-weight: 750;
 }
 
 .song-artist {
   margin-top: 5px;
-  font-size: clamp(13px, 3.4vw, 20px);
+  font-size: clamp(12px, 3.2vw, 19px);
   color: #d6d9df;
   font-weight: 600;
 }
 
 .play-button {
-  width: 49px;
-  height: 49px;
+  width: 43px;
+  height: 43px;
   flex-shrink: 0;
   border: 0;
   border-radius: 50%;
   background: white;
   color: #596575;
-  font-size: 24px;
+  font-size: 21px;
 }
 
-/* WIDGET LABELS */
 .widget-labels {
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 92px + ( (100vw - 12vw) / 2 ) * .88 + 12px);
+  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 12px);
   left: 6%;
   right: 6%;
   display: grid;
@@ -476,16 +414,16 @@ html, body {
   font-weight: 700;
 }
 
-/* APP GRID */
+/* APPS */
 .app-grid {
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 385px);
+  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 60px);
   left: 6%;
   right: 6%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: 12px;
-  row-gap: 23px;
+  row-gap: 20px;
 }
 
 .home-app {
@@ -494,7 +432,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 7px;
-  font-size: clamp(11px, 3.5vw, 17px);
+  font-size: clamp(10px, 3.4vw, 17px);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -506,7 +444,7 @@ html, body {
   border-radius: 23%;
   display: grid;
   place-items: center;
-  font-size: 43px;
+  font-size: 40px;
   color: white;
   box-shadow: 0 2px 5px #0002;
 }
@@ -517,43 +455,41 @@ html, body {
 
 .instagram-app {
   background: linear-gradient(35deg, #ffd35e, #ff1768, #8529db);
-  font-size: 64px;
+  font-size: 60px;
   font-weight: 300;
 }
 
 .photos-app {
-  background: #fff;
-  font-size: 45px;
+  background: white;
+  font-size: 40px;
 }
 
 .facebook-app {
   background: #0866ff;
-  font-size: 74px;
+  font-size: 70px;
   font-weight: 800;
-  align-items: end;
-  line-height: .95;
 }
 
 .music-app {
   background: linear-gradient(#ff4383, #ed174e);
-  font-size: 55px;
+  font-size: 50px;
 }
 
 .weather-app {
   background: linear-gradient(#43b9ff, #0876d8);
-  font-size: 42px;
+  font-size: 38px;
 }
 
 .clock-app {
-  background: #fff;
+  background: white;
   color: #333;
-  font-size: 45px;
+  font-size: 40px;
 }
 
 .youtube-app {
-  background: #fff;
+  background: white;
   color: #ff0033;
-  font-size: 43px;
+  font-size: 38px;
 }
 
 /* SEARCH */
@@ -569,7 +505,6 @@ html, body {
   color: white;
   font-size: 14px;
   font-weight: 600;
-  backdrop-filter: blur(12px);
 }
 
 /* DOCK */
@@ -578,8 +513,8 @@ html, body {
   bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
   left: 4%;
   right: 4%;
-  height: 94px;
-  padding: 12px;
+  height: 90px;
+  padding: 11px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -599,7 +534,7 @@ html, body {
   border-radius: 23%;
   display: grid;
   place-items: center;
-  font-size: 45px;
+  font-size: 42px;
   color: white;
 }
 
@@ -614,22 +549,22 @@ html, body {
   color: white;
 }
 
-/* SMALLER SCREENS */
+/* SHORT SCREENS */
 @media (max-height: 750px) {
   .widgets {
-    top: calc(env(safe-area-inset-top, 0px) + 70px);
+    top: calc(env(safe-area-inset-top, 0px) + 65px);
   }
 
   .calendar-widget {
-    padding: 20px 13px;
+    padding: 16px 12px;
   }
 
   .spotify-widget {
-    padding: 17px 12px;
+    padding: 13px 10px;
   }
 
   .calendar-events {
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .widget-labels {
@@ -637,8 +572,8 @@ html, body {
   }
 
   .app-grid {
-    top: calc(env(safe-area-inset-top, 0px) + 315px);
-    row-gap: 14px;
+    top: calc(env(safe-area-inset-top, 0px) + 65px + 41vw + 18px);
+    row-gap: 12px;
   }
 
   .search-button {
@@ -648,22 +583,19 @@ html, body {
   .home-dock {
     height: 78px;
   }
-}
 
-/* HOME SCREEN SPACING FIX */
-.calendar-widget,
-.spotify-widget {
-  aspect-ratio: 1 / 1;
-}
+  .app-icon {
+    font-size: 34px;
+  }
 
-.widget-labels {
-  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 12px);
-}
+  .instagram-app {
+    font-size: 50px;
+  }
 
-.app-grid {
-  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 60px);
+  .facebook-app {
+    font-size: 58px;
+  }
 }
-
 </style>
 </head>
 
@@ -681,9 +613,9 @@ html, body {
     accept="image/*"
   >
 
+  <!-- LOCK SCREEN -->
   <div class="topbar">
     <span class="tm">TM</span>
-
     <span class="status-icons">
       <span class="signal">
         <i></i><i></i><i></i><i></i>
@@ -694,139 +626,123 @@ html, body {
   </div>
 
   <div class="lock-glyph">🔒</div>
-
   <div class="date" id="date">Mon Oct 26</div>
-
   <div class="clock" id="clock">4:41</div>
 
   <div class="bottom-controls">
-    <button class="round" aria-label="Flashlight" id="flashlight">
-      🔦
-    </button>
-
+    <button class="round" id="flashlight" aria-label="Flashlight">🔦</button>
     <div class="focus">☾ Do Not Disturb</div>
-
-    <button class="round" aria-label="Camera" id="camera">
-      📷
-    </button>
+    <button class="round" id="camera" aria-label="Camera">📷</button>
   </div>
 
-  <div class="home-indicator"></div>
-  
-<!-- UNLOCKED IPHONE HOME SCREEN -->
-<section class="home-screen" id="homeScreen">
+  <!-- HOME SCREEN -->
+  <section class="home-screen" id="homeScreen">
 
-  <div class="widgets">
-
-    <!-- CALENDAR WIDGET -->
-    <div class="calendar-widget">
-      <div class="calendar-day" id="calendarDay">MONDAY</div>
-      <div class="calendar-number" id="calendarNumber">26</div>
-      <div class="calendar-events">No Events<br>Today</div>
-    </div>
-
-    <!-- SPOTIFY WIDGET -->
-    <div class="spotify-widget">
-      <div class="spotify-top">
-        <div class="album-art">♪</div>
-        <div class="spotify-logo">≋</div>
+    <div class="widgets">
+      <div class="calendar-widget">
+        <div class="calendar-day" id="calendarDay">MONDAY</div>
+        <div class="calendar-number" id="calendarNumber">26</div>
+        <div class="calendar-events">No Events<br>Today</div>
       </div>
-      <div class="spotify-bottom">
-        <div>
-          <div class="song-title">Black Card</div>
-          <div class="song-artist">Phuwin</div>
+
+      <div class="spotify-widget">
+        <div class="spotify-top">
+          <div class="album-art">♪</div>
+          <div class="spotify-logo">≋</div>
         </div>
-        <button class="play-button" id="playButton">▶</button>
+
+        <div class="spotify-bottom">
+          <div>
+            <div class="song-title">Black Card</div>
+            <div class="song-artist">Phuwin</div>
+          </div>
+          <button class="play-button" id="playButton">▶</button>
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="widget-labels">
-    <span>Calendar</span>
-    <span>Spotify</span>
-  </div>
-
-  <!-- APP ROW 1 -->
-  <div class="app-grid">
-    <div class="home-app">
-      <button class="app-icon settings-app">⚙️</button>
-      <span>Settings</span>
+    <div class="widget-labels">
+      <span>Calendar</span>
+      <span>Spotify</span>
     </div>
 
-    <div class="home-app">
-      <button class="app-icon instagram-app">◎</button>
-      <span>Instagram</span>
+    <div class="app-grid">
+      <div class="home-app">
+        <button class="app-icon settings-app">⚙️</button>
+        <span>Settings</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon instagram-app">◎</button>
+        <span>Instagram</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon photos-app">🌈</button>
+        <span>Photos</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon facebook-app">f</button>
+        <span>Facebook</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon music-app">♫</button>
+        <span>Music</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon weather-app">🌤️</button>
+        <span>Weather</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon clock-app">🕒</button>
+        <span>Clock</span>
+      </div>
+
+      <div class="home-app">
+        <button class="app-icon youtube-app">▶</button>
+        <span>YouTube</span>
+      </div>
     </div>
 
-    <div class="home-app">
-      <button class="app-icon photos-app">🌈</button>
-      <span>Photos</span>
+    <button class="search-button" id="searchButton">⌕ Search</button>
+
+    <div class="home-dock">
+      <button class="dock-app phone-app">☎</button>
+      <button class="dock-app messages-app">●</button>
+      <button class="dock-app facetime-app">▣</button>
+      <button class="dock-app contacts-app">👤</button>
     </div>
 
-    <div class="home-app">
-      <button class="app-icon facebook-app">f</button>
-      <span>Facebook</span>
-    </div>
+    <div class="home-indicator"></div>
+  </section>
 
-    <!-- APP ROW 2 -->
-    <div class="home-app">
-      <button class="app-icon music-app">♫</button>
-      <span>Music</span>
-    </div>
-
-    <div class="home-app">
-      <button class="app-icon weather-app">🌤️</button>
-      <span>Weather</span>
-    </div>
-
-    <div class="home-app">
-      <button class="app-icon clock-app">🕒</button>
-      <span>Clock</span>
-    </div>
-
-    <div class="home-app">
-      <button class="app-icon youtube-app">▶</button>
-      <span>YouTube</span>
-    </div>
-  </div>
-
-  <!-- SEARCH -->
-  <button class="search-button">⌕ Search</button>
-
-  <!-- BOTTOM DOCK -->
-  <div class="home-dock">
-    <button class="dock-app phone-app">☎</button>
-    <button class="dock-app messages-app">●</button>
-    <button class="dock-app facetime-app">▣</button>
-    <button class="dock-app contacts-app">👤</button>
-  </div>
-
-</section>
-
-
+  <!-- PASSCODE SCREEN -->
   <section class="passcode" id="passcode">
     <h2>Enter Passcode</h2>
-
     <div class="dots" id="dots"></div>
-
     <div class="pass-message" id="message"></div>
-
     <div class="keypad" id="keypad"></div>
-
     <button class="cancel" id="cancel">Cancel</button>
   </section>
 
+  <div class="home-indicator" id="lockIndicator"></div>
 </main>
 
 <script>
 const PASSCODE = "0705";
 let entered = "";
+let touchStartY = null;
 
 const phone = document.getElementById("phone");
 const passcode = document.getElementById("passcode");
+const homeScreen = document.getElementById("homeScreen");
 const dots = document.getElementById("dots");
 const message = document.getElementById("message");
+const lockIndicator = document.getElementById("lockIndicator");
 
 /* LIVE CLOCK AND DATE */
 function updateClock() {
@@ -845,6 +761,14 @@ function updateClock() {
       month: "short",
       day: "numeric"
     });
+
+  document.getElementById("calendarDay").textContent =
+    now.toLocaleDateString([], {
+      weekday: "long"
+    }).toUpperCase();
+
+  document.getElementById("calendarNumber").textContent =
+    now.getDate();
 }
 
 updateClock();
@@ -863,6 +787,8 @@ function updateDots() {
 
 /* OPEN AND CLOSE PASSCODE */
 function openPasscode() {
+  if (homeScreen.classList.contains("show")) return;
+
   entered = "";
   message.textContent = "";
   updateDots();
@@ -872,7 +798,15 @@ function openPasscode() {
 function closePasscode() {
   passcode.classList.remove("show");
   entered = "";
+  message.textContent = "";
   updateDots();
+}
+
+/* UNLOCK TO HOME SCREEN */
+function unlockPhone() {
+  closePasscode();
+  homeScreen.classList.add("show");
+  lockIndicator.style.display = "none";
 }
 
 /* CHECK PASSCODE */
@@ -884,13 +818,8 @@ function pressDigit(number) {
 
   if (entered.length === 4) {
     if (entered === PASSCODE) {
-  message.textContent = "Unlocked!";
-
-  setTimeout(() => {
-    closePasscode();
-    document.getElementById("homeScreen").classList.add("show");
-  }, 400);
-}
+      message.textContent = "Unlocked!";
+      setTimeout(unlockPhone, 350);
     } else {
       message.textContent = "Incorrect passcode";
 
@@ -910,6 +839,7 @@ const keypad = document.getElementById("keypad");
 .forEach(number => {
   const button = document.createElement("button");
   button.className = "key";
+  button.type = "button";
   button.textContent = number;
 
   if (number === "") {
@@ -931,18 +861,17 @@ const keypad = document.getElementById("keypad");
 });
 
 document.getElementById("cancel").onclick = closePasscode;
-
-/* CAMERA OPENS PASSCODE DEMO */
 document.getElementById("camera").onclick = openPasscode;
 
 /* FLASHLIGHT IS A VISUAL DEMO */
 document.getElementById("flashlight").onclick = () => {};
 
-/* SWIPE UP FROM THE BOTTOM TO OPEN PASSCODE */
-let touchStartY = null;
-
+/* SWIPE UP FROM THE LOWER HALF TO OPEN PASSCODE */
 phone.addEventListener("touchstart", event => {
-  if (passcode.classList.contains("show")) return;
+  if (
+    passcode.classList.contains("show") ||
+    homeScreen.classList.contains("show")
+  ) return;
 
   touchStartY = event.changedTouches[0].clientY;
 }, { passive: true });
@@ -950,6 +879,7 @@ phone.addEventListener("touchstart", event => {
 phone.addEventListener("touchend", event => {
   if (
     passcode.classList.contains("show") ||
+    homeScreen.classList.contains("show") ||
     touchStartY === null
   ) return;
 
@@ -958,7 +888,7 @@ phone.addEventListener("touchend", event => {
 
   if (
     distance > 55 &&
-    touchStartY > window.innerHeight * 0.55
+    touchStartY > window.innerHeight * 0.45
   ) {
     openPasscode();
   }
@@ -966,35 +896,7 @@ phone.addEventListener("touchend", event => {
   touchStartY = null;
 }, { passive: true });
 
-/* MOUSE SWIPE TESTING */
-let mouseStartY = null;
-
-phone.addEventListener("pointerdown", event => {
-  if (event.pointerType === "mouse") {
-    mouseStartY = event.clientY;
-  }
-});
-
-phone.addEventListener("pointerup", event => {
-  if (
-    event.pointerType === "mouse" &&
-    mouseStartY !== null &&
-    !passcode.classList.contains("show")
-  ) {
-    const distance = mouseStartY - event.clientY;
-
-    if (
-      distance > 55 &&
-      mouseStartY > window.innerHeight * 0.55
-    ) {
-      openPasscode();
-    }
-
-    mouseStartY = null;
-  }
-});
-
-/* CHOOSE YOUR OWN WALLPAPER */
+/* WALLPAPER PICKER */
 document.getElementById("wallpaperFile").addEventListener(
   "change",
   event => {
@@ -1010,6 +912,15 @@ document.getElementById("wallpaperFile").addEventListener(
     phone.style.backgroundPosition = "center";
   }
 );
+
+/* DEMO BUTTONS */
+document.getElementById("playButton").onclick = function() {
+  this.textContent = this.textContent === "▶" ? "Ⅱ" : "▶";
+};
+
+document.getElementById("searchButton").onclick = () => {
+  alert("Search is a visual demo.");
+};
 </script>
 </body>
 </html>
