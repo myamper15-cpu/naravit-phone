@@ -316,6 +316,354 @@ html, body {
     height: 64px;
   }
 }
+  
+/* UNLOCKED HOME SCREEN */
+.home-screen {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  color: white;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(65, 59, 48, .12),
+      rgba(100, 92, 74, .18)
+    ),
+    linear-gradient(
+      115deg,
+      #b9ad8b,
+      #777365 48%,
+      #b6ad98 75%,
+      #6b6659
+    );
+}
+
+.home-screen.show {
+  display: block;
+}
+
+/* WIDGETS */
+.widgets {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 92px);
+  left: 6%;
+  right: 6%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+}
+
+.calendar-widget,
+.spotify-widget {
+  height: auto;
+  aspect-ratio: .88;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.calendar-widget {
+  padding: 30px 18px;
+  background: #fff;
+  color: #111;
+}
+
+.calendar-day {
+  color: #f04452;
+  font-size: clamp(13px, 3.5vw, 23px);
+  font-weight: 800;
+}
+
+.calendar-number {
+  margin-top: 2px;
+  font-size: clamp(43px, 9vw, 61px);
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+.calendar-events {
+  margin-top: 35px;
+  color: #85858a;
+  font-size: clamp(15px, 4vw, 24px);
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.spotify-widget {
+  padding: 26px 16px 18px;
+  background: rgba(92, 108, 128, .86);
+  border: 1px solid #ffffff35;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.spotify-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.album-art {
+  width: 68%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #263b50, #9eabb5);
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 60px;
+}
+
+.spotify-logo {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  background: white;
+  color: #5c6878;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.spotify-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.song-title {
+  font-size: clamp(14px, 3.7vw, 22px);
+  font-weight: 750;
+}
+
+.song-artist {
+  margin-top: 5px;
+  font-size: clamp(13px, 3.4vw, 20px);
+  color: #d6d9df;
+  font-weight: 600;
+}
+
+.play-button {
+  width: 49px;
+  height: 49px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: white;
+  color: #596575;
+  font-size: 24px;
+}
+
+/* WIDGET LABELS */
+.widget-labels {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 92px + ( (100vw - 12vw) / 2 ) * .88 + 12px);
+  left: 6%;
+  right: 6%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* APP GRID */
+.app-grid {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 385px);
+  left: 6%;
+  right: 6%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 12px;
+  row-gap: 23px;
+}
+
+.home-app {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: clamp(11px, 3.5vw, 17px);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.app-icon {
+  width: min(100%, 82px);
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 23%;
+  display: grid;
+  place-items: center;
+  font-size: 43px;
+  color: white;
+  box-shadow: 0 2px 5px #0002;
+}
+
+.settings-app {
+  background: linear-gradient(#d8d8df, #777987);
+}
+
+.instagram-app {
+  background: linear-gradient(35deg, #ffd35e, #ff1768, #8529db);
+  font-size: 64px;
+  font-weight: 300;
+}
+
+.photos-app {
+  background: #fff;
+  font-size: 45px;
+}
+
+.facebook-app {
+  background: #0866ff;
+  font-size: 74px;
+  font-weight: 800;
+  align-items: end;
+  line-height: .95;
+}
+
+.music-app {
+  background: linear-gradient(#ff4383, #ed174e);
+  font-size: 55px;
+}
+
+.weather-app {
+  background: linear-gradient(#43b9ff, #0876d8);
+  font-size: 42px;
+}
+
+.clock-app {
+  background: #fff;
+  color: #333;
+  font-size: 45px;
+}
+
+.youtube-app {
+  background: #fff;
+  color: #ff0033;
+  font-size: 43px;
+}
+
+/* SEARCH */
+.search-button {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 122px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 9px 18px;
+  border: 1px solid #ffffff70;
+  border-radius: 24px;
+  background: #ffffff26;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+}
+
+/* DOCK */
+.home-dock {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  left: 4%;
+  right: 4%;
+  height: 94px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ffffff70;
+  border-radius: 35px;
+  background: rgba(220, 215, 198, .30);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+}
+
+.dock-app {
+  width: 25%;
+  max-width: 82px;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 23%;
+  display: grid;
+  place-items: center;
+  font-size: 45px;
+  color: white;
+}
+
+.phone-app,
+.messages-app,
+.facetime-app {
+  background: linear-gradient(#55ed72, #12bd49);
+}
+
+.contacts-app {
+  background: linear-gradient(#eeeee5, #bcbcb1);
+  color: white;
+}
+
+/* SMALLER SCREENS */
+@media (max-height: 750px) {
+  .widgets {
+    top: calc(env(safe-area-inset-top, 0px) + 70px);
+  }
+
+  .calendar-widget {
+    padding: 20px 13px;
+  }
+
+  .spotify-widget {
+    padding: 17px 12px;
+  }
+
+  .calendar-events {
+    margin-top: 20px;
+  }
+
+  .widget-labels {
+    display: none;
+  }
+
+  .app-grid {
+    top: calc(env(safe-area-inset-top, 0px) + 315px);
+    row-gap: 14px;
+  }
+
+  .search-button {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
+  }
+
+  .home-dock {
+    height: 78px;
+  }
+}
+
+/* HOME SCREEN SPACING FIX */
+.calendar-widget,
+.spotify-widget {
+  aspect-ratio: 1 / 1;
+}
+
+.widget-labels {
+  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 12px);
+}
+
+.app-grid {
+  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 60px);
+}
+
 </style>
 </head>
 
@@ -364,6 +712,98 @@ html, body {
   </div>
 
   <div class="home-indicator"></div>
+  
+<!-- UNLOCKED IPHONE HOME SCREEN -->
+<section class="home-screen" id="homeScreen">
+
+  <div class="widgets">
+
+    <!-- CALENDAR WIDGET -->
+    <div class="calendar-widget">
+      <div class="calendar-day" id="calendarDay">MONDAY</div>
+      <div class="calendar-number" id="calendarNumber">26</div>
+      <div class="calendar-events">No Events<br>Today</div>
+    </div>
+
+    <!-- SPOTIFY WIDGET -->
+    <div class="spotify-widget">
+      <div class="spotify-top">
+        <div class="album-art">♪</div>
+        <div class="spotify-logo">≋</div>
+      </div>
+      <div class="spotify-bottom">
+        <div>
+          <div class="song-title">Black Card</div>
+          <div class="song-artist">Phuwin</div>
+        </div>
+        <button class="play-button" id="playButton">▶</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="widget-labels">
+    <span>Calendar</span>
+    <span>Spotify</span>
+  </div>
+
+  <!-- APP ROW 1 -->
+  <div class="app-grid">
+    <div class="home-app">
+      <button class="app-icon settings-app">⚙️</button>
+      <span>Settings</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon instagram-app">◎</button>
+      <span>Instagram</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon photos-app">🌈</button>
+      <span>Photos</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon facebook-app">f</button>
+      <span>Facebook</span>
+    </div>
+
+    <!-- APP ROW 2 -->
+    <div class="home-app">
+      <button class="app-icon music-app">♫</button>
+      <span>Music</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon weather-app">🌤️</button>
+      <span>Weather</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon clock-app">🕒</button>
+      <span>Clock</span>
+    </div>
+
+    <div class="home-app">
+      <button class="app-icon youtube-app">▶</button>
+      <span>YouTube</span>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <button class="search-button">⌕ Search</button>
+
+  <!-- BOTTOM DOCK -->
+  <div class="home-dock">
+    <button class="dock-app phone-app">☎</button>
+    <button class="dock-app messages-app">●</button>
+    <button class="dock-app facetime-app">▣</button>
+    <button class="dock-app contacts-app">👤</button>
+  </div>
+
+</section>
+
 
   <section class="passcode" id="passcode">
     <h2>Enter Passcode</h2>
@@ -444,8 +884,13 @@ function pressDigit(number) {
 
   if (entered.length === 4) {
     if (entered === PASSCODE) {
-      message.textContent = "Unlocked!";
-      setTimeout(closePasscode, 500);
+  message.textContent = "Unlocked!";
+
+  setTimeout(() => {
+    closePasscode();
+    document.getElementById("homeScreen").classList.add("show");
+  }, 400);
+}
     } else {
       message.textContent = "Incorrect passcode";
 
