@@ -850,7 +850,7 @@ button {
         <div class="calendar-events">No Events<br>Today</div>
     </button>
 
-      <div class="spotify-widget">
+      <div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0" style="cursor:pointer;">
         <div class="spotify-top">
           <div class="album-art">♪</div>
           <div class="spotify-logo">≋</div>
@@ -1395,6 +1395,24 @@ document.getElementById("todayCalendar").onclick = () => {
   viewedMonth = new Date();
   renderCalendar();
 };
+
+const spotifyWidget = document.getElementById("spotifyWidget");
+
+const playlistURL =
+  "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=heaGQUV6QXCAL4T745ou_g&utm_source=copy-link&pi=YDpoHpKBSwKGf";
+
+function openBlackCardPlaylist() {
+  window.location.href = playlistURL;
+}
+
+spotifyWidget.addEventListener("click", openBlackCardPlaylist);
+
+spotifyWidget.addEventListener("keydown", function(event) {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openBlackCardPlaylist();
+  }
+});
 
 </script>
 </body>
