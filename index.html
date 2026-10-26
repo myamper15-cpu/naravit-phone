@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,1313 +7,309 @@
 <title>My iPhone</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;background:#171717;color:white}
+button,input{font:inherit}
+button{cursor:pointer}
+.phone{position:relative;width:100%;height:100dvh;max-width:430px;margin:auto;overflow:hidden;isolation:isolate;background:#777365}
+.wallpaper{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#c6b98c,#777365,#b9ad8b);background-position:center;background-size:cover}
+.status{position:absolute;top:calc(env(safe-area-inset-top) + 22px);left:7%;right:7%;display:flex;justify-content:space-between;z-index:3;font-weight:700;font-size:19px;pointer-events:none}
+.status-right{display:flex;gap:7px;align-items:center}
+.battery{background:white;color:#222;border-radius:6px;padding:2px 5px;font-size:13px}
+.lock-ui{position:absolute;inset:0;z-index:2}
+.lock-icon{position:absolute;top:calc(env(safe-area-inset-top) + 90px);left:50%;transform:translateX(-50%);font-size:25px}
+.lock-date{position:absolute;top:calc(env(safe-area-inset-top) + 165px);width:100%;text-align:center;font-size:25px;font-weight:700;text-shadow:0 1px 5px #0005}
+.lock-clock{position:absolute;top:calc(env(safe-area-inset-top) + 200px);width:100%;text-align:center;font-size:clamp(105px,29vw,150px);line-height:1;letter-spacing:-6px;font-weight:300;white-space:nowrap;color:#ffffff65;-webkit-text-stroke:1px #ffffff70;font-variant-numeric:tabular-nums}
+.lock-message{position:absolute;top:calc(env(safe-area-inset-top) + 125px);width:100%;text-align:center;font-size:18px;font-weight:700;text-shadow:0 2px 5px #0005;pointer-events:none}
+.lock-bottom{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 45px);left:0;right:0;padding:0 12%;display:flex;justify-content:space-between;align-items:center}
+.round-button{width:65px;height:65px;border:1px solid #ffffff80;border-radius:50%;background:#ffffff35;color:white;font-size:28px;backdrop-filter:blur(15px)}
+.focus-label{font-size:clamp(11px,3.5vw,17px);font-weight:700;white-space:nowrap}
+.indicator{position:absolute;z-index:100;bottom:calc(env(safe-area-inset-bottom) + 8px);left:50%;transform:translateX(-50%);width:135px;height:5px;border-radius:20px;background:white;pointer-events:none}
+.passcode{position:absolute;inset:0;z-index:20;display:none;text-align:center;padding:calc(env(safe-area-inset-top) + 75px) 20px 30px;background:#191919d9;backdrop-filter:blur(28px)}
+.passcode.show{display:block}
+.passcode h2{font-size:23px;font-weight:500;margin-bottom:25px}
+.dots{display:flex;justify-content:center;gap:17px;margin:25px 0}
+.dot{width:11px;height:11px;border:1px solid white;border-radius:50%}
+.dot.filled{background:white}
+.keypad{display:grid;grid-template-columns:repeat(3,68px);gap:12px;justify-content:center;margin:25px auto}
+.key{width:68px;height:68px;border:1px solid #ffffff40;border-radius:50%;background:#ffffff25;color:white;font-size:28px}
+.pass-message{height:24px;font-size:14px}
+.cancel{border:0;background:transparent;color:white;padding:12px 25px}
+
+/* HOME SCREEN */
+.home-screen{position:absolute;inset:0;z-index:4;display:none;overflow:hidden;background:transparent}
+.home-screen.show{display:block}
+.owner-button{position:absolute;z-index:8;top:calc(env(safe-area-inset-top) + 12px);right:12px;padding:7px 11px;border:1px solid #ffffff60;border-radius:20px;background:#1118;color:white;font-size:11px}
+.widgets{position:absolute;top:calc(env(safe-area-inset-top) + 92px);left:6%;right:6%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5%}
+.calendar-widget,.spotify-widget{aspect-ratio:1;min-width:0;border-radius:28px;overflow:hidden}
+.calendar-widget{width:100%;padding:20px 14px;border:0;background:white;color:#111;text-align:left}
+.calendar-day{color:#f04452;font-size:clamp(12px,3.5vw,20px);font-weight:800}
+.calendar-number{font-size:clamp(43px,9vw,61px);line-height:1.1;margin-top:3px}
+.calendar-events{margin-top:22px;color:#85858a;font-size:clamp(13px,3.8vw,21px);line-height:1.25;font-weight:600}
+.spotify-widget{padding:16px 12px;background:#526277ed;border:1px solid #ffffff35;display:flex;flex-direction:column;justify-content:space-between;backdrop-filter:blur(16px)}
+.spotify-top{display:flex;justify-content:space-between;gap:7px}
+.album-art{width:68%;aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,#263b50,#aab3bd);display:grid;place-items:center;font-size:43px}
+.spotify-logo{width:32px;height:32px;flex-shrink:0;border-radius:50%;background:white;color:#536174;display:grid;place-items:center;font-size:23px}
+.spotify-bottom{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.song-title{font-size:clamp(12px,3.5vw,20px);font-weight:750}
+.song-artist{margin-top:5px;font-size:clamp(12px,3.2vw,18px);color:#d6d9df}
+.play-button{width:42px;height:42px;flex-shrink:0;border:0;border-radius:50%;background:white;color:#596575;font-size:20px}
+.widget-labels{position:absolute;top:calc(env(safe-area-inset-top) + 92px + 41vw + 12px);left:6%;right:6%;display:grid;grid-template-columns:1fr 1fr;text-align:center;font-weight:700}
+.app-grid{position:absolute;top:calc(env(safe-area-inset-top) + 92px + 41vw + 55px);left:6%;right:6%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:19px 12px}
+.home-app{min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:clamp(10px,3.3vw,16px);font-weight:650;text-shadow:0 1px 4px #0005;white-space:nowrap}
+.app-icon{width:min(100%,75px);aspect-ratio:1;border:0;border-radius:23%;display:grid;place-items:center;font-size:38px;color:white;box-shadow:0 2px 5px #0002}
+.settings-app{background:linear-gradient(#d8d8df,#777987)}
+.instagram-app{background:linear-gradient(35deg,#ffd35e,#ff1768,#8529db);font-size:53px}
+.photos-app{background:white;font-size:38px}
+.facebook-app{background:#0866ff;font-size:65px;font-weight:800}
+.music-app{background:linear-gradient(#ff4383,#ed174e);font-size:48px}
+.weather-app{background:linear-gradient(#43b9ff,#0876d8);font-size:36px}
+.clock-app{background:white;color:#333;font-size:38px}
+.youtube-app{background:white;color:#ff0033;font-size:36px}
+.search-button{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 118px);left:50%;transform:translateX(-50%);padding:9px 18px;border:1px solid #ffffff70;border-radius:24px;background:#ffffff30;color:white;font-size:14px;backdrop-filter:blur(12px)}
+.home-dock{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 20px);left:4%;right:4%;height:85px;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:9px;border:1px solid #ffffff70;border-radius:32px;background:#dcd7c650;backdrop-filter:blur(25px)}
+.dock-app{width:25%;max-width:75px;aspect-ratio:1;border:0;border-radius:23%;display:grid;place-items:center;font-size:38px;color:white}
+.phone-app,.messages-app,.facetime-app{background:linear-gradient(#55ed72,#12bd49)}
+.contacts-app{background:linear-gradient(#eeeee5,#bcbcb1)}
+
+/* OWNER WALLPAPER CONTROLS */
+.owner-panel{position:absolute;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:25px;background:#111c;backdrop-filter:blur(20px)}
+.owner-panel.show{display:flex}
+.owner-card{width:100%;max-width:320px;padding:24px;border:1px solid #ffffff40;border-radius:24px;background:#292929f2;text-align:center}
+.owner-card h2{margin-top:0;font-size:22px}
+.owner-card p{color:#ddd;font-size:14px;line-height:1.5}
+.owner-input{width:100%;padding:12px;border:1px solid #ffffff50;border-radius:12px;background:#ffffff15;color:white;text-align:center;font-size:18px;margin:8px 0 12px}
+.owner-action{width:100%;padding:12px;margin-top:8px;border:0;border-radius:12px;background:white;color:#222;font-weight:700}
+.owner-cancel{background:#ffffff20;color:white}
+#wallpaperFile{display:none}
+
+/* CALENDAR APP */
+.calendar-app{position:absolute;inset:0;z-index:40;display:none;overflow-y:auto;background:#f7f7f9;color:#171717;padding:calc(env(safe-area-inset-top) + 25px) 20px 50px}
+.calendar-app.show{display:block}
+.toolbar{display:flex;justify-content:space-between}
+.toolbar button,.month-nav button{border:0;background:transparent;color:#087aff;font-size:17px;padding:8px}
+.calendar-title{font-size:30px;margin:25px 0 18px}
+.month-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.month-name{font-size:19px;font-weight:700}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;gap:8px 0}
+.weekday{color:#777;font-size:12px;padding:8px 0}
+.date-cell{height:39px;border:0;border-radius:50%;background:transparent;color:#171717;font-size:15px}
+.date-cell.today{background:#087aff;color:white;font-weight:700}
+.date-cell.selected{outline:2px solid #087aff;outline-offset:-2px}
+.agenda{border-top:1px solid #ddd;margin-top:25px;padding-top:18px}
+.agenda p{color:#777}
+
+/* IPHONE-STYLE SETTINGS */
+.iphone-settings{position:absolute;inset:0;z-index:45;display:none;overflow-y:auto;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top) + 18px) 16px 65px;background:#f2f2f7;color:#17171b}
+.iphone-settings.show{display:block}
+.settings-header{display:flex;align-items:center;min-height:48px}
+.settings-header button,.detail button{border:0;background:transparent;color:#087aff;font-size:16px;padding:8px 0}
+.settings-header h1{font-size:34px;margin:8px 0 14px 18px;font-weight:750}
+.settings-search{padding:11px 13px;margin:4px 0 20px;background:#e3e3e8;color:#77777f;border-radius:12px;font-size:16px}
+.settings-card{background:white;border-radius:16px;margin-bottom:20px;overflow:hidden}
+.apple-account{display:flex;align-items:center;gap:12px;padding:16px 13px}
+.avatar{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#d9d9df;font-size:26px}
+.account-info{flex:1;display:flex;flex-direction:column;gap:4px}
+.account-info strong{font-size:17px}
+.account-info span{font-size:12px;color:#77777f}
+.settings-row{width:100%;min-height:55px;padding:8px 13px;display:flex;align-items:center;gap:12px;border:0;background:white;color:#17171b;text-align:left;font-size:16px}
+.settings-row:active{background:#e5e5ea}
+.setting-icon{width:29px;height:29px;flex-shrink:0;display:grid;place-items:center;border-radius:7px;background:#8e8e93;color:white;font-size:19px}
+.airplane{background:#ff9f0a}
+.wifi-icon,.bluetooth-icon,.accessibility-icon,.privacy-icon{background:#087aff}
+.mobile-icon,.battery-icon{background:#34c759}
+.wallpaper-icon{background:#bf65d9}
+.notifications-icon{background:#ff453a}
+.sounds-icon{background:#ff375f}
+.setting-value{margin-left:auto;color:#8e8e93;font-size:15px}
+.chevron{margin-left:auto;color:#b6b6bd;font-size:25px}
+.toggle{margin-left:auto;width:42px;height:25px;border-radius:20px;background:#34c759;position:relative}
+.toggle:after{content:"";position:absolute;width:21px;height:21px;top:2px;right:2px;border-radius:50%;background:white}
+.detail{display:none;position:absolute;inset:0;z-index:5;overflow-y:auto;background:#f2f2f7;padding:calc(env(safe-area-inset-top) + 20px) 20px 55px}
+.detail.show{display:block}
+.detail h2{font-size:30px;margin-top:25px}
+.detail p{color:#66666e;line-height:1.6;font-size:16px}
+..settings-indicator {
+  display: none !important;
+}
+@media(max-height:750px){
+.widgets{top:calc(env(safe-area-inset-top) + 65px)}
+.calendar-widget{padding:15px 11px}
+.spotify-widget{padding:12px 9px}
+.calendar-events{margin-top:14px}
+.widget-labels{display:none}
+.app-grid{top:calc(env(safe-area-inset-top) + 65px + 41vw + 18px);gap:12px}
+.home-dock{height:75px}
+.search-button{bottom:calc(env(safe-area-inset-bottom) + 94px)}
+.app-icon{font-size:31px}
+.instagram-app{font-size:45px}
+.facebook-app{font-size:54px}
+.keypad{gap:8px;margin:15px auto}
+.key{width:61px;height:61px}
+.passcode{padding-top:calc(env(safe-area-inset-top) + 50px)}
 }
-
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #171717;
-  color: white;
-  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-}
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.phone {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  max-width: 430px;
-  margin: auto;
-  overflow: hidden;
-  isolation: isolate;
-  background: #777365;
-  touch-action: pan-x pan-y;
-}
-
-/* SHARED WALLPAPER LAYER */
-.wallpaper {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(#0002, #0002),
-    linear-gradient(135deg, #c6b98c, #777365, #b9ad8b);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* STATUS BAR */
-.status-bar {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 24px);
-  left: 7%;
-  right: 7%;
-  z-index: 3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 19px;
-  font-weight: 700;
-  pointer-events: none;
-}
-
-.status-right {
-  display: flex;
-  gap: 7px;
-  align-items: center;
-}
-
-.battery {
-  padding: 2px 5px;
-  border-radius: 7px;
-  color: #222;
-  background: white;
-  font-size: 13px;
-}
-
-/* LOCK SCREEN ELEMENTS */
-.lock-ui {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
-
-.lock-icon {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 92px);
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 25px;
-}
-
-.lock-date {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 169px);
-  width: 100%;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 700;
-  text-shadow: 0 1px 5px #0004;
-}
-
-.lock-clock {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 205px);
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: clamp(105px, 29vw, 150px);
-  line-height: 1;
-  letter-spacing: -6px;
-  font-weight: 300;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  color: #ffffff65;
-  -webkit-text-stroke: 1px #ffffff70;
-  text-shadow: 0 2px 3px #0002;
-}
-
-.lock-message {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 125px);
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 750;
-  text-shadow: 0 2px 5px #0005;
-  pointer-events: none;
-}
-
-.lock-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 45px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 12%;
-}
-
-.round-button {
-  width: 72px;
-  height: 72px;
-  border: 1px solid #ffffff80;
-  border-radius: 50%;
-  color: white;
-  background: #ffffff35;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  font-size: 30px;
-  display: grid;
-  place-items: center;
-}
-
-.focus-label {
-  font-size: clamp(12px, 3.6vw, 19px);
-  font-weight: 700;
-  white-space: nowrap;
-  text-shadow: 0 1px 4px #0005;
-}
-
-.swipe-hint {
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 125px);
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 650;
-  text-shadow: 0 1px 5px #0006;
-}
-
-/* HOME INDICATOR */
-.home-indicator {
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 135px;
-  height: 5px;
-  border-radius: 20px;
-  background: white;
-  z-index: 20;
-}
-
-/* PASSCODE */
-.passcode {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: none;
-  text-align: center;
-  padding: calc(env(safe-area-inset-top, 0px) + 85px) 20px 35px;
-  background: #191919c9;
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-}
-
-.passcode.show {
-  display: block;
-}
-
-.passcode h2 {
-  font-size: 23px;
-  font-weight: 500;
-  margin: 0 0 28px;
-}
-
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 17px;
-  margin: 28px 0;
-}
-
-.dot {
-  width: 11px;
-  height: 11px;
-  border: 1px solid white;
-  border-radius: 50%;
-}
-
-.dot.filled {
-  background: white;
-}
-
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 70px);
-  gap: 12px;
-  justify-content: center;
-  margin: 25px auto;
-}
-
-.key {
-  width: 70px;
-  height: 70px;
-  border: 1px solid #ffffff35;
-  border-radius: 50%;
-  background: #ffffff25;
-  color: white;
-  font-size: 29px;
-}
-
-.pass-message {
-  height: 22px;
-  font-size: 14px;
-}
-
-.cancel {
-  color: white;
-  border: 0;
-  background: transparent;
-  padding: 12px 25px;
-}
-
-/* HOME SCREEN: PHOTO ONLY BEHIND THE CONTENT */
-.home-screen {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: none;
-  overflow: hidden;
-  background: transparent;
-  color: white;
-}
-
-.home-screen.show {
-  display: block;
-}
-
-/* WIDGETS */
-.widgets {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 92px);
-  left: 6%;
-  right: 6%;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 5%;
-}
-
-.calendar-widget,
-.spotify-widget {
-  aspect-ratio: 1 / 1;
-  min-width: 0;
-  border-radius: 28px;
-  overflow: hidden;
-}
-
-.calendar-widget {
-  padding: 23px 16px;
-  background: #fff;
-  color: #111;
-}
-
-.calendar-day {
-  color: #f04452;
-  font-size: clamp(13px, 3.5vw, 23px);
-  font-weight: 800;
-}
-
-.calendar-number {
-  margin-top: 2px;
-  font-size: clamp(43px, 9vw, 61px);
-  line-height: 1.1;
-  font-weight: 500;
-}
-
-.calendar-events {
-  margin-top: 24px;
-  color: #85858a;
-  font-size: clamp(14px, 3.8vw, 23px);
-  line-height: 1.25;
-  font-weight: 600;
-}
-
-.spotify-widget {
-  padding: 18px 12px 14px;
-  background: rgba(82, 98, 119, .91);
-  border: 1px solid #ffffff35;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.spotify-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 7px;
-}
-
-.album-art {
-  width: 68%;
-  aspect-ratio: 1;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #263b50, #aab3bd);
-  display: grid;
-  place-items: center;
-  font-size: 43px;
-}
-
-.spotify-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: white;
-  color: #536174;
-  display: grid;
-  place-items: center;
-  font-size: 23px;
-}
-
-.spotify-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
-}
-
-.song-title {
-  font-size: clamp(13px, 3.5vw, 21px);
-  font-weight: 750;
-}
-
-.song-artist {
-  margin-top: 5px;
-  font-size: clamp(12px, 3.2vw, 19px);
-  color: #d6d9df;
-  font-weight: 600;
-}
-
-.play-button {
-  width: 43px;
-  height: 43px;
-  flex-shrink: 0;
-  border: 0;
-  border-radius: 50%;
-  background: white;
-  color: #596575;
-  font-size: 21px;
-}
-
-.widget-labels {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 12px);
-  left: 6%;
-  right: 6%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5%;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-/* APP GRID */
-.app-grid {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 92px + 41vw + 60px);
-  left: 6%;
-  right: 6%;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 12px;
-  row-gap: 20px;
-}
-
-.home-app {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  font-size: clamp(10px, 3.4vw, 17px);
-  font-weight: 650;
-  text-shadow: 0 1px 4px #0004;
-  white-space: nowrap;
-}
-
-.app-icon {
-  width: min(100%, 82px);
-  aspect-ratio: 1;
-  border: 0;
-  border-radius: 23%;
-  display: grid;
-  place-items: center;
-  font-size: 39px;
-  color: white;
-  box-shadow: 0 2px 5px #0002;
-}
-
-.settings-app {
-  background: linear-gradient(#d8d8df, #777987);
-}
-
-.instagram-app {
-  background: linear-gradient(35deg, #ffd35e, #ff1768, #8529db);
-  font-size: 58px;
-}
-
-.photos-app {
-  background: white;
-  font-size: 40px;
-}
-
-.facebook-app {
-  background: #0866ff;
-  font-size: 69px;
-  font-weight: 800;
-}
-
-.music-app {
-  background: linear-gradient(#ff4383, #ed174e);
-  font-size: 50px;
-}
-
-.weather-app {
-  background: linear-gradient(#43b9ff, #0876d8);
-  font-size: 37px;
-}
-
-.clock-app {
-  background: white;
-  color: #333;
-  font-size: 40px;
-}
-
-.youtube-app {
-  background: white;
-  color: #ff0033;
-  font-size: 38px;
-}
-
-/* SEARCH */
-.search-button {
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 122px);
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 9px 18px;
-  border: 1px solid #ffffff70;
-  border-radius: 24px;
-  background: #ffffff30;
-  color: white;
-  font-size: 14px;
-  font-weight: 650;
-  backdrop-filter: blur(12px);
-}
-
-/* DOCK */
-.home-dock {
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
-  left: 4%;
-  right: 4%;
-  height: 90px;
-  padding: 11px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid #ffffff70;
-  border-radius: 35px;
-  background: rgba(220, 215, 198, .38);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-}
-
-.dock-app {
-  width: 25%;
-  max-width: 82px;
-  aspect-ratio: 1;
-  border: 0;
-  border-radius: 23%;
-  display: grid;
-  place-items: center;
-  font-size: 41px;
-  color: white;
-}
-
-.phone-app,
-.messages-app,
-.facetime-app {
-  background: linear-gradient(#55ed72, #12bd49);
-}
-
-.contacts-app {
-  background: linear-gradient(#eeeee5, #bcbcb1);
-}
-
-/* OWNER CONTROLS */
-.owner-button {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 12px);
-  right: 12px;
-  z-index: 8;
-  border: 1px solid #ffffff60;
-  border-radius: 20px;
-  padding: 7px 11px;
-  background: #1118;
-  color: white;
-  font-size: 11px;
-}
-
-.owner-panel {
-  position: absolute;
-  inset: 0;
-  z-index: 30;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-  background: #111c;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.owner-panel.show {
-  display: flex;
-}
-
-.owner-card {
-  width: 100%;
-  max-width: 320px;
-  padding: 24px;
-  border: 1px solid #ffffff40;
-  border-radius: 24px;
-  background: #292929f2;
-  text-align: center;
-}
-
-.owner-card h2 {
-  margin-top: 0;
-  font-size: 22px;
-}
-
-.owner-card p {
-  color: #ddd;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.owner-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ffffff50;
-  border-radius: 12px;
-  background: #ffffff15;
-  color: white;
-  text-align: center;
-  font-size: 18px;
-  margin: 8px 0 12px;
-}
-
-.owner-action {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border: 0;
-  border-radius: 12px;
-  background: #fff;
-  color: #222;
-  font-weight: 700;
-}
-
-.owner-cancel {
-  background: #ffffff20;
-  color: white;
-}
-
-#wallpaperFile {
-  display: none;
-}
-
-@media (max-height: 750px) {
-  .widgets {
-    top: calc(env(safe-area-inset-top, 0px) + 65px);
-  }
-
-  .calendar-widget {
-    padding: 16px 12px;
-  }
-
-  .spotify-widget {
-    padding: 13px 10px;
-  }
-
-  .calendar-events {
-    margin-top: 15px;
-  }
-
-  .widget-labels {
-    display: none;
-  }
-
-  .app-grid {
-    top: calc(env(safe-area-inset-top, 0px) + 65px + 41vw + 18px);
-    row-gap: 12px;
-  }
-
-  .home-dock {
-    height: 78px;
-  }
-
-  .search-button {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
-  }
-
-  .app-icon {
-    font-size: 32px;
-  }
-
-  .instagram-app {
-    font-size: 48px;
-  }
-
-  .facebook-app {
-    font-size: 56px;
-  }
-
-  .passcode {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
-  }
-
-  .keypad {
-    gap: 8px;
-    margin: 15px auto;
-  }
-
-  .key {
-    width: 62px;
-    height: 62px;
-  }
-}
-  
-/* NORMAL CALENDAR APP */
-.calendar-widget {
-  width: 100%;
-  text-align: left;
-  font-family: inherit;
-  border: 0;
-  cursor: pointer;
-}
-
-.calendar-app-screen {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  display: none;
-  overflow-y: auto;
-  background: #f7f7f9;
-  color: #171717;
-  padding: calc(env(safe-area-inset-top, 0px) + 35px) 20px 40px;
-}
-
-.calendar-app-screen.show {
-  display: block;
-}
-
-.calendar-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.calendar-toolbar button,
-.calendar-nav button {
-  border: 0;
-  background: transparent;
-  color: #087aff;
-  font-size: 17px;
-  padding: 8px;
-}
-
-.calendar-title {
-  font-size: 30px;
-  font-weight: 750;
-  margin: 24px 0 18px;
-}
-
-.calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.calendar-month {
-  font-size: 19px;
-  font-weight: 700;
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  text-align: center;
-  gap: 8px 0;
-}
-
-.calendar-weekday {
-  color: #777;
-  font-size: 12px;
-  padding: 8px 0;
-}
-
-.calendar-date {
-  height: 39px;
-  display: grid;
-  place-items: center;
-  font-size: 15px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: #171717;
-}
-
-.calendar-date.today {
-  background: #087aff;
-  color: white;
-  font-weight: 700;
-}
-
-.calendar-date.selected {
-  outline: 2px solid #087aff;
-  outline-offset: -2px;
-}
-
-.calendar-agenda {
-  border-top: 1px solid #ddd;
-  margin-top: 25px;
-  padding-top: 18px;
-}
-
-.calendar-agenda h3 {
-  font-size: 19px;
-}
-
-.calendar-agenda p {
-  color: #777;
-  font-size: 15px;
-}
-
-.calendar-app-screen .home-indicator {
-  background: #111;
-}
-
-/* IPHONE SETTINGS APPEARANCE */
-.iphone-settings {
-  position: absolute;
-  inset: 0;
-  z-index: 45;
-  display: none;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: calc(env(safe-area-inset-top, 0px) + 18px) 16px 45px;
-  background: #f2f2f7;
-  color: #17171b;
-  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-}
-
-.iphone-settings.show {
-  display: block;
-}
-
-.settings-header {
-  display: flex;
-  align-items: center;
-  min-height: 48px;
-}
-
-.settings-header button,
-.settings-detail > button {
-  border: 0;
-  background: transparent;
-  color: #087aff;
-  font-size: 16px;
-  padding: 8px 0;
-}
-
-.settings-header h1 {
-  font-size: 34px;
-  margin: 8px 0 14px 18px;
-  font-weight: 750;
-}
-
-.settings-search {
-  padding: 11px 13px;
-  margin: 4px 0 20px;
-  background: #e3e3e8;
-  color: #77777f;
-  border-radius: 12px;
-  font-size: 16px;
-}
-
-.settings-search span {
-  font-size: 22px;
-  margin-right: 8px;
-}
-
-.settings-card {
-  background: #fff;
-  border-radius: 14px;
-  margin-bottom: 20px;
-  overflow: hidden;
-}
-
-.apple-account {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 13px;
-}
-
-.apple-avatar {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #d9d9df;
-  font-size: 26px;
-}
-
-.account-info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.account-info strong {
-  font-size: 17px;
-}
-
-.account-info span {
-  font-size: 12px;
-  color: #77777f;
-}
-
-.settings-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  min-height: 55px;
-  padding: 8px 13px;
-  border: 0;
-  background: white;
-  color: #17171b;
-  text-align: left;
-  font-family: inherit;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.settings-row + .settings-row::before {
-  content: "";
-  position: absolute;
-}
-
-.settings-row:active {
-  background: #e5e5ea;
-}
-
-.setting-icon {
-  width: 29px;
-  height: 29px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 7px;
-  background: #8e8e93;
-  color: white;
-  font-size: 19px;
-}
-
-.airplane { background: #ff9f0a; }
-.wifi-icon { background: #087aff; }
-.bluetooth-icon { background: #087aff; }
-.mobile-icon { background: #34c759; }
-.battery-icon { background: #34c759; }
-.general-icon { background: #8e8e93; }
-.accessibility-icon { background: #087aff; }
-.display-icon { background: #777780; }
-.wallpaper-icon { background: #bf65d9; }
-.notifications-icon { background: #ff453a; }
-.sounds-icon { background: #ff375f; }
-.privacy-icon { background: #087aff; }
-
-.settings-chevron {
-  margin-left: auto;
-  color: #b6b6bd;
-  font-size: 25px;
-}
-
-.setting-value {
-  margin-left: auto;
-  color: #8e8e93;
-  font-size: 15px;
-}
-
-.settings-toggle {
-  margin-left: auto;
-  width: 42px;
-  height: 25px;
-  border-radius: 20px;
-  background: #34c759;
-  position: relative;
-}
-
-.settings-toggle::after {
-  content: "";
-  position: absolute;
-  width: 21px;
-  height: 21px;
-  top: 2px;
-  right: 2px;
-  border-radius: 50%;
-  background: white;
-}
-
-.settings-detail {
-  display: none;
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  background: #f2f2f7;
-  padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 50px;
-}
-
-.settings-detail.show {
-  display: block;
-}
-
-.settings-detail h2 {
-  font-size: 30px;
-  margin-top: 25px;
-}
-
-.settings-detail p {
-  color: #66666e;
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-.settings-indicator {
-  background: #17171b;
-}
-
 </style>
 </head>
 
 <body>
 <main class="phone" id="phone">
 
-  <!-- ONE WALLPAPER FOR BOTH SCREENS -->
-  <div class="wallpaper" id="wallpaper"></div>
+<div class="wallpaper" id="wallpaper"></div>
 
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <span id="statusTime">9:41 ☾</span>
-    <span class="status-right">
-      <span>▂▄▆</span>
-      <span>◉</span>
-      <span class="battery">33</span>
-    </span>
+<div class="status">
+  <span id="statusTime">9:41 ☾</span>
+  <span class="status-right"><span>▂▄▆</span><span>◉</span><span class="battery">33</span></span>
+</div>
+
+<section class="lock-ui" id="lockUI">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-date" id="lockDate">Mon Oct 26</div>
+  <div class="lock-clock" id="lockClock">9:41</div>
+  <div class="lock-message">Swipe up to unlock</div>
+  <div class="lock-bottom">
+    <button class="round-button" id="flashlight" type="button">🔦</button>
+    <div class="focus-label">☾ Do Not Disturb</div>
+    <button class="round-button" id="camera" type="button">📷</button>
   </div>
-
-  <!-- LOCK SCREEN -->
-  <section class="lock-ui" id="lockUI">
-    <div class="lock-icon">🔒</div>
-    <div class="lock-date" id="lockDate">Mon Oct 26</div>
-    <div class="lock-clock" id="lockClock">9:41</div>
-
-    <div class="lock-message">Swipe up to unlock</div>
-
-    <div class="lock-bottom">
-      <button class="round-button" id="flashlight">🔦</button>
-      <div class="focus-label">☾ Do Not Disturb</div>
-      <button class="round-button" id="camera">📷</button>
-    </div>
-  </section>
-
-  <!-- HOME SCREEN -->
-  <section class="home-screen" id="homeScreen">
-
-    <button class="owner-button" id="ownerButton">
-      Owner settings
-    </button>
-
-    <div class="widgets">
-      <button class="calendar-widget" id="openCalendar" type="button">
-        <div class="calendar-day" id="calendarDay">MONDAY</div>
-        <div class="calendar-number" id="calendarNumber">26</div>
-        <div class="calendar-events">No Events<br>Today</div>
-    </button>
-
-      <div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0" style="cursor:pointer;">
-        <div class="spotify-top">
-          <div class="album-art">♪</div>
-          <div class="spotify-logo">≋</div>
-        </div>
-
-        <div class="spotify-bottom">
-          <div>
-            <div class="song-title">Black Card</div>
-            <div class="song-artist">Phuwin</div>
-          </div>
-          <button class="play-button" id="playButton">▶</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="widget-labels">
-      <span>Calendar</span>
-      <span>Spotify</span>
-    </div>
-
-    <div class="app-grid">
-      <div class="home-app">
-        <button class="app-icon settings-app">⚙️</button>
-        <span>Settings</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon instagram-app">◎</button>
-        <span>Instagram</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon photos-app">🌈</button>
-        <span>Photos</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon facebook-app">f</button>
-        <span>Facebook</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon music-app">♫</button>
-        <span>Music</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon weather-app">🌤️</button>
-        <span>Weather</span>
-      </div>
-
-      <div class="home-app">
-    <button class="app-icon settings-app" id="openSettings">
-  ⚙️
-</button>
-        <span>Clock</span>
-      </div>
-
-      <div class="home-app">
-        <button class="app-icon youtube-app">▶</button>
-        <span>YouTube</span>
-      </div>
-    </div>
-
-    <button class="search-button" id="searchButton">⌕ Search</button>
-
-    <div class="home-dock">
-      <button class="dock-app phone-app">☎</button>
-      <button class="dock-app messages-app">●</button>
-      <button class="dock-app facetime-app">▣</button>
-      <button class="dock-app contacts-app">👤</button>
-    </div>
-  </section>
-
-  <!-- PASSCODE SCREEN -->
-  <section class="passcode" id="passcode">
-    <h2>Enter Passcode</h2>
-    <div class="dots" id="dots"></div>
-    <div class="pass-message" id="passMessage"></div>
-    <div class="keypad" id="keypad"></div>
-    <button class="cancel" id="cancelButton">Cancel</button>
-  </section>
-
-  <!-- OWNER WALLPAPER SETTINGS -->
-  <section class="owner-panel" id="ownerPanel">
-    <div class="owner-card">
-      <div id="ownerLogin">
-        <h2>Owner Access</h2>
-        <p>Enter your owner PIN to change the wallpaper.</p>
-        <input
-          class="owner-input"
-          id="ownerPin"
-          type="password"
-          inputmode="numeric"
-          maxlength="12"
-          placeholder="Owner PIN"
-        >
-        <p id="ownerMessage"></p>
-        <button class="owner-action" id="verifyOwner">Continue</button>
-        <button class="owner-action owner-cancel" id="closeOwner">Cancel</button>
-      </div>
-
-      <div id="ownerOptions" hidden>
-        <h2>Wallpaper Settings</h2>
-        <p>Choose a new photo for both screens.</p>
-        <button class="owner-action" id="chooseWallpaper">
-          Choose photo
-        </button>
-        <button class="owner-action owner-cancel" id="doneOwner">
-          Done
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <input id="wallpaperFile" type="file" accept="image/*">
-
-  <div class="home-indicator" id="homeIndicator"></div>
-
-<section class="calendar-app-screen" id="calendarApp">
-  <div class="calendar-toolbar">
-    <button id="closeCalendar">‹ Home</button>
-    <button id="todayCalendar">Today</button>
-  </div>
-
-  <h1 class="calendar-title">Calendar</h1>
-
-  <div class="calendar-nav">
-    <button id="previousMonth">‹</button>
-    <div class="calendar-month" id="calendarMonthTitle"></div>
-    <button id="nextMonth">›</button>
-  </div>
-
-  <div class="calendar-grid" id="calendarGrid"></div>
-
-  <div class="calendar-agenda">
-    <h3 id="selectedDateTitle">Today</h3>
-    <p>No Events</p>
-  </div>
-
-  <div class="home-indicator"></div>
 </section>
 
-<!-- IPHONE SETTINGS SCREEN -->
-<section class="iphone-settings" id="iphoneSettings">
+<section class="home-screen" id="homeScreen">
+  <button class="owner-button" id="ownerButton" type="button">Owner settings</button>
 
+  <div class="widgets">
+    <button class="calendar-widget" id="openCalendar" type="button">
+      <div class="calendar-day" id="calendarDay">MONDAY</div>
+      <div class="calendar-number" id="calendarNumber">26</div>
+      <div class="calendar-events">No Events<br>Today</div>
+    </button>
+
+    <div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0">
+      <div class="spotify-top">
+        <div class="album-art">♪</div>
+        <div class="spotify-logo">≋</div>
+      </div>
+      <div class="spotify-bottom">
+        <div><div class="song-title">Black Card</div><div class="song-artist">Phuwin</div></div>
+        <button class="play-button" id="playButton" type="button">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget-labels"><span>Calendar</span><span>Spotify</span></div>
+
+  <div class="app-grid">
+    <div class="home-app"><button class="app-icon settings-app" id="openSettings" type="button">⚙️</button><span>Settings</span></div>
+    <div class="home-app"><button class="app-icon instagram-app" type="button">◎</button><span>Instagram</span></div>
+    <div class="home-app"><button class="app-icon photos-app" type="button">🌈</button><span>Photos</span></div>
+    <div class="home-app"><button class="app-icon facebook-app" type="button">f</button><span>Facebook</span></div>
+    <div class="home-app"><button class="app-icon music-app" type="button">♫</button><span>Music</span></div>
+    <div class="home-app"><button class="app-icon weather-app" type="button">🌤️</button><span>Weather</span></div>
+    <div class="home-app"><button class="app-icon clock-app" type="button">🕒</button><span>Clock</span></div>
+    <div class="home-app"><button class="app-icon youtube-app" type="button">▶</button><span>YouTube</span></div>
+  </div>
+
+  <button class="search-button" id="searchButton" type="button">⌕ Search</button>
+
+  <div class="home-dock">
+    <button class="dock-app phone-app" type="button">☎</button>
+    <button class="dock-app messages-app" type="button">●</button>
+    <button class="dock-app facetime-app" type="button">▣</button>
+    <button class="dock-app contacts-app" type="button">👤</button>
+  </div>
+</section>
+
+<section class="passcode" id="passcode">
+  <h2>Enter Passcode</h2>
+  <div class="dots" id="dots"></div>
+  <div class="pass-message" id="passMessage"></div>
+  <div class="keypad" id="keypad"></div>
+  <button class="cancel" id="cancelButton" type="button">Cancel</button>
+</section>
+
+<section class="owner-panel" id="ownerPanel">
+  <div class="owner-card">
+    <div id="ownerLogin">
+      <h2>Owner Access</h2>
+      <p>Enter your owner PIN to change the wallpaper.</p>
+      <input class="owner-input" id="ownerPin" type="password" inputmode="numeric" maxlength="12" placeholder="Owner PIN">
+      <p id="ownerMessage"></p>
+      <button class="owner-action" id="verifyOwner" type="button">Continue</button>
+      <button class="owner-action owner-cancel" id="closeOwner" type="button">Cancel</button>
+    </div>
+    <div id="ownerOptions" hidden>
+      <h2>Wallpaper Settings</h2>
+      <p>Choose a new photo for both screens.</p>
+      <button class="owner-action" id="chooseWallpaper" type="button">Choose photo</button>
+      <button class="owner-action owner-cancel" id="doneOwner" type="button">Done</button>
+    </div>
+  </div>
+</section>
+
+<input id="wallpaperFile" type="file" accept="image/*">
+<div class="indicator" id="homeIndicator"></div>
+
+<section class="calendar-app" id="calendarApp">
+  <div class="toolbar">
+    <button id="closeCalendar" type="button">‹ Home</button>
+    <button id="todayCalendar" type="button">Today</button>
+  </div>
+  <h1 class="calendar-title">Calendar</h1>
+  <div class="month-nav">
+    <button id="previousMonth" type="button">‹</button>
+    <div class="month-name" id="monthName"></div>
+    <button id="nextMonth" type="button">›</button>
+  </div>
+  <div class="calendar-grid" id="calendarGrid"></div>
+  <div class="agenda"><h3 id="selectedDateTitle">Today</h3><p>No Events</p></div>
+  <div class="indicator" style="background:#171717"></div>
+</section>
+
+<section class="iphone-settings" id="iphoneSettings">
   <div class="settings-header">
-    <button id="settingsHome">‹ Home</button>
+    <button id="settingsHome" type="button">‹ Home</button>
     <h1>Settings</h1>
   </div>
 
-  <div class="settings-search">
-    <span>⌕</span> Search
-  </div>
+  <div class="settings-search">⌕ Search</div>
 
   <div class="apple-account settings-card">
-    <div class="apple-avatar">👤</div>
-    <div class="account-info">
-      <strong>Apple Account</strong>
-      <span>Apple ID, iCloud, and more</span>
-    </div>
-    <span class="settings-chevron">›</span>
-  </div>
-
-  <div class="settings-card connection-card">
-    <button class="settings-row" data-setting="Airplane Mode">
-      <span class="setting-icon airplane">✈</span>
-      <span>Airplane Mode</span>
-      <span class="settings-toggle"></span>
-    </button>
-
-    <button class="settings-row" data-setting="Wi-Fi">
-      <span class="setting-icon wifi-icon">◔</span>
-      <span>Wi-Fi</span>
-      <span class="setting-value">Wi-Fi</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Bluetooth">
-      <span class="setting-icon bluetooth-icon">ᛒ</span>
-      <span>Bluetooth</span>
-      <span class="setting-value">On</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Mobile Service">
-      <span class="setting-icon mobile-icon">▥</span>
-      <span>Mobile Service</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Battery">
-      <span class="setting-icon battery-icon">▰</span>
-      <span>Battery</span>
-      <span class="settings-chevron">›</span>
-    </button>
+    <div class="avatar">👤</div>
+    <div class="account-info"><strong>Apple Account</strong><span>Apple ID, iCloud, and more</span></div>
+    <span class="chevron">›</span>
   </div>
 
   <div class="settings-card">
-    <button class="settings-row" data-setting="General">
-      <span class="setting-icon general-icon">⚙</span>
-      <span>General</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Accessibility">
-      <span class="setting-icon accessibility-icon">♿</span>
-      <span>Accessibility</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Display & Brightness">
-      <span class="setting-icon display-icon">◐</span>
-      <span>Display & Brightness</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Wallpaper">
-      <span class="setting-icon wallpaper-icon">🌈</span>
-      <span>Wallpaper</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Notifications">
-      <span class="setting-icon notifications-icon">▣</span>
-      <span>Notifications</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Sounds & Haptics">
-      <span class="setting-icon sounds-icon">🔔</span>
-      <span>Sounds & Haptics</span>
-      <span class="settings-chevron">›</span>
-    </button>
-
-    <button class="settings-row" data-setting="Privacy & Security">
-      <span class="setting-icon privacy-icon">✋</span>
-      <span>Privacy & Security</span>
-      <span class="settings-chevron">›</span>
-    </button>
+    <button class="settings-row" data-setting="Airplane Mode" type="button"><span class="setting-icon airplane">✈</span><span>Airplane Mode</span><span class="toggle"></span></button>
+    <button class="settings-row" data-setting="Wi-Fi" type="button"><span class="setting-icon wifi-icon">◔</span><span>Wi-Fi</span><span class="setting-value">Wi-Fi</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Bluetooth" type="button"><span class="setting-icon bluetooth-icon">ᛒ</span><span>Bluetooth</span><span class="setting-value">On</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Mobile Service" type="button"><span class="setting-icon mobile-icon">▥</span><span>Mobile Service</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Battery" type="button"><span class="setting-icon battery-icon">▰</span><span>Battery</span><span class="chevron">›</span></button>
   </div>
 
-  <div class="settings-detail" id="settingsDetail">
-    <button id="settingsBack">‹ Settings</button>
-    <h2 id="settingsDetailTitle">Settings</h2>
-    <p id="settingsDetailText">
-      Select an option to view its settings.
-    </p>
+  <div class="settings-card">
+    <button class="settings-row" data-setting="General" type="button"><span class="setting-icon">⚙</span><span>General</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Accessibility" type="button"><span class="setting-icon accessibility-icon">♿</span><span>Accessibility</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Display & Brightness" type="button"><span class="setting-icon">◐</span><span>Display &amp; Brightness</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Wallpaper" type="button"><span class="setting-icon wallpaper-icon">🌈</span><span>Wallpaper</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Notifications" type="button"><span class="setting-icon notifications-icon">▣</span><span>Notifications</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Sounds & Haptics" type="button"><span class="setting-icon sounds-icon">🔔</span><span>Sounds &amp; Haptics</span><span class="chevron">›</span></button>
+    <button class="settings-row" data-setting="Privacy & Security" type="button"><span class="setting-icon privacy-icon">✋</span><span>Privacy &amp; Security</span><span class="chevron">›</span></button>
   </div>
 
-  <div class="home-indicator settings-indicator"></div>
+  <div class="detail" id="settingsDetail">
+    <button id="settingsBack" type="button">‹ Settings</button>
+    <h2 id="detailTitle">Settings</h2>
+    <p id="detailText">Select an option to view its settings.</p>
+  </div>
+  <div class="indicator settings-indicator"></div>
 </section>
 
 </main>
 
 <script>
-/* CHANGE THESE TWO PINS */
 const PASSCODE = "0705";
 const OWNER_PIN = "2610";
 
-const phone = document.getElementById("phone");
 const wallpaper = document.getElementById("wallpaper");
 const lockUI = document.getElementById("lockUI");
 const homeScreen = document.getElementById("homeScreen");
@@ -1326,61 +321,46 @@ const ownerPanel = document.getElementById("ownerPanel");
 let entered = "";
 let unlocked = false;
 let touchStartY = null;
-let failedOwnerAttempts = 0;
 let ownerVerified = false;
+let failedOwnerAttempts = 0;
 
-/* LIVE CLOCK AND DATE */
+/* CLOCK AND DATE */
 function updateClock() {
   const now = new Date();
 
   document.getElementById("lockClock").textContent =
     now.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: false
+      hour: "numeric", minute: "2-digit", hour12: false
     });
 
   document.getElementById("statusTime").textContent =
     now.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit"
+      hour: "numeric", minute: "2-digit"
     }) + " ☾";
 
   document.getElementById("lockDate").textContent =
     now.toLocaleDateString([], {
-      weekday: "short",
-      month: "short",
-      day: "numeric"
+      weekday: "short", month: "short", day: "numeric"
     });
 
   document.getElementById("calendarDay").textContent =
-    now.toLocaleDateString([], {
-      weekday: "long"
-    }).toUpperCase();
+    now.toLocaleDateString([], {weekday: "long"}).toUpperCase();
 
-  document.getElementById("calendarNumber").textContent =
-    now.getDate();
+  document.getElementById("calendarNumber").textContent = now.getDate();
 }
 
 updateClock();
 setInterval(updateClock, 1000);
 
-/* LOAD THE SAVED WALLPAPER */
+/* LOAD SAVED WALLPAPER */
 try {
-  const savedWallpaper = localStorage.getItem("iphoneWallpaper");
+  const saved = localStorage.getItem("iphoneWallpaper");
+  if (saved) wallpaper.style.backgroundImage = `url("${saved}")`;
+} catch (error) {}
 
-  if (savedWallpaper) {
-    wallpaper.style.backgroundImage =
-      `url("${savedWallpaper}")`;
-  }
-} catch (error) {
-  console.log("Saved wallpaper is unavailable.");
-}
-
-/* PASSCODE DOTS */
+/* PASSCODE */
 function updateDots() {
   dots.innerHTML = "";
-
   for (let i = 0; i < 4; i++) {
     const dot = document.createElement("span");
     dot.className = "dot" + (i < entered.length ? " filled" : "");
@@ -1388,10 +368,8 @@ function updateDots() {
   }
 }
 
-/* SWIPE UP TO OPEN PASSCODE */
 function openPasscode() {
   if (unlocked) return;
-
   entered = "";
   passMessage.textContent = "";
   updateDots();
@@ -1405,16 +383,13 @@ function closePasscode() {
   updateDots();
 }
 
-/* UNLOCK */
 function unlockPhone() {
   unlocked = true;
   closePasscode();
-
   lockUI.style.display = "none";
   homeScreen.classList.add("show");
 }
 
-/* CHECK THE PASSCODE */
 function pressDigit(number) {
   if (entered.length >= 4) return;
 
@@ -1427,7 +402,6 @@ function pressDigit(number) {
       setTimeout(unlockPhone, 300);
     } else {
       passMessage.textContent = "Incorrect passcode";
-
       setTimeout(() => {
         entered = "";
         passMessage.textContent = "";
@@ -1437,11 +411,9 @@ function pressDigit(number) {
   }
 }
 
-/* BUILD KEYPAD */
 const keypad = document.getElementById("keypad");
 
-["1","2","3","4","5","6","7","8","9","","0","⌫"]
-.forEach(number => {
+["1","2","3","4","5","6","7","8","9","","0","⌫"].forEach(number => {
   const button = document.createElement("button");
   button.className = "key";
   button.type = "button";
@@ -1467,51 +439,40 @@ document.getElementById("cancelButton").onclick = closePasscode;
 document.getElementById("camera").onclick = openPasscode;
 document.getElementById("flashlight").onclick = () => {};
 
-/* TOUCH SWIPE */
-phone.addEventListener("touchstart", event => {
-  if (
-    unlocked ||
-    passcode.classList.contains("show") ||
-    ownerPanel.classList.contains("show")
-  ) return;
+/* SWIPE UP */
+const phone = document.getElementById("phone");
 
+phone.addEventListener("touchstart", event => {
+  if (unlocked || passcode.classList.contains("show") ||
+      ownerPanel.classList.contains("show")) return;
   touchStartY = event.changedTouches[0].clientY;
-}, { passive: true });
+}, {passive:true});
 
 phone.addEventListener("touchend", event => {
-  if (
-    unlocked ||
-    passcode.classList.contains("show") ||
-    ownerPanel.classList.contains("show") ||
-    touchStartY === null
-  ) {
+  if (unlocked || passcode.classList.contains("show") ||
+      ownerPanel.classList.contains("show") || touchStartY === null) {
     touchStartY = null;
     return;
   }
 
   const endY = event.changedTouches[0].clientY;
-  const distance = touchStartY - endY;
 
-  if (
-    distance > 45 &&
-    touchStartY > window.innerHeight * 0.35
-  ) {
+  if (touchStartY - endY > 45 &&
+      touchStartY > window.innerHeight * 0.35) {
     openPasscode();
   }
 
   touchStartY = null;
-}, { passive: true });
+}, {passive:true});
 
-/* OWNER-ONLY WALLPAPER SETTINGS */
+/* OWNER-ONLY WALLPAPER */
 document.getElementById("ownerButton").onclick = () => {
   ownerVerified = false;
   failedOwnerAttempts = 0;
-
   document.getElementById("ownerLogin").hidden = false;
   document.getElementById("ownerOptions").hidden = true;
   document.getElementById("ownerPin").value = "";
   document.getElementById("ownerMessage").textContent = "";
-
   ownerPanel.classList.add("show");
 };
 
@@ -1520,23 +481,16 @@ document.getElementById("verifyOwner").onclick = () => {
 
   if (pin === OWNER_PIN) {
     ownerVerified = true;
-    failedOwnerAttempts = 0;
-
     document.getElementById("ownerLogin").hidden = true;
     document.getElementById("ownerOptions").hidden = false;
   } else {
     failedOwnerAttempts++;
-
-    document.getElementById("ownerMessage").textContent =
-      "Incorrect owner PIN.";
-
+    document.getElementById("ownerMessage").textContent = "Incorrect owner PIN.";
     document.getElementById("ownerPin").value = "";
 
     if (failedOwnerAttempts >= 5) {
       document.getElementById("verifyOwner").disabled = true;
-      document.getElementById("ownerMessage").textContent =
-        "Too many attempts. Close and reopen the settings.";
-
+      document.getElementById("ownerMessage").textContent = "Too many attempts. Please wait.";
       setTimeout(() => {
         document.getElementById("verifyOwner").disabled = false;
         failedOwnerAttempts = 0;
@@ -1553,82 +507,85 @@ function closeOwnerPanel() {
 document.getElementById("closeOwner").onclick = closeOwnerPanel;
 document.getElementById("doneOwner").onclick = closeOwnerPanel;
 
-/* SELECT A PHOTO ONLY AFTER OWNER PIN VERIFICATION */
 document.getElementById("chooseWallpaper").onclick = () => {
-  if (!ownerVerified) return;
-  document.getElementById("wallpaperFile").click();
+  if (ownerVerified) document.getElementById("wallpaperFile").click();
 };
 
-document.getElementById("wallpaperFile").addEventListener(
-  "change",
-  event => {
-    if (!ownerVerified) return;
+document.getElementById("wallpaperFile").addEventListener("change", event => {
+  if (!ownerVerified) return;
 
-    const file = event.target.files[0];
-    if (!file) return;
+  const file = event.target.files[0];
+  if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      alert("Please choose an image.");
-      return;
+  if (!file.type.startsWith("image/")) {
+    alert("Please choose an image.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const imageData = reader.result;
+    wallpaper.style.backgroundImage = `url("${imageData}")`;
+
+    try {
+      localStorage.setItem("iphoneWallpaper", imageData);
+    } catch (error) {
+      alert("Photo applied, but could not be saved. Try a smaller image.");
     }
 
-    const reader = new FileReader();
+    closeOwnerPanel();
+    event.target.value = "";
+  };
 
-    reader.onload = () => {
-      const imageData = reader.result;
+  reader.onerror = () => alert("Could not load this photo.");
+  reader.readAsDataURL(file);
+});
 
-      wallpaper.style.backgroundImage =
-        `url("${imageData}")`;
+/* SPOTIFY PLAYLIST */
+const playlistURL =
+  "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=heaGQUV6QXCAL4T745ou_g&utm_source=copy-link&pi=YDpoHpKBSwKGf";
 
-      try {
-        localStorage.setItem("iphoneWallpaper", imageData);
-      } catch (error) {
-        alert(
-          "The photo is applied, but could not be saved. " +
-          "Try a smaller image."
-        );
-      }
+function openPlaylist() {
+  window.location.href = playlistURL;
+}
 
-      closeOwnerPanel();
-      event.target.value = "";
-    };
+document.getElementById("spotifyWidget").onclick = openPlaylist;
+document.getElementById("playButton").onclick = event => {
+  event.stopPropagation();
+  openPlaylist();
+};
 
-    reader.onerror = () => {
-      alert("Could not load this photo. Please try another.");
-    };
-
-    reader.readAsDataURL(file);
+document.getElementById("spotifyWidget").onkeydown = event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openPlaylist();
   }
-);
-
-/* DEMO BUTTONS */
-document.getElementById("playButton").onclick = function() {
-  this.textContent = this.textContent === "▶" ? "Ⅱ" : "▶";
 };
 
 document.getElementById("searchButton").onclick = () => {
   alert("Search is a visual demo.");
 };
-  
+
+/* CALENDAR */
 const calendarApp = document.getElementById("calendarApp");
 const calendarGrid = document.getElementById("calendarGrid");
-const calendarMonthTitle = document.getElementById("calendarMonthTitle");
+const monthName = document.getElementById("monthName");
 const selectedDateTitle = document.getElementById("selectedDateTitle");
 
 let viewedMonth = new Date();
-let selectedCalendarDate = new Date();
+let selectedDate = new Date();
 
 function renderCalendar() {
   calendarGrid.innerHTML = "";
 
-  calendarMonthTitle.textContent = viewedMonth.toLocaleDateString(
-    undefined,
-    { month: "long", year: "numeric" }
-  );
+  monthName.textContent = viewedMonth.toLocaleDateString([], {
+    month: "long", year: "numeric"
+  });
 
-  ["S", "M", "T", "W", "T", "F", "S"].forEach(day => {
+  ["S","M","T","W","T","F","S"].forEach(day => {
     const heading = document.createElement("div");
-    heading.className = "calendar-weekday";
+    heading.className = "weekday";
     heading.textContent = day;
     calendarGrid.appendChild(heading);
   });
@@ -1636,57 +593,42 @@ function renderCalendar() {
   const year = viewedMonth.getFullYear();
   const month = viewedMonth.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const days = new Date(year, month + 1, 0).getDate();
 
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.appendChild(document.createElement("div"));
   }
 
-  for (let day = 1; day <= daysInMonth; day++) {
+  for (let day = 1; day <= days; day++) {
     const date = new Date(year, month, day);
     const button = document.createElement("button");
-    button.className = "calendar-date";
+    button.type = "button";
+    button.className = "date-cell";
     button.textContent = day;
 
-    const isToday = date.toDateString() === new Date().toDateString();
-    const isSelected =
-      date.toDateString() === selectedCalendarDate.toDateString();
+    if (date.toDateString() === new Date().toDateString()) {
+      button.classList.add("today");
+    }
 
-    if (isToday) button.classList.add("today");
-    if (isSelected) button.classList.add("selected");
+    if (date.toDateString() === selectedDate.toDateString()) {
+      button.classList.add("selected");
+    }
 
     button.onclick = () => {
-      selectedCalendarDate = date;
+      selectedDate = date;
       renderCalendar();
-
-      selectedDateTitle.textContent = date.toLocaleDateString(
-        undefined,
-        {
-          weekday: "long",
-          month: "long",
-          day: "numeric"
-        }
-      );
     };
 
     calendarGrid.appendChild(button);
   }
 
-  selectedDateTitle.textContent =
-    selectedCalendarDate.toLocaleDateString(undefined, {
-      weekday: "long",
-      month: "long",
-      day: "numeric"
-    });
+  selectedDateTitle.textContent = selectedDate.toLocaleDateString([], {
+    weekday: "long", month: "long", day: "numeric"
+  });
 }
 
 document.getElementById("openCalendar").onclick = () => {
-  viewedMonth = new Date(
-    selectedCalendarDate.getFullYear(),
-    selectedCalendarDate.getMonth(),
-    1
-  );
-
+  viewedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
   renderCalendar();
   calendarApp.classList.add("show");
 };
@@ -1706,74 +648,56 @@ document.getElementById("nextMonth").onclick = () => {
 };
 
 document.getElementById("todayCalendar").onclick = () => {
-  selectedCalendarDate = new Date();
+  selectedDate = new Date();
   viewedMonth = new Date();
   renderCalendar();
 };
 
-const spotifyWidget = document.getElementById("spotifyWidget");
-
-const playlistURL =
-  "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=heaGQUV6QXCAL4T745ou_g&utm_source=copy-link&pi=YDpoHpKBSwKGf";
-
-function openBlackCardPlaylist() {
-  window.location.href = playlistURL;
-}
-
-spotifyWidget.addEventListener("click", openBlackCardPlaylist);
-
-spotifyWidget.addEventListener("keydown", function(event) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    openBlackCardPlaylist();
-  }
-});
-
+/* IPHONE SETTINGS */
 const iphoneSettings = document.getElementById("iphoneSettings");
 const settingsDetail = document.getElementById("settingsDetail");
 
-document.getElementById("openSettings").addEventListener("click", () => {
+document.getElementById("openSettings").onclick = () => {
   iphoneSettings.classList.add("show");
   settingsDetail.classList.remove("show");
-});
+};
 
-document.getElementById("settingsHome").addEventListener("click", () => {
+document.getElementById("settingsHome").onclick = () => {
   iphoneSettings.classList.remove("show");
   settingsDetail.classList.remove("show");
-});
+};
 
 document.querySelectorAll(".settings-row").forEach(row => {
-  row.addEventListener("click", () => {
+  row.onclick = () => {
     const name = row.dataset.setting;
 
-    document.getElementById("settingsDetailTitle").textContent = name;
+    document.getElementById("detailTitle").textContent = name;
 
     const descriptions = {
-      "Wi-Fi": "Wi-Fi settings. Your simulated phone cannot change your actual iPhone's Wi-Fi connection.",
-      "Bluetooth": "Bluetooth settings. This demo does not control your actual Bluetooth connection.",
-      "Mobile Service": "View mobile data settings in this simulated interface.",
-      "Battery": "View battery information in this simulated interface.",
-      "General": "About, Software Update, Storage, and other general settings.",
-      "Accessibility": "Display, motion, hearing, and accessibility options.",
-      "Display & Brightness": "Adjust the simulated appearance of your phone.",
-      "Wallpaper": "Choose a wallpaper for your simulated phone.",
-      "Notifications": "Manage notification preferences in this demo.",
-      "Sounds & Haptics": "Sound and vibration settings preview.",
-      "Privacy & Security": "Privacy and security settings preview.",
-      "Airplane Mode": "Airplane Mode is shown for demonstration only."
+      "Airplane Mode":"Airplane Mode is shown for demonstration only.",
+      "Wi-Fi":"This simulated screen cannot change your actual iPhone Wi-Fi.",
+      "Bluetooth":"This simulated screen cannot control actual Bluetooth.",
+      "Mobile Service":"Mobile data settings preview.",
+      "Battery":"Battery information preview.",
+      "General":"About, Software Update, Storage, and other settings.",
+      "Accessibility":"Display, motion, hearing, and accessibility options.",
+      "Display & Brightness":"Display and brightness settings preview.",
+      "Wallpaper":"Use Owner settings to change your simulated wallpaper.",
+      "Notifications":"Notification settings preview.",
+      "Sounds & Haptics":"Sound and vibration settings preview.",
+      "Privacy & Security":"Privacy and security settings preview."
     };
 
-    document.getElementById("settingsDetailText").textContent =
+    document.getElementById("detailText").textContent =
       descriptions[name] || name + " settings preview.";
 
     settingsDetail.classList.add("show");
-  });
+  };
 });
 
-document.getElementById("settingsBack").addEventListener("click", () => {
+document.getElementById("settingsBack").onclick = () => {
   settingsDetail.classList.remove("show");
-});
-
+};
 </script>
 </body>
 </html>
