@@ -169,7 +169,13 @@ button{cursor:pointer}
 .ig-post:nth-child(3n){background:linear-gradient(145deg,#a7a08d,#43473f,#222)}
 .ig-post small{position:absolute;bottom:8px;left:6px;font-size:11px;text-shadow:0 1px 5px #000}
 .ig-home-indicator{position:sticky;bottom:5px;width:110px;height:5px;margin:15px auto 0;border-radius:10px;background:#111}
-
+.ig-post img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
 @media(max-height:750px){
 .widgets{top:calc(env(safe-area-inset-top) + 65px)}
 .calendar-widget{padding:15px 11px}
@@ -399,16 +405,16 @@ button{cursor:pointer}
   </div>
 
   <div class="ig-grid" id="igGrid">
-    <div class="ig-post">📷<small>New</small></div>
-    <div class="ig-post">📷<small>New</small></div>
-    <div class="ig-post">🌿</div>
-    <div class="ig-post">🍂</div>
-    <div class="ig-post">📷</div>
-    <div class="ig-post">🌆</div>
-    <div class="ig-post">📷</div>
-    <div class="ig-post">☁️</div>
-    <div class="ig-post">🌳</div>
+  <div class="ig-post">
+    <img src="PHOTO_URL_1" alt="Post photo">
   </div>
+  <div class="ig-post">
+    <img src="PHOTO_URL_2" alt="Post photo">
+  </div>
+  <div class="ig-post">
+    <img src="PHOTO_URL_3" alt="Post photo">
+  </div>
+</div>
 
   <div class="ig-home-indicator"></div>
 </section>
