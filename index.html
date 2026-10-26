@@ -4,411 +4,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#171717">
 <title>My iPhone</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;background:#171717;color:white}
-button,input{font:inherit}button{cursor:pointer}
-.phone{position:relative;width:100%;height:100dvh;max-width:430px;margin:auto;overflow:hidden;isolation:isolate;background:#777365}
-.wallpaper{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#c6b98c,#777365,#b9ad8b);background-position:center;background-size:cover}
-.status{position:absolute;top:calc(env(safe-area-inset-top) + 22px);left:7%;right:7%;display:flex;justify-content:space-between;z-index:3;font-weight:700;font-size:19px;pointer-events:none}
-.status-right{display:flex;gap:7px;align-items:center}.battery{background:white;color:#222;border-radius:6px;padding:2px 5px;font-size:13px}
-.lock-ui{position:absolute;inset:0;z-index:2}.lock-icon{position:absolute;top:calc(env(safe-area-inset-top) + 90px);left:50%;transform:translateX(-50%);font-size:25px}
-.lock-date{position:absolute;top:calc(env(safe-area-inset-top) + 165px);width:100%;text-align:center;font-size:25px;font-weight:700;text-shadow:0 1px 5px #0005}
-.lock-clock{position:absolute;top:calc(env(safe-area-inset-top) + 200px);width:100%;text-align:center;font-size:clamp(105px,29vw,150px);line-height:1;letter-spacing:-6px;font-weight:300;white-space:nowrap;color:#ffffff65;-webkit-text-stroke:1px #ffffff70;font-variant-numeric:tabular-nums}
-.lock-message{position:absolute;top:calc(env(safe-area-inset-top) + 125px);width:100%;text-align:center;font-size:18px;font-weight:700;text-shadow:0 2px 5px #0005;pointer-events:none}
-.lock-bottom{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 45px);left:0;right:0;padding:0 12%;display:flex;justify-content:space-between;align-items:center}
-.round-button{width:65px;height:65px;border:1px solid #ffffff80;border-radius:50%;background:#ffffff35;color:white;font-size:28px;backdrop-filter:blur(15px)}
-.focus-label{font-size:clamp(11px,3.5vw,17px);font-weight:700;white-space:nowrap}
-.indicator{position:absolute;z-index:100;bottom:calc(env(safe-area-inset-bottom) + 8px);left:50%;transform:translateX(-50%);width:135px;height:5px;border-radius:20px;background:white;pointer-events:none}
-.passcode{position:absolute;inset:0;z-index:80;display:none;text-align:center;padding:calc(env(safe-area-inset-top) + 75px) 20px 30px;background:#191919d9;backdrop-filter:blur(28px)}
-.passcode.show{display:block}.passcode h2{font-size:23px;font-weight:500;margin-bottom:25px}
-.dots{display:flex;justify-content:center;gap:17px;margin:25px 0}.dot{width:11px;height:11px;border:1px solid white;border-radius:50%}.dot.filled{background:white}
-.keypad{display:grid;grid-template-columns:repeat(3,68px);gap:12px;justify-content:center;margin:25px auto}
-.key{width:68px;height:68px;border:1px solid #ffffff40;border-radius:50%;background:#ffffff25;color:white;font-size:28px}
-.pass-message{height:24px;font-size:14px}.cancel{border:0;background:transparent;color:white;padding:12px 25px}
-.home-screen{position:absolute;inset:0;z-index:4;display:none;overflow:hidden;background:transparent}.home-screen.show{display:block}
-.owner-button{position:absolute;z-index:8;top:calc(env(safe-area-inset-top) + 12px);right:12px;padding:7px 11px;border:1px solid #ffffff60;border-radius:20px;background:#1118;color:white;font-size:11px}
-.widgets{position:absolute;top:calc(env(safe-area-inset-top) + 92px);left:6%;right:6%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5%}
-.calendar-widget,.spotify-widget{aspect-ratio:1;min-width:0;border-radius:28px;overflow:hidden}
-.calendar-widget{width:100%;padding:20px 14px;border:0;background:white;color:#111;text-align:left}
-.calendar-day{color:#f04452;font-size:clamp(12px,3.5vw,20px);font-weight:800}.calendar-number{font-size:clamp(43px,9vw,61px);line-height:1.1;margin-top:3px}
-.calendar-events{margin-top:22px;color:#85858a;font-size:clamp(13px,3.8vw,21px);line-height:1.25;font-weight:600}
-.spotify-widget{padding:16px 12px;background:#526277ed;border:1px solid #ffffff35;display:flex;flex-direction:column;justify-content:space-between;backdrop-filter:blur(16px)}
-.spotify-top{display:flex;justify-content:space-between;gap:7px}.album-art{width:68%;aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,#263b50,#aab3bd);display:grid;place-items:center;font-size:43px}
-.spotify-logo{width:32px;height:32px;flex-shrink:0;border-radius:50%;background:white;color:#536174;display:grid;place-items:center;font-size:23px}
-.spotify-bottom{display:flex;align-items:center;justify-content:space-between;gap:4px}.song-title{font-size:clamp(12px,3.5vw,20px);font-weight:750}
-.song-artist{margin-top:5px;font-size:clamp(12px,3.2vw,18px);color:#d6d9df}.play-button{width:42px;height:42px;flex-shrink:0;border:0;border-radius:50%;background:white;color:#596575;font-size:20px}
-.widget-labels{position:absolute;top:calc(env(safe-area-inset-top) + 92px + 41vw + 12px);left:6%;right:6%;display:grid;grid-template-columns:1fr 1fr;text-align:center;font-weight:700}
-.app-grid{position:absolute;top:calc(env(safe-area-inset-top) + 92px + 41vw + 55px);left:6%;right:6%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:19px 12px}
-.home-app{min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:clamp(10px,3.3vw,16px);font-weight:650;text-shadow:0 1px 4px #0005;white-space:nowrap}
-.app-icon{width:min(100%,75px);aspect-ratio:1;border:0;border-radius:23%;display:grid;place-items:center;font-size:38px;color:white;box-shadow:0 2px 5px #0002}
-.settings-app{background:linear-gradient(#d8d8df,#777987)}.instagram-app{background:linear-gradient(35deg,#ffd35e,#ff1768,#8529db);font-size:53px}
-.photos-app{background:white;color:#ff4f91;font-size:38px}.facebook-app{background:#0866ff;font-size:65px;font-weight:800}
-.music-app{background:linear-gradient(#ff4383,#ed174e);font-size:48px}.weather-app{background:linear-gradient(#43b9ff,#0876d8);font-size:36px}
-.clock-app{background:white;color:#333;font-size:38px}.youtube-app{background:white;color:#ff0033;font-size:36px}
-.search-button{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 118px);left:50%;transform:translateX(-50%);padding:9px 18px;border:1px solid #ffffff70;border-radius:24px;background:#ffffff30;color:white;font-size:14px;backdrop-filter:blur(12px)}
-.home-dock{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 20px);left:4%;right:4%;height:85px;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:9px;border:1px solid #ffffff70;border-radius:32px;background:#dcd7c650;backdrop-filter:blur(25px)}
-.dock-app{width:25%;max-width:75px;aspect-ratio:1;border:0;border-radius:23%;display:grid;place-items:center;font-size:38px;color:white}
-.phone-app,.messages-app,.facetime-app{background:linear-gradient(#55ed72,#12bd49)}.contacts-app{background:linear-gradient(#eeeee5,#bcbcb1)}
-.owner-panel{position:absolute;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:25px;background:#111c;backdrop-filter:blur(20px)}
-.owner-panel.show{display:flex}.owner-card{width:100%;max-width:330px;padding:24px;border:1px solid #ffffff40;border-radius:24px;background:#292929f2;text-align:center;max-height:85%;overflow:auto}
-.owner-card h2{margin-top:0;font-size:22px}.owner-card p{color:#ddd;font-size:14px;line-height:1.5}
-.owner-input{width:100%;padding:12px;border:1px solid #ffffff50;border-radius:12px;background:#ffffff15;color:white;text-align:center;font-size:18px;margin:8px 0 12px}
-.owner-action{width:100%;padding:12px;margin-top:8px;border:0;border-radius:12px;background:white;color:#222;font-weight:700}
-.owner-cancel{background:#ffffff20;color:white}
-.subtle-note{font-size:12px!important;color:#aaa!important}
-.calendar-app,.iphone-settings,.instagram-screen,.photos-screen{position:absolute;inset:0;display:none;overflow-y:auto;overscroll-behavior:contain;padding-top:calc(env(safe-area-inset-top) + 15px);padding-bottom:55px}
-.calendar-app.show,.iphone-settings.show,.instagram-screen.show,.photos-screen.show{display:block}
-.calendar-app{z-index:40;background:#f7f7f9;color:#171717;padding-left:20px;padding-right:20px}
-.toolbar{display:flex;justify-content:space-between}.toolbar button,.month-nav button{border:0;background:transparent;color:#087aff;font-size:17px;padding:8px}
-.calendar-title{font-size:30px;margin:25px 0 18px}.month-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.month-name{font-size:19px;font-weight:700}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;gap:8px 0}
-.weekday{color:#777;font-size:12px;padding:8px 0}.date-cell{height:39px;border:0;border-radius:50%;background:transparent;color:#171717;font-size:15px}
-.date-cell.today{background:#087aff;color:white;font-weight:700}.date-cell.selected{outline:2px solid #087aff;outline-offset:-2px}
-.agenda{border-top:1px solid #ddd;margin-top:25px;padding-top:18px}.agenda p{color:#777}
-.iphone-settings{z-index:45;overflow-y:auto;padding-left:16px;padding-right:16px;background:#f2f2f7;color:#17171b}
-.settings-header{display:flex;align-items:center;min-height:48px}.settings-header button,.detail button{border:0;background:transparent;color:#087aff;font-size:16px;padding:8px 0}
-.settings-header h1{font-size:34px;margin:8px 0 14px 18px;font-weight:750}.settings-search{padding:11px 13px;margin:4px 0 20px;background:#e3e3e8;color:#77777f;border-radius:12px;font-size:16px}
-.settings-card{background:white;border-radius:16px;margin-bottom:20px;overflow:hidden}.apple-account{display:flex;align-items:center;gap:12px;padding:16px 13px}
-.avatar{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#d9d9df;font-size:26px}
-.account-info{flex:1;display:flex;flex-direction:column;gap:4px}.account-info strong{font-size:17px}.account-info span{font-size:12px;color:#77777f}
-.settings-row{width:100%;min-height:55px;padding:8px 13px;display:flex;align-items:center;gap:12px;border:0;background:white;color:#17171b;text-align:left;font-size:16px}
-.setting-icon{width:29px;height:29px;flex-shrink:0;display:grid;place-items:center;border-radius:7px;background:#8e8e93;color:white;font-size:19px}
-.airplane{background:#ff9f0a}.wifi-icon,.bluetooth-icon,.accessibility-icon,.privacy-icon{background:#087aff}.mobile-icon,.battery-icon{background:#34c759}.wallpaper-icon{background:#bf65d9}.notifications-icon{background:#ff453a}.sounds-icon{background:#ff375f}
-.setting-value{margin-left:auto;color:#8e8e93;font-size:15px}.chevron{margin-left:auto;color:#b6b6bd;font-size:25px}
-.toggle{margin-left:auto;width:42px;height:25px;border-radius:20px;background:#34c759;position:relative}.toggle:after{content:"";position:absolute;width:21px;height:21px;top:2px;right:2px;border-radius:50%;background:white}
+*{box-sizing:border-box}
+body{margin:0;background:#222;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;color:white}
+.phone{position:relative;width:100%;max-width:430px;height:100dvh;margin:auto;overflow:hidden;background:#a9a29a}
+.wallpaper{position:absolute;inset:0;background:linear-gradient(135deg,#cdbb9c,#827a71,#d6c8b0);background-size:cover;background-position:center;z-index:0}
+.status{position:absolute;top:22px;left:7%;right:7%;z-index:5;display:flex;justify-content:space-between;font-weight:bold}
+.screen{position:absolute;inset:0;display:none;overflow:auto;z-index:2;padding:65px 18px 50px}
+.screen.active{display:block}
+button{font:inherit;cursor:pointer}
+.lock-screen{position:absolute;inset:0;z-index:3;text-align:center}
+.lock-date{margin-top:155px;font-size:24px;font-weight:600}
+.lock-clock{font-size:clamp(90px,25vw,140px);font-weight:300;letter-spacing:-5px;color:#ffffff9c;margin-top:8px}
+.unlock-hint{margin-top:20px;font-size:14px}
+.lock-bottom{position:absolute;bottom:55px;left:0;right:0;display:flex;justify-content:space-around;align-items:center}
+.round{width:58px;height:58px;border:1px solid #ffffff80;border-radius:50%;background:#ffffff40;color:white;font-size:25px}
+.passcode{position:absolute;inset:0;z-index:20;display:none;background:#222e;backdrop-filter:blur(20px);text-align:center;padding-top:90px}
+.passcode.active{display:block}
+.dots{display:flex;justify-content:center;gap:15px;margin:25px}
+.dot{width:10px;height:10px;border:1px solid white;border-radius:50%}
+.dot.filled{background:white}
+.keypad{display:grid;grid-template-columns:repeat(3,65px);gap:12px;justify-content:center}
+.key{width:65px;height:65px;border:1px solid #ffffff60;border-radius:50%;background:#ffffff20;color:white;font-size:25px}
+.home-screen{position:absolute;inset:0;z-index:2;display:none;padding:85px 18px 120px}
+.home-screen.active{display:block}
+.owner-button{position:absolute;top:52px;right:15px;background:#2229;color:white;border:1px solid #ffffff60;border-radius:18px;padding:7px 10px;font-size:11px;z-index:8}
+.widgets{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.widget{aspect-ratio:1;border:0;border-radius:24px;padding:14px;text-align:left;overflow:hidden}
+.calendar-widget{background:#fff;color:#222}
+.calendar-day{color:#ef4b59;font-weight:bold;font-size:13px}
+.calendar-number{font-size:54px}
+.spotify-widget{background:#526277;color:white;display:flex;flex-direction:column;justify-content:space-between}
+.album-art{height:68%;border-radius:12px;background:linear-gradient(135deg,#1e3449,#c2c5c8);display:grid;place-items:center;font-size:42px}
+.song-title{font-weight:bold;margin-top:8px}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 10px;margin-top:28px}
+.app{text-align:center;font-size:12px;text-shadow:0 1px 3px #3338}
+.app button{width:100%;max-width:70px;aspect-ratio:1;border:0;border-radius:22%;font-size:35px;background:#fff;color:#555}
+.app .instagram-icon{background:linear-gradient(35deg,#ffd35e,#ff1768,#8529db);color:white}
+.app .photos-icon{color:#f45b99}
+.app .settings-icon{background:#bbb;color:white}
+.dock{position:absolute;bottom:25px;left:4%;right:4%;height:75px;border-radius:28px;background:#ffffff45;backdrop-filter:blur(18px);display:flex;justify-content:space-around;align-items:center}
+.dock button{width:55px;height:55px;border:0;border-radius:18px;background:#36cf64;color:white;font-size:28px}
+.owner-panel{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:20px;background:#111b;backdrop-filter:blur(15px)}
+.owner-panel.active{display:flex}
+.owner-card{width:100%;max-width:330px;max-height:85%;overflow:auto;background:#292929;border-radius:22px;padding:22px;text-align:center}
+.owner-card p{color:#ddd;font-size:14px}
+.owner-card input{width:95%;padding:12px;border:1px solid #777;border-radius:10px;background:#444;color:white;text-align:center}
+.owner-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:white;color:#222}
+.cancel-action{background:#555;color:white}
+.app-screen{position:absolute;inset:0;z-index:10;display:none;overflow-y:auto;background:#f6f6f8;color:#171717;padding:calc(env(safe-area-inset-top) + 15px) 16px 50px}
+.app-screen.active{display:block}
+.back{border:0;background:transparent;color:#087aff;font-size:16px;padding:8px 0}
+.app-title{font-size:32px;font-weight:750;margin:15px 0}
+.month-row{display:flex;justify-content:space-between;align-items:center}
+.month-row button{border:0;background:none;color:#087aff;font-size:22px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:7px 0}
+.weekday{font-size:12px;color:#777;padding:8px 0}
+.date-cell{height:38px;border:0;border-radius:50%;background:none;color:#222}
+.date-cell.today{background:#087aff;color:white}
+.settings-card{background:white;border-radius:14px;margin:16px 0;overflow:hidden}
+.settings-row{display:block;width:100%;padding:17px 12px;text-align:left;border:0;border-bottom:1px solid #eee;background:white;color:#222}
+.detail{display:none;position:absolute;inset:0;background:#f6f6f8;padding:65px 20px;z-index:4}
+.detail.active{display:block}
+.ig-header{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:bold}
+.ig-profile{display:grid;grid-template-columns:110px 1fr;gap:15px;align-items:center;margin:22px 0}
+.ig-avatar{width:100px;height:100px;border-radius:50%;border:3px solid #ff5b91;background:#ddd;overflow:hidden;display:grid;place-items:center;font-size:40px}
+.ig-avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.ig-stats{display:flex;justify-content:space-between;text-align:center;font-size:12px}
+.ig-stats strong{display:block;font-size:17px}
+.ig-bio{font-size:14px;line-height:1.6}
+.ig-blue{color:#3056a3}
+.ig-buttons{display:flex;gap:6px;margin:15px 0}
+.ig-buttons button{flex:1;padding:9px 2px;border:0;border-radius:7px;background:#e8e8ed;color:#222;font-size:12px}
+.ig-tabs{display:flex;justify-content:space-around;padding:13px;border-top:1px solid #ddd}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ig-post{aspect-ratio:.8;background:linear-gradient(135deg,#dedede,#777);overflow:hidden;position:relative}
+.ig-post img{width:100%;height:100%;object-fit:cover}
+.photos-screen{background:#f7f7f9;color:#111}
+.photos-subtitle{font-size:14px;color:#777}
+.photos-year{margin:22px 0}
+.photos-year-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.photos-year-heading h2{font-size:25px;margin:0}
+.photos-year-heading button{border:0;background:none;color:#087aff}
+.photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.year-photo{aspect-ratio:1;background:#e5e5eb;display:grid;place-items:center;position:relative;overflow:hidden;border:0;padding:0;color:#999;font-size:27px}
+.year-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photos-detail{display:none;position:absolute;inset:0;background:#f7f7f9;z-index:3;overflow:auto;padding:calc(env(safe-area-inset-top) + 15px) 15px 50px}
+.photos-detail.active{display:block}
+.photos-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.hidden-file{display:none}
+.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:8px;background:white;z-index:50}
 </style>
 </head>
 <body>
 <main class="phone" id="phone">
 <div class="wallpaper" id="wallpaper"></div>
-<div class="status"><span id="statusTime">9:41 ☾</span><span class="status-right"><span>▂▄▆</span><span>◉</span><span class="battery">33</span></span></div>
+<div class="status"><span id="statusTime">9:41</span><span>▂▄▆　◉　▰</span></div>
 
-<section class="lock-ui" id="lockUI">
-  <div class="lock-icon">🔒</div><div class="lock-date" id="lockDate">Mon Oct 26</div><div class="lock-clock" id="lockClock">9:41</div>
-  <div class="lock-message">Swipe up to unlock</div>
-  <div class="lock-bottom"><button class="round-button" id="flashlight" type="button">🔦</button><div class="focus-label">☾ Do Not Disturb</div><button class="round-button" id="camera" type="button">📷</button></div>
+<section class="lock-screen" id="lockScreen">
+  <div class="lock-date" id="lockDate">Mon, Oct 26</div>
+  <div class="lock-clock" id="lockClock">9:41</div>
+  <div class="unlock-hint">Swipe up to unlock</div>
+  <div class="lock-bottom"><button class="round" type="button">🔦</button><button class="round" id="cameraButton" type="button">📷</button></div>
+</section>
+
+<section class="passcode" id="passcode">
+  <h2>Enter Passcode</h2><div class="dots" id="dots"></div>
+  <p id="passMessage"></p><div class="keypad" id="keypad"></div>
+  <button class="back" id="cancelPasscode" style="color:white">Cancel</button>
 </section>
 
 <section class="home-screen" id="homeScreen">
-  <button class="owner-button" id="ownerButton" type="button">Owner settings</button>
+  <button class="owner-button" id="ownerButton" type="button">Owner Settings</button>
   <div class="widgets">
-    <button class="calendar-widget" id="openCalendar" type="button"><div class="calendar-day" id="calendarDay">MONDAY</div><div class="calendar-number" id="calendarNumber">26</div><div class="calendar-events">No Events<br>Today</div></button>
-    <div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0"><div class="spotify-top"><div class="album-art">♪</div><div class="spotify-logo">≋</div></div><div class="spotify-bottom"><div><div class="song-title">Black Card</div><div class="song-artist">Phuwin</div></div><button class="play-button" id="playButton" type="button">▶</button></div></div>
+    <button class="widget calendar-widget" id="openCalendar" type="button">
+      <div class="calendar-day" id="calendarDay">MONDAY</div>
+      <div class="calendar-number" id="calendarNumber">26</div>No Events Today
+    </button>
+    <button class="widget spotify-widget" id="spotifyWidget" type="button">
+      <div class="album-art">♪</div><div><div class="song-title">Black Card</div><small>Phuwin</small></div>
+    </button>
   </div>
-  <div class="widget-labels"><span>Calendar</span><span>Spotify</span></div>
-  <div class="app-grid">
-    <div class="home-app"><button class="app-icon settings-app" id="openSettings" type="button">⚙️</button><span>Settings</span></div>
-    <div class="home-app"><button class="app-icon instagram-app" id="openInstagram" type="button">◎</button><span>Instagram</span></div>
-    <div class="home-app"><button class="app-icon photos-app" id="openPhotos" type="button">🌈</button><span>Photos</span></div>
-    <div class="home-app"><button class="app-icon facebook-app" type="button">f</button><span>Facebook</span></div>
-    <div class="home-app"><button class="app-icon music-app" type="button">♫</button><span>Music</span></div>
-    <div class="home-app"><button class="app-icon weather-app" type="button">🌤️</button><span>Weather</span></div>
-    <div class="home-app"><button class="app-icon clock-app" type="button">🕒</button><span>Clock</span></div>
-    <div class="home-app"><button class="app-icon youtube-app" type="button">▶</button><span>YouTube</span></div>
+  <div class="apps">
+    <div class="app"><button class="settings-icon" id="openSettings">⚙️</button>Settings</div>
+    <div class="app"><button class="instagram-icon" id="openInstagram">◎</button>Instagram</div>
+    <div class="app"><button class="photos-icon" id="openPhotos">🌈</button>Photos</div>
+    <div class="app"><button>f</button>Facebook</div>
+    <div class="app"><button>♫</button>Music</div>
+    <div class="app"><button>🌤️</button>Weather</div>
+    <div class="app"><button>🕒</button>Clock</div>
+    <div class="app"><button>▶</button>YouTube</div>
   </div>
-  <button class="search-button" id="searchButton" type="button">⌕ Search</button>
-  <div class="home-dock"><button class="dock-app phone-app" type="button">☎</button><button class="dock-app messages-app" type="button">●</button><button class="dock-app facetime-app" type="button">▣</button><button class="dock-app contacts-app" type="button">👤</button></div>
+  <div class="dock"><button>☎</button><button>●</button><button>▣</button><button>👤</button></div>
 </section>
 
-<!-- PASSCODE SCREEN -->
-<section class="passcode" id="passcode">
-  <h2>Enter Passcode</h2>
-  <div class="dots" id="dots"></div>
-  <div class="pass-message" id="passMessage"></div>
-  <div class="keypad" id="keypad"></div>
-  <button class="cancel" id="cancelButton" type="button">Cancel</button>
-</section>
-
-<!-- OWNER SETTINGS -->
 <section class="owner-panel" id="ownerPanel">
   <div class="owner-card">
     <div id="ownerLogin">
-      <h2>Owner Access</h2>
-      <p>Enter your owner PIN to change photos.</p>
-      <input class="owner-input" id="ownerPin" type="password"
-        inputmode="numeric" maxlength="12" placeholder="Owner PIN">
+      <h2>Owner Access</h2><p>Enter your PIN to edit your photos.</p>
+      <input id="ownerPin" type="password" inputmode="numeric" placeholder="Owner PIN">
       <p id="ownerMessage"></p>
-      <button class="owner-action" id="verifyOwner" type="button">Continue</button>
-      <button class="owner-action owner-cancel" id="closeOwner" type="button">Cancel</button>
+      <button class="owner-action" id="verifyOwner">Continue</button>
+      <button class="owner-action cancel-action" id="closeOwner">Cancel</button>
     </div>
-
     <div id="ownerOptions" hidden>
       <h2>Owner Settings</h2>
-      <p>Choose what you want to edit.</p>
-      <button class="owner-action" id="chooseWallpaper" type="button">Change Wallpaper</button>
-      <button class="owner-action" id="chooseProfilePhoto" type="button">Change Instagram Profile Photo</button>
-      <button class="owner-action" id="choosePostPhotos" type="button">Choose Instagram Post Photos</button>
-      <button class="owner-action" id="editYearPhotos" type="button">Edit Photos by Year</button>
-      <button class="owner-action owner-cancel" id="doneOwner" type="button">Done</button>
-      <p class="subtle-note">Demo PIN only; this is not real device security.</p>
+      <button class="owner-action" id="chooseWallpaper">Change Wallpaper</button>
+      <button class="owner-action" id="chooseProfilePhoto">Change Instagram Profile Photo</button>
+      <button class="owner-action" id="choosePostPhotos">Choose Instagram Post Photos</button>
+      <button class="owner-action" id="editYearPhotos">Edit Photos by Year</button>
+      <button class="owner-action cancel-action" id="doneOwner">Done</button>
     </div>
   </div>
 </section>
 
-<!-- PHOTO PICKERS -->
 <input class="hidden-file" id="wallpaperFile" type="file" accept="image/*">
 <input class="hidden-file" id="profilePhotoFile" type="file" accept="image/*">
 <input class="hidden-file" id="postPhotosFile" type="file" accept="image/*" multiple>
 <input class="hidden-file" id="yearPhotosFile" type="file" accept="image/*" multiple>
 
-<div class="indicator" id="homeIndicator"></div>
-
-<!-- CALENDAR APP -->
-<section class="calendar-app" id="calendarApp">
-  <div class="toolbar">
-    <button id="closeCalendar" type="button">‹ Home</button>
-    <button id="todayCalendar" type="button">Today</button>
-  </div>
-  <h1 class="calendar-title">Calendar</h1>
-  <div class="month-nav">
-    <button id="previousMonth" type="button">‹</button>
-    <div class="month-name" id="monthName"></div>
-    <button id="nextMonth" type="button">›</button>
-  </div>
+<section class="app-screen" id="calendarScreen">
+  <button class="back" data-home="calendarScreen">‹ Home</button>
+  <h1 class="app-title">Calendar</h1>
+  <div class="month-row"><button id="prevMonth">‹</button><strong id="monthName"></strong><button id="nextMonth">›</button></div>
   <div class="calendar-grid" id="calendarGrid"></div>
-  <div class="agenda">
-    <h3 id="selectedDateTitle">Today</h3>
-    <p>No Events</p>
-  </div>
+  <p id="selectedDate">No Events</p>
 </section>
 
-<!-- SETTINGS APP -->
-<section class="iphone-settings" id="iphoneSettings">
-  <div class="settings-header">
-    <button id="settingsHome" type="button">‹ Home</button>
-    <h1>Settings</h1>
-  </div>
-  <div class="settings-search">⌕ Search</div>
-
-  <div class="apple-account settings-card">
-    <div class="avatar">👤</div>
-    <div class="account-info">
-      <strong>Apple Account</strong>
-      <span>Apple ID, iCloud, and more</span>
-    </div>
-    <span class="chevron">›</span>
-  </div>
-
+<section class="app-screen" id="settingsScreen">
+  <button class="back" data-home="settingsScreen">‹ Home</button>
+  <h1 class="app-title">Settings</h1>
   <div class="settings-card">
-    <button class="settings-row" data-setting="Airplane Mode" type="button">
-      <span class="setting-icon airplane">✈</span><span>Airplane Mode</span><span class="toggle"></span>
-    </button>
-    <button class="settings-row" data-setting="Wi-Fi" type="button">
-      <span class="setting-icon wifi-icon">◔</span><span>Wi-Fi</span><span class="setting-value">Wi-Fi</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Bluetooth" type="button">
-      <span class="setting-icon bluetooth-icon">ᛒ</span><span>Bluetooth</span><span class="setting-value">On</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Mobile Service" type="button">
-      <span class="setting-icon mobile-icon">▥</span><span>Mobile Service</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Battery" type="button">
-      <span class="setting-icon battery-icon">▰</span><span>Battery</span><span class="chevron">›</span>
-    </button>
+    <button class="settings-row" data-setting="Airplane Mode">✈️　Airplane Mode</button>
+    <button class="settings-row" data-setting="Wi-Fi">📶　Wi-Fi</button>
+    <button class="settings-row" data-setting="Bluetooth">ᛒ　Bluetooth</button>
+    <button class="settings-row" data-setting="Battery">🔋　Battery</button>
+    <button class="settings-row" data-setting="General">⚙️　General</button>
+    <button class="settings-row" data-setting="Display & Brightness">◐　Display &amp; Brightness</button>
+    <button class="settings-row" data-setting="Wallpaper">🌈　Wallpaper</button>
   </div>
-
-  <div class="settings-card">
-    <button class="settings-row" data-setting="General" type="button">
-      <span class="setting-icon">⚙</span><span>General</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Accessibility" type="button">
-      <span class="setting-icon accessibility-icon">♿</span><span>Accessibility</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Display & Brightness" type="button">
-      <span class="setting-icon">◐</span><span>Display &amp; Brightness</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Wallpaper" type="button">
-      <span class="setting-icon wallpaper-icon">🌈</span><span>Wallpaper</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Notifications" type="button">
-      <span class="setting-icon notifications-icon">▣</span><span>Notifications</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Sounds & Haptics" type="button">
-      <span class="setting-icon sounds-icon">🔔</span><span>Sounds &amp; Haptics</span><span class="chevron">›</span>
-    </button>
-    <button class="settings-row" data-setting="Privacy & Security" type="button">
-      <span class="setting-icon privacy-icon">✋</span><span>Privacy &amp; Security</span><span class="chevron">›</span>
-    </button>
-  </div>
-
-  <div class="detail" id="settingsDetail">
-    <button id="settingsBack" type="button">‹ Settings</button>
-    <h2 id="detailTitle">Settings</h2>
-    <p id="detailText">Select an option to view its settings.</p>
-  </div>
+  <div class="detail" id="settingsDetail"><button class="back" id="settingsBack">‹ Settings</button><h2 id="detailTitle"></h2><p id="detailText"></p></div>
 </section>
 
-<!-- INSTAGRAM APP -->
-<section class="instagram-screen" id="instagramScreen">
-  <div class="ig-topbar">
-    <button id="igHome" aria-label="Back to Home">‹</button>
-    <div class="ig-username">ppnaravit <span class="ig-verified">✓</span></div>
-    <span>♧　•••</span>
-  </div>
-
+<section class="app-screen" id="instagramScreen">
+  <div class="ig-header"><button class="back" data-home="instagramScreen">‹</button><span>ppnaravit ✓</span><span>•••</span></div>
   <div class="ig-profile">
-    <div class="ig-profile-top">
-      <div class="ig-avatar">
-        <div class="ig-avatar-inner">
-          <img id="igProfilePhoto" alt="Instagram profile photo" style="display:none">
-          <span id="igProfilePlaceholder">P</span>
-        </div>
-      </div>
-      <div class="ig-stats">
-        <div><strong>414</strong><span>posts</span></div>
-        <div><strong>6.1M</strong><span>followers</span></div>
-        <div><strong>870</strong><span>following</span></div>
-      </div>
-    </div>
-
-    <div class="ig-category">Personal blog</div>
-    <div class="ig-bio">
-      <strong class="ig-blue">@jasp.er.official</strong><br>
-      Call : (+66)61-414-4046<br>
-      Line OA : @gmmtvartists_work<br>
-      Email : gmmtv.artists@gmail.com<br>
-      <span class="ig-blue">🔗 page.line.me/gmmtvartists_work</span>
-    </div>
-
-    <div class="ig-pills"><span>◎ ppnaravit</span><span>♧ cute</span></div>
-    <div class="ig-buttons">
-      <button id="igFollowing" type="button">Following</button>
-      <button id="igMessage" type="button">Message</button>
-      <button id="igContact" type="button">Contact</button>
-      <button id="igAdd" type="button">♙+</button>
-    </div>
+    <div class="ig-avatar"><span id="profilePlaceholder">P</span><img id="igProfilePhoto" alt="Instagram profile photo"></div>
+    <div class="ig-stats"><div><strong>414</strong>posts</div><div><strong>6.1M</strong>followers</div><div><strong>870</strong>following</div></div>
   </div>
-
-  <div class="ig-highlights">
-    <div class="ig-highlight">
-      <div class="ig-highlight-circle">🐶</div><span>p</span>
-    </div>
-  </div>
-
-  <div class="ig-tabs">
-    <button class="active" data-tab="posts" aria-label="Posts">▦</button>
-    <button data-tab="reels" aria-label="Reels">▷</button>
-    <button data-tab="reposts" aria-label="Reposts">⇄</button>
-    <button data-tab="tagged" aria-label="Tagged">♙</button>
-  </div>
+  <div class="ig-bio"><strong>@jasp.er.official</strong><br>Personal blog<br>Call: (+66)61-414-4046<br>Line OA: @gmmtvartists_work<br>Email: gmmtv.artists@gmail.com<br><span class="ig-blue">page.line.me/gmmtvartists_work</span></div>
+  <div class="ig-buttons"><button id="followButton">Following</button><button>Message</button><button>Contact</button></div>
+  <div class="ig-tabs">▦　▷　⇄　♙</div>
   <div class="ig-grid" id="igGrid"></div>
-  <div class="ig-home-indicator"></div>
 </section>
-</main>
 
-<!-- PHOTOS APP: YEARLY ALBUMS -->
-<style>
-.photos-screen{
-  position:absolute;inset:0;z-index:55;display:none;
-  overflow-y:auto;overscroll-behavior:contain;
-  padding-top:calc(env(safe-area-inset-top) + 15px);
-  padding-bottom:55px;background:#f7f7f9;color:#111;
-}
-.photos-screen.show{display:block}
-.photos-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 18px 12px;
-}
-.photos-header button,.photos-detail-header button{
-  border:0;background:transparent;color:#087aff;font-size:16px;
-}
-.photos-header h1{font-size:32px;margin:6px 0;font-weight:750}
-.photos-subtitle{padding:0 20px;color:#777;font-size:14px;margin:0 0 12px}
-.photos-content{padding:0 16px 35px}
-.photos-year{margin:18px 0 25px}
-.photos-year-heading{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:9px;
-}
-.photos-year-title{font-size:25px;font-weight:750;margin:0}
-.photos-count{font-size:13px;color:#777;margin-top:3px}
-.photos-year-heading button{
-  border:0;background:transparent;color:#087aff;font-size:15px;font-weight:600;
-}
-.photos-grid,.photos-detail-grid{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;
-}
-.year-photo{
-  position:relative;overflow:hidden;aspect-ratio:1;
-  border:0;border-radius:3px;background:#e5e5eb;
-  display:grid;place-items:center;color:#a0a0a8;font-size:27px;padding:0;
-}
-.year-photo img{
-  width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
-}
-.year-photo .empty-symbol{font-size:26px}
-.photos-tabbar{
-  position:sticky;bottom:0;display:flex;justify-content:space-around;
-  align-items:center;background:#f7f7f9ed;border-top:1px solid #ddd;
-  padding:10px 0 calc(env(safe-area-inset-bottom) + 10px);
-  margin-top:15px;backdrop-filter:blur(20px);
-}
-.photos-tabbar button{
-  border:0;background:transparent;color:#777;display:flex;
-  flex-direction:column;align-items:center;gap:3px;font-size:11px;
-}
-.photos-tabbar button span{font-size:21px}
-.photos-tabbar button.active{color:#087aff}
-.photos-detail{
-  position:absolute;inset:0;z-index:5;background:#f7f7f9;
-  display:none;overflow-y:auto;padding:calc(env(safe-area-inset-top) + 12px) 15px 50px;
-}
-.photos-detail.show{display:block}
-.photos-detail-header{
-  display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;
-}
-.photos-detail-header h2{font-size:27px;margin:0}
-.owner-hint{font-size:12px;color:#777;margin:10px 0 15px}
-.hidden-file{display:none}
-</style>
-
-<section class="photos-screen" id="photosScreen">
-  <div class="photos-header">
-    <button id="photosHome" type="button">‹ Home</button>
-    <h1>Photos</h1>
-    <button id="photosEdit" type="button">Select</button>
-  </div>
-
+<section class="app-screen photos-screen" id="photosScreen">
+  <button class="back" data-home="photosScreen">‹ Home</button>
+  <h1 class="app-title">Photos</h1>
   <p class="photos-subtitle">Your memories, organized by year</p>
-
-  <div class="photos-content" id="photosContent">
-    <!-- JavaScript will create the 2021–2026 albums here -->
-  </div>
-
-  <div class="photos-tabbar">
-    <button class="active" data-photos-tab="years" type="button">
-      <span>▦</span>Years
-    </button>
-    <button data-photos-tab="months" type="button">
-      <span>▦</span>Months
-    </button>
-    <button data-photos-tab="all" type="button">
-      <span>▦</span>All Photos
-    </button>
-  </div>
-
-  <!-- Album detail view -->
+  <div id="photosContent"></div>
   <div class="photos-detail" id="photosDetail">
-    <div class="photos-detail-header">
-      <button id="photosBack" type="button">‹ Photos</button>
-      <h2 id="photosDetailTitle">2026</h2>
-      <button id="photosYearEdit" type="button">Edit</button>
-    </div>
-
-    <p class="owner-hint" id="photosDetailHint">
-      6 photos · Owner PIN required to edit.
-    </p>
-
+    <div class="photos-year-heading"><button id="photosBack">‹ Photos</button><h2 id="photosDetailTitle">2026</h2><button id="photosYearEdit">Edit</button></div>
+    <p id="photosHint">6 photos · Owner PIN required to edit.</p>
     <div class="photos-detail-grid" id="photosDetailGrid"></div>
   </div>
 </section>
 
-<!-- Owner-selected images for each yearly album -->
-<input class="hidden-file" id="yearPhotosFile"
-       type="file" accept="image/*" multiple>
+<div class="home-indicator"></div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -419,27 +222,24 @@ const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
 let unlocked = false;
 let ownerVerified = false;
 let entered = "";
+let savedPostPhotos = [];
 let selectedYear = 2026;
 let selectedPhotoIndex = null;
-let selectMode = false;
-let savedPostPhotos = [];
 let yearlyPhotos = {};
 
 YEARS.forEach(year => yearlyPhotos[year] = Array(6).fill(""));
 
-const lockUI = $("lockUI");
+const wallpaper = $("wallpaper");
+const ownerPanel = $("ownerPanel");
+const lockScreen = $("lockScreen");
 const homeScreen = $("homeScreen");
 const passcode = $("passcode");
-const ownerPanel = $("ownerPanel");
-const wallpaper = $("wallpaper");
-const photosScreen = $("photosScreen");
-const photosDetail = $("photosDetail");
 
 function safeGet(key, fallback = null) {
   try {
     const value = localStorage.getItem(key);
     return value === null ? fallback : value;
-  } catch (e) {
+  } catch (error) {
     return fallback;
   }
 }
@@ -448,7 +248,7 @@ function safeSet(key, value) {
   try {
     localStorage.setItem(key, value);
     return true;
-  } catch (e) {
+  } catch (error) {
     return false;
   }
 }
@@ -465,34 +265,38 @@ function readImage(file) {
 /* CLOCK */
 function updateClock() {
   const now = new Date();
+
   $("lockClock").textContent = now.toLocaleTimeString([], {
-    hour: "2-digit", minute: "2-digit", hour12: false
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
   });
+
   $("statusTime").textContent = now.toLocaleTimeString([], {
-    hour: "numeric", minute: "2-digit"
-  }) + " ☾";
-  $("lockDate").textContent = now.toLocaleDateString([], {
-    weekday: "short", month: "short", day: "numeric"
+    hour: "numeric",
+    minute: "2-digit"
   });
+
+  $("lockDate").textContent = now.toLocaleDateString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric"
+  });
+
   $("calendarDay").textContent = now.toLocaleDateString([], {
     weekday: "long"
   }).toUpperCase();
+
   $("calendarNumber").textContent = now.getDate();
 }
+
 updateClock();
 setInterval(updateClock, 1000);
 
-/* LOCK SCREEN */
-function openPasscode() {
-  if (unlocked) return;
-  entered = "";
-  $("passMessage").textContent = "";
-  updateDots();
-  passcode.classList.add("show");
-}
-
+/* PASSCODE */
 function updateDots() {
   $("dots").innerHTML = "";
+
   for (let i = 0; i < 4; i++) {
     const dot = document.createElement("span");
     dot.className = "dot" + (i < entered.length ? " filled" : "");
@@ -500,22 +304,34 @@ function updateDots() {
   }
 }
 
-function pressDigit(number) {
+function openPasscode() {
+  if (unlocked) return;
+
+  entered = "";
+  $("passMessage").textContent = "";
+  updateDots();
+  passcode.classList.add("active");
+}
+
+function enterDigit(number) {
   if (entered.length >= 4) return;
+
   entered += number;
   updateDots();
 
   if (entered.length === 4) {
     if (entered === PASSCODE) {
       $("passMessage").textContent = "Unlocked!";
+
       setTimeout(() => {
         unlocked = true;
-        passcode.classList.remove("show");
-        lockUI.style.display = "none";
-        homeScreen.classList.add("show");
+        passcode.classList.remove("active");
+        lockScreen.style.display = "none";
+        homeScreen.classList.add("active");
       }, 300);
     } else {
       $("passMessage").textContent = "Incorrect passcode";
+
       setTimeout(() => {
         entered = "";
         $("passMessage").textContent = "";
@@ -531,7 +347,7 @@ function pressDigit(number) {
   button.type = "button";
   button.textContent = number;
 
-  if (!number) {
+  if (number === "") {
     button.style.visibility = "hidden";
     button.disabled = true;
   } else if (number === "⌫") {
@@ -541,50 +357,59 @@ function pressDigit(number) {
       updateDots();
     };
   } else {
-    button.onclick = () => pressDigit(number);
+    button.onclick = () => enterDigit(number);
   }
+
   $("keypad").appendChild(button);
 });
 
-$("camera").onclick = openPasscode;
-$("cancelButton").onclick = () => {
-  passcode.classList.remove("show");
+$("cameraButton").onclick = openPasscode;
+
+$("cancelPasscode").onclick = () => {
+  passcode.classList.remove("active");
   entered = "";
   updateDots();
 };
 
 /* SWIPE UP TO UNLOCK */
 let touchStartY = null;
+
 $("phone").addEventListener("touchstart", event => {
-  if (unlocked || passcode.classList.contains("show")) return;
+  if (unlocked || passcode.classList.contains("active")) return;
   touchStartY = event.changedTouches[0].clientY;
-}, {passive:true});
+}, { passive: true });
 
 $("phone").addEventListener("touchend", event => {
-  if (unlocked || passcode.classList.contains("show") || touchStartY === null) return;
-  const endY = event.changedTouches[0].clientY;
-  if (touchStartY - endY > 45) openPasscode();
-  touchStartY = null;
-}, {passive:true});
+  if (unlocked || passcode.classList.contains("active") || touchStartY === null) {
+    touchStartY = null;
+    return;
+  }
 
-/* OWNER SETTINGS */
+  const endY = event.changedTouches[0].clientY;
+
+  if (touchStartY - endY > 45) openPasscode();
+
+  touchStartY = null;
+}, { passive: true });
+
+/* OWNER ACCESS */
 function showOwnerLogin(message = "Enter your owner PIN.") {
   ownerVerified = false;
   $("ownerLogin").hidden = false;
   $("ownerOptions").hidden = true;
   $("ownerPin").value = "";
   $("ownerMessage").textContent = message;
-  ownerPanel.classList.add("show");
+  ownerPanel.classList.add("active");
 }
 
-function closeOwner() {
+function closeOwnerPanel() {
   ownerVerified = false;
-  ownerPanel.classList.remove("show");
+  ownerPanel.classList.remove("active");
 }
 
 $("ownerButton").onclick = () => showOwnerLogin();
-$("closeOwner").onclick = closeOwner;
-$("doneOwner").onclick = closeOwner;
+$("closeOwner").onclick = closeOwnerPanel;
+$("doneOwner").onclick = closeOwnerPanel;
 
 $("verifyOwner").onclick = () => {
   if ($("ownerPin").value === OWNER_PIN) {
@@ -598,39 +423,45 @@ $("verifyOwner").onclick = () => {
   }
 };
 
-function requireOwner(action) {
-  if (!ownerVerified) {
-    showOwnerLogin("Enter your owner PIN to edit photos.");
-    return;
+/* WALLPAPER ONLY
+   This changes the wallpaper element and nothing else. */
+$("chooseWallpaper").onclick = () => {
+  if (ownerVerified) {
+    $("wallpaperFile").click();
+  } else {
+    showOwnerLogin("Enter your PIN to change the wallpaper.");
   }
-  action();
-}
-
-/* WALLPAPER */
-$("chooseWallpaper").onclick = () => requireOwner(() => $("wallpaperFile").click());
+};
 
 $("wallpaperFile").onchange = async event => {
   if (!ownerVerified) return;
+
   const file = event.target.files[0];
   if (!file) return;
 
   try {
     const image = await readImage(file);
+
+    // Wallpaper changes only here.
     wallpaper.style.backgroundImage = `url("${image}")`;
+
     if (!safeSet("iphoneWallpaper", image)) {
-      alert("Wallpaper applied, but browser storage is full.");
+      alert("Wallpaper applied, but browser storage is full. Try a smaller photo.");
     }
-    closeOwner();
-  } catch {
-    alert("Could not open this image.");
+
+    closeOwnerPanel();
+  } catch (error) {
+    alert("Could not load the wallpaper image.");
   }
+
   event.target.value = "";
 };
 
-/* INSTAGRAM PROFILE AND POSTS */
+/* INSTAGRAM PROFILE PHOTO ONLY
+   This changes the round profile image, not the wallpaper. */
 function showProfilePhoto(image) {
   const img = $("igProfilePhoto");
-  const placeholder = $("igProfilePlaceholder");
+  const placeholder = $("profilePlaceholder");
 
   if (image) {
     img.src = image;
@@ -643,32 +474,43 @@ function showProfilePhoto(image) {
   }
 }
 
-$("chooseProfilePhoto").onclick = () =>
-  requireOwner(() => $("profilePhotoFile").click());
+$("chooseProfilePhoto").onclick = () => {
+  if (ownerVerified) {
+    $("profilePhotoFile").click();
+  } else {
+    showOwnerLogin("Enter your PIN to change your Instagram photo.");
+  }
+};
 
 $("profilePhotoFile").onchange = async event => {
   if (!ownerVerified) return;
+
   const file = event.target.files[0];
   if (!file) return;
 
   try {
     const image = await readImage(file);
+
+    // Instagram profile changes only here.
     showProfilePhoto(image);
+
     if (!safeSet("iphoneInstagramProfile", image)) {
-      alert("Photo applied, but browser storage is full.");
+      alert("Profile photo applied, but browser storage is full.");
     }
-  } catch {
-    alert("Could not open this image.");
+  } catch (error) {
+    alert("Could not load the Instagram profile photo.");
   }
+
   event.target.value = "";
 };
 
+/* INSTAGRAM POST PHOTOS */
 function renderInstagramPosts() {
   const grid = $("igGrid");
   grid.innerHTML = "";
 
   if (!savedPostPhotos.length) {
-    ["📷","🌿","🌆"].forEach(symbol => {
+    ["📷", "🌿", "🌆"].forEach(symbol => {
       const tile = document.createElement("div");
       tile.className = "ig-post";
       tile.textContent = symbol;
@@ -680,77 +522,90 @@ function renderInstagramPosts() {
   savedPostPhotos.forEach((image, index) => {
     const tile = document.createElement("div");
     tile.className = "ig-post";
+
     const img = document.createElement("img");
     img.src = image;
     img.alt = "Post " + (index + 1);
+
     tile.appendChild(img);
     grid.appendChild(tile);
   });
 }
 
-$("choosePostPhotos").onclick = () =>
-  requireOwner(() => $("postPhotosFile").click());
+$("choosePostPhotos").onclick = () => {
+  if (ownerVerified) {
+    $("postPhotosFile").click();
+  } else {
+    showOwnerLogin("Enter your PIN to edit Instagram posts.");
+  }
+};
 
 $("postPhotosFile").onchange = async event => {
   if (!ownerVerified) return;
+
   const files = Array.from(event.target.files)
     .filter(file => file.type.startsWith("image/"))
     .slice(0, 9);
+
   if (!files.length) return;
 
   try {
     const images = await Promise.all(files.map(readImage));
+
     if (safeSet("iphoneInstagramPosts", JSON.stringify(images))) {
       savedPostPhotos = images;
       renderInstagramPosts();
-      alert("Instagram photos saved!");
+      alert("Instagram post photos saved!");
     } else {
-      alert("Storage is full. Choose fewer or smaller photos.");
+      alert("Storage is full. Try fewer or smaller photos.");
     }
-  } catch {
+  } catch (error) {
     alert("Could not load the selected photos.");
   }
+
   event.target.value = "";
 };
 
 $("openInstagram").onclick = () => {
-  $("instagramScreen").classList.add("show");
+  $("instagramScreen").classList.add("active");
   showProfilePhoto(safeGet("iphoneInstagramProfile"));
   renderInstagramPosts();
 };
-$("igHome").onclick = () => $("instagramScreen").classList.remove("show");
 
-$("igFollowing").onclick = event => {
+$("followButton").onclick = event => {
   event.currentTarget.textContent =
     event.currentTarget.textContent === "Following" ? "Follow" : "Following";
 };
-$("igMessage").onclick = () => alert("This is a simulated Instagram profile.");
-$("igContact").onclick = () => alert("Contact details are in the profile bio.");
-$("igAdd").onclick = () => alert("This is a simulated Instagram profile.");
 
-document.querySelectorAll(".ig-tabs button").forEach(button => {
-  button.onclick = () => {
-    document.querySelectorAll(".ig-tabs button")
-      .forEach(tab => tab.classList.remove("active"));
-    button.classList.add("active");
-    if (button.dataset.tab === "posts") {
-      renderInstagramPosts();
-    } else {
-      $("igGrid").innerHTML = "";
-      for (let i = 0; i < 3; i++) {
-        const tile = document.createElement("div");
-        tile.className = "ig-post";
-        tile.textContent = button.dataset.tab === "reels" ? "▷" :
-          button.dataset.tab === "reposts" ? "⇄" : "♙";
-        $("igGrid").appendChild(tile);
-      }
-    }
-  };
-});
-
-/* PHOTOS APP: SIX SLOTS FOR EACH YEAR */
+/* PHOTOS: 6 SLOTS PER YEAR */
 function saveYearPhotos() {
   return safeSet("iphoneYearlyPhotos", JSON.stringify(yearlyPhotos));
+}
+
+function makePhotoTile(year, index) {
+  const tile = document.createElement("button");
+  tile.type = "button";
+  tile.className = "year-photo";
+  tile.setAttribute("aria-label", year + " photo " + (index + 1));
+
+  const image = yearlyPhotos[year][index];
+
+  if (image) {
+    const img = document.createElement("img");
+    img.src = image;
+    img.alt = year + " photo " + (index + 1);
+    tile.appendChild(img);
+  } else {
+    tile.textContent = "＋";
+  }
+
+  tile.onclick = () => {
+    selectedYear = year;
+    selectedPhotoIndex = index;
+    openYearDetail(year);
+  };
+
+  return tile;
 }
 
 function renderPhotosContent() {
@@ -764,23 +619,15 @@ function renderPhotosContent() {
     const heading = document.createElement("div");
     heading.className = "photos-year-heading";
 
-    const left = document.createElement("div");
     const title = document.createElement("h2");
-    title.className = "photos-year-title";
     title.textContent = year;
 
-    const count = document.createElement("div");
-    count.className = "photos-count";
-    count.textContent = "6 Photos";
+    const viewButton = document.createElement("button");
+    viewButton.type = "button";
+    viewButton.textContent = "See All ›";
+    viewButton.onclick = () => openYearDetail(year);
 
-    left.append(title, count);
-
-    const view = document.createElement("button");
-    view.type = "button";
-    view.textContent = "See All ›";
-    view.onclick = () => openYearDetail(year);
-
-    heading.append(left, view);
+    heading.append(title, viewButton);
 
     const grid = document.createElement("div");
     grid.className = "photos-grid";
@@ -794,53 +641,22 @@ function renderPhotosContent() {
   });
 }
 
-function makePhotoTile(year, index) {
-  const tile = document.createElement("button");
-  tile.type = "button";
-  tile.className = "year-photo";
-  tile.setAttribute("aria-label", `${year}, photo ${index + 1}`);
-
-  const image = yearlyPhotos[year][index];
-
-  if (image) {
-    const img = document.createElement("img");
-    img.src = image;
-    img.alt = `${year} photo ${index + 1}`;
-    tile.appendChild(img);
-  } else {
-    const symbol = document.createElement("span");
-    symbol.className = "empty-symbol";
-    symbol.textContent = "＋";
-    tile.appendChild(symbol);
-  }
-
-  tile.onclick = () => {
-    selectedYear = year;
-    selectedPhotoIndex = index;
-    openYearDetail(year);
-  };
-
-  return tile;
-}
-
 function openYearDetail(year) {
   selectedYear = year;
   $("photosDetailTitle").textContent = year;
-  $("photosDetailHint").textContent =
-    "6 photo slots · Enter Owner PIN to edit.";
+  $("photosHint").textContent = "6 photo slots · Owner PIN required to edit.";
+
   const grid = $("photosDetailGrid");
   grid.innerHTML = "";
 
   for (let i = 0; i < 6; i++) {
     grid.appendChild(makePhotoTile(year, i));
   }
-  photosDetail.classList.add("show");
+
+  $("photosDetail").classList.add("active");
 }
 
-function startYearPhotoPicker(year, index = null) {
-  selectedYear = year;
-  selectedPhotoIndex = index;
-
+function startYearPicker(year, index = null) {
   const input = $("yearPhotosFile");
   input.dataset.year = year;
   input.dataset.index = index === null ? "" : String(index);
@@ -849,10 +665,7 @@ function startYearPhotoPicker(year, index = null) {
 }
 
 $("yearPhotosFile").onchange = async event => {
-  if (!ownerVerified) {
-    alert("Please enter the Owner PIN first.");
-    return;
-  }
+  if (!ownerVerified) return;
 
   const year = Number(event.target.dataset.year);
   const indexValue = event.target.dataset.index;
@@ -870,7 +683,9 @@ $("yearPhotosFile").onchange = async event => {
       yearlyPhotos[year][Number(indexValue)] = images[0];
     } else {
       yearlyPhotos[year] = Array(6).fill("");
-      images.forEach((image, i) => yearlyPhotos[year][i] = image);
+      images.forEach((image, index) => {
+        yearlyPhotos[year][index] = image;
+      });
     }
 
     if (saveYearPhotos()) {
@@ -878,9 +693,9 @@ $("yearPhotosFile").onchange = async event => {
       openYearDetail(year);
       alert("Photos for " + year + " saved!");
     } else {
-      alert("Browser storage is full. Try smaller images.");
+      alert("Storage is full. Try smaller photos.");
     }
-  } catch {
+  } catch (error) {
     alert("Could not load the selected photos.");
   }
 
@@ -888,33 +703,21 @@ $("yearPhotosFile").onchange = async event => {
 };
 
 $("openPhotos").onclick = () => {
-  $("photosScreen").classList.add("show");
+  $("photosScreen").classList.add("active");
   renderPhotosContent();
-  photosDetail.classList.remove("show");
+  $("photosDetail").classList.remove("active");
 };
 
-$("photosHome").onclick = () => {
-  photosScreen.classList.remove("show");
-  photosDetail.classList.remove("show");
-};
-
-$("photosBack").onclick = () => photosDetail.classList.remove("show");
-
-$("photosEdit").onclick = () => {
-  selectMode = !selectMode;
-  $("photosEdit").textContent = selectMode ? "Done" : "Select";
-  if (selectMode) {
-    alert("Open a year, then tap Edit to change its photos.");
-  }
-};
+$("photosBack").onclick = () => $("photosDetail").classList.remove("active");
 
 $("photosYearEdit").onclick = () => {
-  showOwnerLogin("Enter your owner PIN to edit " + selectedYear + ".");
+  showOwnerLogin("Enter your PIN to edit " + selectedYear + " photos.");
+
   $("verifyOwner").onclick = () => {
     if ($("ownerPin").value === OWNER_PIN) {
       ownerVerified = true;
-      closeOwner();
-      startYearPhotoPicker(selectedYear, selectedPhotoIndex);
+      closeOwnerPanel();
+      startYearPicker(selectedYear, selectedPhotoIndex);
     } else {
       $("ownerMessage").textContent = "Incorrect PIN. Try again.";
     }
@@ -922,29 +725,18 @@ $("photosYearEdit").onclick = () => {
 };
 
 $("editYearPhotos").onclick = () => {
-  selectedPhotoIndex = null;
-  showOwnerLogin("Enter your owner PIN to edit yearly albums.");
+  showOwnerLogin("Enter your PIN to edit a yearly album.");
+
   $("verifyOwner").onclick = () => {
     if ($("ownerPin").value === OWNER_PIN) {
       ownerVerified = true;
-      closeOwner();
-      startYearPhotoPicker(selectedYear, null);
+      closeOwnerPanel();
+      startYearPicker(selectedYear, null);
     } else {
       $("ownerMessage").textContent = "Incorrect PIN. Try again.";
     }
   };
 };
-
-document.querySelectorAll("[data-photos-tab]").forEach(button => {
-  button.onclick = () => {
-    document.querySelectorAll("[data-photos-tab]")
-      .forEach(tab => tab.classList.remove("active"));
-    button.classList.add("active");
-    if (button.dataset.photosTab === "all") {
-      $("photosContent").scrollIntoView({block:"start"});
-    }
-  };
-});
 
 /* CALENDAR */
 let viewedMonth = new Date();
@@ -953,6 +745,7 @@ let selectedDate = new Date();
 function renderCalendar() {
   const grid = $("calendarGrid");
   grid.innerHTML = "";
+
   $("monthName").textContent = viewedMonth.toLocaleDateString([], {
     month: "long", year: "numeric"
   });
@@ -969,7 +762,9 @@ function renderCalendar() {
   const firstDay = new Date(year, month, 1).getDay();
   const totalDays = new Date(year, month + 1, 0).getDate();
 
-  for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement("div"));
+  for (let i = 0; i < firstDay; i++) {
+    grid.appendChild(document.createElement("div"));
+  }
 
   for (let day = 1; day <= totalDays; day++) {
     const date = new Date(year, month, day);
@@ -978,51 +773,39 @@ function renderCalendar() {
     button.className = "date-cell";
     button.textContent = day;
 
-    if (date.toDateString() === new Date().toDateString()) button.classList.add("today");
-    if (date.toDateString() === selectedDate.toDateString()) button.classList.add("selected");
+    if (date.toDateString() === new Date().toDateString()) {
+      button.classList.add("today");
+    }
 
     button.onclick = () => {
       selectedDate = date;
+      $("selectedDate").textContent = date.toLocaleDateString([], {
+        weekday: "long", month: "long", day: "numeric"
+      });
       renderCalendar();
     };
+
     grid.appendChild(button);
   }
-
-  $("selectedDateTitle").textContent = selectedDate.toLocaleDateString([], {
-    weekday: "long", month: "long", day: "numeric"
-  });
 }
 
 $("openCalendar").onclick = () => {
-  viewedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
   renderCalendar();
-  $("calendarApp").classList.add("show");
+  $("calendarScreen").classList.add("active");
 };
-$("closeCalendar").onclick = () => $("calendarApp").classList.remove("show");
-$("previousMonth").onclick = () => {
+
+$("prevMonth").onclick = () => {
   viewedMonth.setMonth(viewedMonth.getMonth() - 1);
   renderCalendar();
 };
+
 $("nextMonth").onclick = () => {
   viewedMonth.setMonth(viewedMonth.getMonth() + 1);
   renderCalendar();
 };
-$("todayCalendar").onclick = () => {
-  selectedDate = new Date();
-  viewedMonth = new Date();
-  renderCalendar();
-};
 
 /* SETTINGS */
-$("openSettings").onclick = () => {
-  $("iphoneSettings").classList.add("show");
-  $("settingsDetail").classList.remove("show");
-};
-$("settingsHome").onclick = () => {
-  $("iphoneSettings").classList.remove("show");
-  $("settingsDetail").classList.remove("show");
-};
-$("settingsBack").onclick = () => $("settingsDetail").classList.remove("show");
+$("openSettings").onclick = () => $("settingsScreen").classList.add("active");
 
 document.querySelectorAll(".settings-row").forEach(button => {
   button.onclick = () => {
@@ -1030,32 +813,37 @@ document.querySelectorAll(".settings-row").forEach(button => {
     $("detailTitle").textContent = name;
     $("detailText").textContent =
       name === "Wallpaper"
-        ? "Use Owner Settings to change the simulated wallpaper."
-        : "This is a simulated iPhone settings screen.";
-    $("settingsDetail").classList.add("show");
+        ? "Use Owner Settings to change your simulated wallpaper."
+        : "This is a simulated iPhone setting.";
+    $("settingsDetail").classList.add("active");
+  };
+});
+
+$("settingsBack").onclick = () => $("settingsDetail").classList.remove("active");
+
+/* BACK TO HOME BUTTONS */
+document.querySelectorAll("[data-home]").forEach(button => {
+  button.onclick = () => {
+    $(button.dataset.home).classList.remove("active");
   };
 });
 
 /* SPOTIFY */
-const playlistURL =
-  "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=heaGQUV6QXCAL4T745ou_g&utm_source=copy-link&pi=YDpoHpKBSwKGf";
-
-function openPlaylist() {
-  window.location.href = playlistURL;
-}
-$("spotifyWidget").onclick = openPlaylist;
-$("playButton").onclick = event => {
-  event.stopPropagation();
-  openPlaylist();
+$("spotifyWidget").onclick = () => {
+  window.open(
+    "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA",
+    "_blank"
+  );
 };
 
-/* LOAD SAVED PHOTOS */
+/* RESTORE SAVED CONTENT */
 function loadSaved() {
   const savedWallpaper = safeGet("iphoneWallpaper");
   if (savedWallpaper) {
     wallpaper.style.backgroundImage = `url("${savedWallpaper}")`;
   }
 
+  // Load profile photo into Instagram only.
   showProfilePhoto(safeGet("iphoneInstagramProfile"));
 
   try {
@@ -1067,10 +855,14 @@ function loadSaved() {
 
   try {
     const savedYears = JSON.parse(safeGet("iphoneYearlyPhotos", "{}"));
+
     YEARS.forEach(year => {
       if (Array.isArray(savedYears[year])) {
         yearlyPhotos[year] = savedYears[year].slice(0, 6);
-        while (yearlyPhotos[year].length < 6) yearlyPhotos[year].push("");
+
+        while (yearlyPhotos[year].length < 6) {
+          yearlyPhotos[year].push("");
+        }
       }
     });
   } catch {}
@@ -1082,6 +874,7 @@ function loadSaved() {
 loadSaved();
 renderCalendar();
 </script>
+
+</main>
 </body>
 </html>
-
