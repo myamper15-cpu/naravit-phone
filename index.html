@@ -689,6 +689,119 @@ button {
     height: 62px;
   }
 }
+  
+/* NORMAL CALENDAR APP */
+.calendar-widget {
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  border: 0;
+  cursor: pointer;
+}
+
+.calendar-app-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: none;
+  overflow-y: auto;
+  background: #f7f7f9;
+  color: #171717;
+  padding: calc(env(safe-area-inset-top, 0px) + 35px) 20px 40px;
+}
+
+.calendar-app-screen.show {
+  display: block;
+}
+
+.calendar-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calendar-toolbar button,
+.calendar-nav button {
+  border: 0;
+  background: transparent;
+  color: #087aff;
+  font-size: 17px;
+  padding: 8px;
+}
+
+.calendar-title {
+  font-size: 30px;
+  font-weight: 750;
+  margin: 24px 0 18px;
+}
+
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendar-month {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  text-align: center;
+  gap: 8px 0;
+}
+
+.calendar-weekday {
+  color: #777;
+  font-size: 12px;
+  padding: 8px 0;
+}
+
+.calendar-date {
+  height: 39px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #171717;
+}
+
+.calendar-date.today {
+  background: #087aff;
+  color: white;
+  font-weight: 700;
+}
+
+.calendar-date.selected {
+  outline: 2px solid #087aff;
+  outline-offset: -2px;
+}
+
+.calendar-agenda {
+  border-top: 1px solid #ddd;
+  margin-top: 25px;
+  padding-top: 18px;
+}
+
+.calendar-agenda h3 {
+  font-size: 19px;
+}
+
+.calendar-agenda p {
+  color: #777;
+  font-size: 15px;
+}
+
+.calendar-app-screen .home-indicator {
+  background: #111;
+}
+
 </style>
 </head>
 
@@ -731,11 +844,11 @@ button {
     </button>
 
     <div class="widgets">
-      <div class="calendar-widget">
+      <button class="calendar-widget" id="openCalendar" type="button">
         <div class="calendar-day" id="calendarDay">MONDAY</div>
         <div class="calendar-number" id="calendarNumber">26</div>
         <div class="calendar-events">No Events<br>Today</div>
-      </div>
+    </button>
 
       <div class="spotify-widget">
         <div class="spotify-top">
@@ -854,6 +967,31 @@ button {
   <input id="wallpaperFile" type="file" accept="image/*">
 
   <div class="home-indicator" id="homeIndicator"></div>
+
+<section class="calendar-app-screen" id="calendarApp">
+  <div class="calendar-toolbar">
+    <button id="closeCalendar">‹ Home</button>
+    <button id="todayCalendar">Today</button>
+  </div>
+
+  <h1 class="calendar-title">Calendar</h1>
+
+  <div class="calendar-nav">
+    <button id="previousMonth">‹</button>
+    <div class="calendar-month" id="calendarMonthTitle"></div>
+    <button id="nextMonth">›</button>
+  </div>
+
+  <div class="calendar-grid" id="calendarGrid"></div>
+
+  <div class="calendar-agenda">
+    <h3 id="selectedDateTitle">Today</h3>
+    <p>No Events</p>
+  </div>
+
+  <div class="home-indicator"></div>
+</section>
+
 </main>
 
 <script>
@@ -1156,6 +1294,108 @@ document.getElementById("playButton").onclick = function() {
 document.getElementById("searchButton").onclick = () => {
   alert("Search is a visual demo.");
 };
+  
+const calendarApp = document.getElementById("calendarApp");
+const calendarGrid = document.getElementById("calendarGrid");
+const calendarMonthTitle = document.getElementById("calendarMonthTitle");
+const selectedDateTitle = document.getElementById("selectedDateTitle");
+
+let viewedMonth = new Date();
+let selectedCalendarDate = new Date();
+
+function renderCalendar() {
+  calendarGrid.innerHTML = "";
+
+  calendarMonthTitle.textContent = viewedMonth.toLocaleDateString(
+    undefined,
+    { month: "long", year: "numeric" }
+  );
+
+  ["S", "M", "T", "W", "T", "F", "S"].forEach(day => {
+    const heading = document.createElement("div");
+    heading.className = "calendar-weekday";
+    heading.textContent = day;
+    calendarGrid.appendChild(heading);
+  });
+
+  const year = viewedMonth.getFullYear();
+  const month = viewedMonth.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    calendarGrid.appendChild(document.createElement("div"));
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const button = document.createElement("button");
+    button.className = "calendar-date";
+    button.textContent = day;
+
+    const isToday = date.toDateString() === new Date().toDateString();
+    const isSelected =
+      date.toDateString() === selectedCalendarDate.toDateString();
+
+    if (isToday) button.classList.add("today");
+    if (isSelected) button.classList.add("selected");
+
+    button.onclick = () => {
+      selectedCalendarDate = date;
+      renderCalendar();
+
+      selectedDateTitle.textContent = date.toLocaleDateString(
+        undefined,
+        {
+          weekday: "long",
+          month: "long",
+          day: "numeric"
+        }
+      );
+    };
+
+    calendarGrid.appendChild(button);
+  }
+
+  selectedDateTitle.textContent =
+    selectedCalendarDate.toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric"
+    });
+}
+
+document.getElementById("openCalendar").onclick = () => {
+  viewedMonth = new Date(
+    selectedCalendarDate.getFullYear(),
+    selectedCalendarDate.getMonth(),
+    1
+  );
+
+  renderCalendar();
+  calendarApp.classList.add("show");
+};
+
+document.getElementById("closeCalendar").onclick = () => {
+  calendarApp.classList.remove("show");
+};
+
+document.getElementById("previousMonth").onclick = () => {
+  viewedMonth.setMonth(viewedMonth.getMonth() - 1);
+  renderCalendar();
+};
+
+document.getElementById("nextMonth").onclick = () => {
+  viewedMonth.setMonth(viewedMonth.getMonth() + 1);
+  renderCalendar();
+};
+
+document.getElementById("todayCalendar").onclick = () => {
+  selectedCalendarDate = new Date();
+  viewedMonth = new Date();
+  renderCalendar();
+};
+
 </script>
 </body>
 </html>
