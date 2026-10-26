@@ -522,33 +522,34 @@ body {
   </div>
 
   
+
+
 <!-- LOCK SCREEN -->
 <section class="screen active" id="lock">
   <div class="lock-top">
     <span class="tm">TM</span>
-    <span class="lock-status-icons">●●●　 Wi-Fi　▰</span>
+    <span class="lock-status-icons">▮▮▮　◉ Wi-Fi　▰</span>
   </div>
 
-  <div class="lock-symbol">♙</div>
+  <div class="lock-symbol">🔒</div>
 
-  <div class="swipe-text" onclick="showPasscode()">
+  <div class="swipe-text">
     Swipe up to unlock
   </div>
 
-  <div class="lock-clock" id="clock">4:41</div>
+  <div class="lock-clock" id="clock">4:47</div>
   <div class="date" id="date"></div>
 
   <div class="lock-bottom">
-    <button class="round-control"
-      onclick="toggleFlashlight()">▮</button>
+    <button class="round-control" aria-label="Flashlight"
+      onclick="toggleFlashlight()">🔦</button>
 
     <div class="focus-label">☾ Do Not Disturb</div>
 
-    <button class="round-control"
+    <button class="round-control" aria-label="Camera"
       onclick="showPasscode()">📷</button>
   </div>
 </section>
-
 
   <!-- PASSCODE -->
   <section class="screen" id="passcode">
@@ -787,6 +788,25 @@ function showPasscode() {
   document.getElementById("error").textContent = "";
   showScreen("passcode");
 }
+  
+/* SWIPE UP TO OPEN PASSCODE */
+let swipeStartY = 0;
+
+const lockScreen = document.getElementById("lock");
+
+lockScreen.addEventListener("touchstart", function(event) {
+  swipeStartY = event.changedTouches[0].clientY;
+}, { passive: true });
+
+lockScreen.addEventListener("touchend", function(event) {
+  const swipeEndY = event.changedTouches[0].clientY;
+  const distance = swipeStartY - swipeEndY;
+
+  if (distance > 60) {
+    showPasscode();
+  }
+}, { passive: true });
+
 
 function updateDots() {
   document.getElementById("dots").innerHTML =
@@ -892,10 +912,10 @@ function updateTime() {
   const now = new Date();
 
   const time = now.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit"
-  });
-
+  hour: "numeric",
+  minute: "2-digit"
+}).replace(/\s?(AM|PM)/i, "");
+  
   document.getElementById("clock").textContent = time;
   document.getElementById("statusTime").textContent = time;
 
@@ -909,6 +929,48 @@ function updateTime() {
 
 updateTime();
 setInterval(updateTime, 1000);
+
+/* FINAL LOCK SCREEN FIXES */
+.status {
+  display: none !important;
+}
+
+#lock {
+  touch-action: pan-x;
+}
+
+.lock-clock {
+  top: 16%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0;
+  font-size: clamp(100px, 27vw, 140px);
+  letter-spacing: -5px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.lock-symbol {
+  font-size: 26px;
+}
+
+.swipe-text {
+  pointer-events: none;
+  user-select: none;
+}
+
+.lock-bottom {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 45px);
+}
+
+.round-control {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 30px;
+  cursor: pointer;
+}
+
 </script>
 </body>
 </html>
