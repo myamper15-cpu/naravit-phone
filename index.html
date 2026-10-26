@@ -384,11 +384,11 @@ function buildKeys() {
 }
 buildKeys();
 
+
 function checkPass() {
   if (pass === '0705') {
     $('passmodal').classList.remove('show');
     $('lock').style.display = 'none';
-
     $('phone').classList.add('unlocked', 'on-home');
 
     document.querySelectorAll('.screen').forEach(s => {
@@ -396,6 +396,7 @@ function checkPass() {
     });
 
     $('home').classList.add('active');
+    $('homeDock').style.display = 'flex';
     $('passError').textContent = '';
   } else {
     $('passError').textContent = 'Incorrect passcode. Try again.';
@@ -404,7 +405,6 @@ function checkPass() {
   }
 }
 
-}
 $('lock').addEventListener('click',e=>{
   if (!e.target.closest('button')) showPass();
 });
