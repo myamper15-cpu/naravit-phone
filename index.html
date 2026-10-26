@@ -73,7 +73,7 @@ button{cursor:pointer}
 .phone-app,.messages-app,.facetime-app{background:linear-gradient(#55ed72,#12bd49)}
 .contacts-app{background:linear-gradient(#eeeee5,#bcbcb1)}
 
-/* OWNER WALLPAPER CONTROLS */
+/* OWNER SETTINGS */
 .owner-panel{position:absolute;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:25px;background:#111c;backdrop-filter:blur(20px)}
 .owner-panel.show{display:flex}
 .owner-card{width:100%;max-width:320px;padding:24px;border:1px solid #ffffff40;border-radius:24px;background:#292929f2;text-align:center}
@@ -82,7 +82,6 @@ button{cursor:pointer}
 .owner-input{width:100%;padding:12px;border:1px solid #ffffff50;border-radius:12px;background:#ffffff15;color:white;text-align:center;font-size:18px;margin:8px 0 12px}
 .owner-action{width:100%;padding:12px;margin-top:8px;border:0;border-radius:12px;background:white;color:#222;font-weight:700}
 .owner-cancel{background:#ffffff20;color:white}
-#wallpaperFile{display:none}
 
 /* CALENDAR APP */
 .calendar-app{position:absolute;inset:0;z-index:40;display:none;overflow-y:auto;background:#f7f7f9;color:#171717;padding:calc(env(safe-area-inset-top) + 25px) 20px 50px}
@@ -132,12 +131,8 @@ button{cursor:pointer}
 .detail p{color:#66666e;line-height:1.6;font-size:16px}
 .settings-indicator{display:none!important}
 
-/* INSTAGRAM PROFILE */
-.instagram-screen{
-  position:absolute;inset:0;z-index:50;display:none;overflow-y:auto;
-  overscroll-behavior:contain;background:#fff;color:#111;
-  padding-top:calc(env(safe-area-inset-top) + 8px);padding-bottom:25px
-}
+/* INSTAGRAM */
+.instagram-screen{position:absolute;inset:0;z-index:50;display:none;overflow-y:auto;overscroll-behavior:contain;background:#fff;color:#111;padding-top:calc(env(safe-area-inset-top) + 8px);padding-bottom:25px}
 .instagram-screen.show{display:block}
 .ig-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:24px;font-weight:750;gap:8px}
 .ig-topbar button{border:0;background:none;color:#111;font-size:30px;padding:0 5px}
@@ -146,7 +141,8 @@ button{cursor:pointer}
 .ig-profile{padding:12px 18px}
 .ig-profile-top{display:grid;grid-template-columns:31% 69%;align-items:center;gap:5px}
 .ig-avatar{width:100px;max-width:100%;aspect-ratio:1;border-radius:50%;padding:4px;background:linear-gradient(35deg,#ffbd37,#ff2878,#a52bdf)}
-.ig-avatar-inner{width:100%;height:100%;display:grid;place-items:center;border:3px solid white;border-radius:50%;background:linear-gradient(135deg,#d7d7d7,#777);color:white;font-size:40px}
+.ig-avatar-inner{width:100%;height:100%;display:grid;place-items:center;border:3px solid white;border-radius:50%;background:linear-gradient(135deg,#d7d7d7,#777);color:white;font-size:40px;overflow:hidden}
+.ig-avatar-inner img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .ig-stats{display:flex;justify-content:space-around;text-align:center;gap:4px}
 .ig-stats strong{display:block;font-size:clamp(16px,4.7vw,21px)}
 .ig-stats span{font-size:clamp(11px,3.2vw,14px)}
@@ -167,15 +163,9 @@ button{cursor:pointer}
 .ig-post{aspect-ratio:.78;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#e1e1e1,#a7a7a7,#555);color:white;font-size:38px;position:relative}
 .ig-post:nth-child(3n+2){background:linear-gradient(145deg,#e7eaf0,#a8b7cb,#eee)}
 .ig-post:nth-child(3n){background:linear-gradient(145deg,#a7a08d,#43473f,#222)}
+.ig-post img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .ig-post small{position:absolute;bottom:8px;left:6px;font-size:11px;text-shadow:0 1px 5px #000}
 .ig-home-indicator{position:sticky;bottom:5px;width:110px;height:5px;margin:15px auto 0;border-radius:10px;background:#111}
-.ig-post img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  inset: 0;
-}
 @media(max-height:750px){
 .widgets{top:calc(env(safe-area-inset-top) + 65px)}
 .calendar-widget{padding:15px 11px}
@@ -194,104 +184,107 @@ button{cursor:pointer}
 }
 </style>
 </head>
-
 <body>
 <main class="phone" id="phone">
-
 <div class="wallpaper" id="wallpaper"></div>
 
 <div class="status">
-  <span id="statusTime">9:41 ☾</span>
-  <span class="status-right"><span>▂▄▆</span><span>◉</span><span class="battery">33</span></span>
+<span id="statusTime">9:41 ☾</span>
+<span class="status-right"><span>▂▄▆</span><span>◉</span><span class="battery">33</span></span>
 </div>
 
 <section class="lock-ui" id="lockUI">
-  <div class="lock-icon">🔒</div>
-  <div class="lock-date" id="lockDate">Mon Oct 26</div>
-  <div class="lock-clock" id="lockClock">9:41</div>
-  <div class="lock-message">Swipe up to unlock</div>
-  <div class="lock-bottom">
-    <button class="round-button" id="flashlight" type="button">🔦</button>
-    <div class="focus-label">☾ Do Not Disturb</div>
-    <button class="round-button" id="camera" type="button">📷</button>
-  </div>
+<div class="lock-icon">🔒</div>
+<div class="lock-date" id="lockDate">Mon Oct 26</div>
+<div class="lock-clock" id="lockClock">9:41</div>
+<div class="lock-message">Swipe up to unlock</div>
+<div class="lock-bottom">
+<button class="round-button" id="flashlight" type="button">🔦</button>
+<div class="focus-label">☾ Do Not Disturb</div>
+<button class="round-button" id="camera" type="button">📷</button>
+</div>
 </section>
 
 <section class="home-screen" id="homeScreen">
-  <button class="owner-button" id="ownerButton" type="button">Owner settings</button>
+<button class="owner-button" id="ownerButton" type="button">Owner settings</button>
 
-  <div class="widgets">
-    <button class="calendar-widget" id="openCalendar" type="button">
-      <div class="calendar-day" id="calendarDay">MONDAY</div>
-      <div class="calendar-number" id="calendarNumber">26</div>
-      <div class="calendar-events">No Events<br>Today</div>
-    </button>
+<div class="widgets">
+<button class="calendar-widget" id="openCalendar" type="button">
+<div class="calendar-day" id="calendarDay">MONDAY</div>
+<div class="calendar-number" id="calendarNumber">26</div>
+<div class="calendar-events">No Events<br>Today</div>
+</button>
 
-    <div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0">
-      <div class="spotify-top">
-        <div class="album-art">♪</div>
-        <div class="spotify-logo">≋</div>
-      </div>
-      <div class="spotify-bottom">
-        <div><div class="song-title">Black Card</div><div class="song-artist">Phuwin</div></div>
-        <button class="play-button" id="playButton" type="button">▶</button>
-      </div>
-    </div>
-  </div>
+<div class="spotify-widget" id="spotifyWidget" role="link" tabindex="0">
+<div class="spotify-top">
+<div class="album-art">♪</div>
+<div class="spotify-logo">≋</div>
+</div>
+<div class="spotify-bottom">
+<div><div class="song-title">Black Card</div><div class="song-artist">Phuwin</div></div>
+<button class="play-button" id="playButton" type="button">▶</button>
+</div>
+</div>
+</div>
 
-  <div class="widget-labels"><span>Calendar</span><span>Spotify</span></div>
+<div class="widget-labels"><span>Calendar</span><span>Spotify</span></div>
 
-  <div class="app-grid">
-    <div class="home-app"><button class="app-icon settings-app" id="openSettings" type="button">⚙️</button><span>Settings</span></div>
-    <div class="home-app"><button class="app-icon instagram-app" id="openInstagram" type="button">◎</button><span>Instagram</span></div>
-    <div class="home-app"><button class="app-icon photos-app" type="button">🌈</button><span>Photos</span></div>
-    <div class="home-app"><button class="app-icon facebook-app" type="button">f</button><span>Facebook</span></div>
-    <div class="home-app"><button class="app-icon music-app" type="button">♫</button><span>Music</span></div>
-    <div class="home-app"><button class="app-icon weather-app" type="button">🌤️</button><span>Weather</span></div>
-    <div class="home-app"><button class="app-icon clock-app" type="button">🕒</button><span>Clock</span></div>
-    <div class="home-app"><button class="app-icon youtube-app" type="button">▶</button><span>YouTube</span></div>
-  </div>
+<div class="app-grid">
+<div class="home-app"><button class="app-icon settings-app" id="openSettings" type="button">⚙️</button><span>Settings</span></div>
+<div class="home-app"><button class="app-icon instagram-app" id="openInstagram" type="button">◎</button><span>Instagram</span></div>
+<div class="home-app"><button class="app-icon photos-app" id="openPhotos" type="button">🌈</button><span>Photos</span></div>
+<div class="home-app"><button class="app-icon facebook-app" type="button">f</button><span>Facebook</span></div>
+<div class="home-app"><button class="app-icon music-app" type="button">♫</button><span>Music</span></div>
+<div class="home-app"><button class="app-icon weather-app" type="button">🌤️</button><span>Weather</span></div>
+<div class="home-app"><button class="app-icon clock-app" type="button">🕒</button><span>Clock</span></div>
+<div class="home-app"><button class="app-icon youtube-app" type="button">▶</button><span>YouTube</span></div>
+</div>
 
-  <button class="search-button" id="searchButton" type="button">⌕ Search</button>
-
-  <div class="home-dock">
-    <button class="dock-app phone-app" type="button">☎</button>
-    <button class="dock-app messages-app" type="button">●</button>
-    <button class="dock-app facetime-app" type="button">▣</button>
-    <button class="dock-app contacts-app" type="button">👤</button>
-  </div>
+<button class="search-button" id="searchButton" type="button">⌕ Search</button>
+<div class="home-dock">
+<button class="dock-app phone-app" type="button">☎</button>
+<button class="dock-app messages-app" type="button">●</button>
+<button class="dock-app facetime-app" type="button">▣</button>
+<button class="dock-app contacts-app" type="button">👤</button>
+</div>
 </section>
 
 <section class="passcode" id="passcode">
-  <h2>Enter Passcode</h2>
-  <div class="dots" id="dots"></div>
-  <div class="pass-message" id="passMessage"></div>
-  <div class="keypad" id="keypad"></div>
-  <button class="cancel" id="cancelButton" type="button">Cancel</button>
+<h2>Enter Passcode</h2>
+<div class="dots" id="dots"></div>
+<div class="pass-message" id="passMessage"></div>
+<div class="keypad" id="keypad"></div>
+<button class="cancel" id="cancelButton" type="button">Cancel</button>
 </section>
 
 <section class="owner-panel" id="ownerPanel">
-  <div class="owner-card">
-    <div id="ownerLogin">
-      <h2>Owner Access</h2>
-      <p>Enter your owner PIN to change the wallpaper.</p>
-      <input class="owner-input" id="ownerPin" type="password" inputmode="numeric" maxlength="12" placeholder="Owner PIN">
-      <p id="ownerMessage"></p>
-      <button class="owner-action" id="verifyOwner" type="button">Continue</button>
-      <button class="owner-action owner-cancel" id="closeOwner" type="button">Cancel</button>
-    </div>
-    <div id="ownerOptions" hidden>
-      <h2>Wallpaper Settings</h2>
-      <p>Choose a new photo for both screens.</p>
-      <button class="owner-action" id="chooseWallpaper" type="button">Choose photo</button>
-      <button class="owner-action owner-cancel" id="doneOwner" type="button">Done</button>
-    </div>
-  </div>
+<div class="owner-card">
+<div id="ownerLogin">
+<h2>Owner Access</h2>
+<p>Enter your owner PIN to change photos.</p>
+<input class="owner-input" id="ownerPin" type="password" inputmode="numeric" maxlength="12" placeholder="Owner PIN">
+<p id="ownerMessage"></p>
+<button class="owner-action" id="verifyOwner" type="button">Continue</button>
+<button class="owner-action owner-cancel" id="closeOwner" type="button">Cancel</button>
+</div>
+<div id="ownerOptions" hidden>
+<h2>Owner Settings</h2>
+<p>Choose which photo you want to change.</p>
+<button class="owner-action" id="chooseWallpaper" type="button">Change Wallpaper</button>
+<button class="owner-action" id="chooseProfilePhoto" type="button">Change Instagram Profile Photo</button>
+<button class="owner-action" id="choosePostPhotos" type="button">Choose Instagram Post Photos</button>
+<button class="owner-action owner-cancel" id="doneOwner" type="button">Done</button>
+</div>
+</div>
 </section>
 
-<input id="wallpaperFile" type="file" accept="image/*">
+<input id="wallpaperFile" type="file" accept="image/*" hidden>
+<input id="profilePhotoFile" type="file" accept="image/*" hidden>
+<input id="postPhotosFile" type="file" accept="image/*" multiple hidden>
+
 <div class="indicator" id="homeIndicator"></div>
 
+<!-- CALENDAR APP -->
 <section class="calendar-app" id="calendarApp">
   <div class="toolbar">
     <button id="closeCalendar" type="button">‹ Home</button>
@@ -304,10 +297,13 @@ button{cursor:pointer}
     <button id="nextMonth" type="button">›</button>
   </div>
   <div class="calendar-grid" id="calendarGrid"></div>
-  <div class="agenda"><h3 id="selectedDateTitle">Today</h3><p>No Events</p></div>
-  <div class="indicator" style="background:#171717"></div>
+  <div class="agenda">
+    <h3 id="selectedDateTitle">Today</h3>
+    <p>No Events</p>
+  </div>
 </section>
 
+<!-- IPHONE SETTINGS -->
 <section class="iphone-settings" id="iphoneSettings">
   <div class="settings-header">
     <button id="settingsHome" type="button">‹ Home</button>
@@ -318,7 +314,10 @@ button{cursor:pointer}
 
   <div class="apple-account settings-card">
     <div class="avatar">👤</div>
-    <div class="account-info"><strong>Apple Account</strong><span>Apple ID, iCloud, and more</span></div>
+    <div class="account-info">
+      <strong>Apple Account</strong>
+      <span>Apple ID, iCloud, and more</span>
+    </div>
     <span class="chevron">›</span>
   </div>
 
@@ -345,7 +344,6 @@ button{cursor:pointer}
     <h2 id="detailTitle">Settings</h2>
     <p id="detailText">Select an option to view its settings.</p>
   </div>
-  <div class="indicator settings-indicator"></div>
 </section>
 
 <!-- INSTAGRAM PROFILE -->
@@ -359,8 +357,12 @@ button{cursor:pointer}
   <div class="ig-profile">
     <div class="ig-profile-top">
       <div class="ig-avatar">
-        <div class="ig-avatar-inner">P</div>
+        <div class="ig-avatar-inner">
+          <img id="igProfilePhoto" alt="Instagram profile photo" style="display:none">
+          <span id="igProfilePlaceholder">P</span>
+        </div>
       </div>
+
       <div class="ig-stats">
         <div><strong>414</strong><span>posts</span></div>
         <div><strong>6.1M</strong><span>followers</span></div>
@@ -383,10 +385,10 @@ button{cursor:pointer}
     </div>
 
     <div class="ig-buttons">
-      <button id="igFollowing">Following</button>
-      <button id="igMessage">Message</button>
-      <button id="igContact">Contact</button>
-      <button id="igAdd">♙+</button>
+      <button id="igFollowing" type="button">Following</button>
+      <button id="igMessage" type="button">Message</button>
+      <button id="igContact" type="button">Contact</button>
+      <button id="igAdd" type="button">♙+</button>
     </div>
   </div>
 
@@ -404,78 +406,109 @@ button{cursor:pointer}
     <button data-tab="tagged" aria-label="Tagged">♙</button>
   </div>
 
-  <div class="ig-grid" id="igGrid">
-  <div class="ig-post">
-    <img src="PHOTO_URL_1" alt="Post photo">
-  </div>
-  <div class="ig-post">
-    <img src="PHOTO_URL_2" alt="Post photo">
-  </div>
-  <div class="ig-post">
-    <img src="PHOTO_URL_3" alt="Post photo">
-  </div>
-</div>
-
+  <div class="ig-grid" id="igGrid"></div>
   <div class="ig-home-indicator"></div>
+</section>
+
+<!-- PHOTOS APP -->
+<section class="photos-screen" id="photosScreen">
+  <div class="photos-header">
+    <button id="photosHome" type="button">‹ Home</button>
+    <h2>Photos</h2>
+  </div>
+  <p class="photos-caption">Your selected Instagram photos</p>
+  <div class="photos-grid" id="photosGrid"></div>
 </section>
 
 </main>
 
+<!-- JAVASCRIPT STARTS IN PART 3 -->
 <script>
+
 const PASSCODE = "0705";
 const OWNER_PIN = "2610";
 
-const wallpaper = document.getElementById("wallpaper");
-const lockUI = document.getElementById("lockUI");
-const homeScreen = document.getElementById("homeScreen");
-const passcode = document.getElementById("passcode");
-const dots = document.getElementById("dots");
-const passMessage = document.getElementById("passMessage");
-const ownerPanel = document.getElementById("ownerPanel");
+const $ = id => document.getElementById(id);
+
+const wallpaper = $("wallpaper");
+const lockUI = $("lockUI");
+const homeScreen = $("homeScreen");
+const passcode = $("passcode");
+const dots = $("dots");
+const passMessage = $("passMessage");
+const ownerPanel = $("ownerPanel");
 
 let entered = "";
 let unlocked = false;
-let touchStartY = null;
 let ownerVerified = false;
 let failedOwnerAttempts = 0;
+let touchStartY = null;
+let savedPostPhotos = [];
 
-/* CLOCK AND DATE */
+const wallpaperFile = $("wallpaperFile");
+const profilePhotoFile = $("profilePhotoFile");
+const postPhotosFile = $("postPhotosFile");
+
+const calendarApp = $("calendarApp");
+const calendarGrid = $("calendarGrid");
+const monthName = $("monthName");
+const selectedDateTitle = $("selectedDateTitle");
+const iphoneSettings = $("iphoneSettings");
+const settingsDetail = $("settingsDetail");
+const instagramScreen = $("instagramScreen");
+const photosScreen = $("photosScreen");
+
+/* CLOCK */
 function updateClock() {
   const now = new Date();
 
-  document.getElementById("lockClock").textContent =
-    now.toLocaleTimeString([], {
-      hour: "numeric", minute: "2-digit", hour12: false
-    });
+  $("lockClock").textContent = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
 
-  document.getElementById("statusTime").textContent =
-    now.toLocaleTimeString([], {
-      hour: "numeric", minute: "2-digit"
-    }) + " ☾";
+  $("statusTime").textContent = now.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit"
+  }) + " ☾";
 
-  document.getElementById("lockDate").textContent =
-    now.toLocaleDateString([], {
-      weekday: "short", month: "short", day: "numeric"
-    });
+  $("lockDate").textContent = now.toLocaleDateString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric"
+  });
 
-  document.getElementById("calendarDay").textContent =
-    now.toLocaleDateString([], {weekday: "long"}).toUpperCase();
+  $("calendarDay").textContent = now.toLocaleDateString([], {
+    weekday: "long"
+  }).toUpperCase();
 
-  document.getElementById("calendarNumber").textContent = now.getDate();
+  $("calendarNumber").textContent = now.getDate();
 }
 
 updateClock();
 setInterval(updateClock, 1000);
 
-/* LOAD SAVED WALLPAPER */
+/* LOAD SAVED PHOTOS */
 try {
-  const saved = localStorage.getItem("iphoneWallpaper");
-  if (saved) wallpaper.style.backgroundImage = `url("${saved}")`;
-} catch (error) {}
+  const savedWallpaper = localStorage.getItem("iphoneWallpaper");
+  if (savedWallpaper) {
+    wallpaper.style.backgroundImage = `url("${savedWallpaper}")`;
+  }
+
+  savedPostPhotos = JSON.parse(
+    localStorage.getItem("iphoneInstagramPosts") || "[]"
+  );
+
+  showProfilePhoto(localStorage.getItem("iphoneInstagramProfile"));
+} catch (error) {
+  console.warn("Saved photos could not be loaded.");
+}
 
 /* PASSCODE */
 function updateDots() {
   dots.innerHTML = "";
+
   for (let i = 0; i < 4; i++) {
     const dot = document.createElement("span");
     dot.className = "dot" + (i < entered.length ? " filled" : "");
@@ -485,6 +518,7 @@ function updateDots() {
 
 function openPasscode() {
   if (unlocked) return;
+
   entered = "";
   passMessage.textContent = "";
   updateDots();
@@ -507,6 +541,7 @@ function unlockPhone() {
 
 function pressDigit(number) {
   if (entered.length >= 4) return;
+
   entered += number;
   updateDots();
 
@@ -516,6 +551,7 @@ function pressDigit(number) {
       setTimeout(unlockPhone, 300);
     } else {
       passMessage.textContent = "Incorrect passcode";
+
       setTimeout(() => {
         entered = "";
         passMessage.textContent = "";
@@ -524,8 +560,6 @@ function pressDigit(number) {
     }
   }
 }
-
-const keypad = document.getElementById("keypad");
 
 ["1","2","3","4","5","6","7","8","9","","0","⌫"].forEach(number => {
   const button = document.createElement("button");
@@ -546,21 +580,21 @@ const keypad = document.getElementById("keypad");
     button.onclick = () => pressDigit(number);
   }
 
-  keypad.appendChild(button);
+  $("keypad").appendChild(button);
 });
 
-document.getElementById("cancelButton").onclick = closePasscode;
-document.getElementById("camera").onclick = openPasscode;
-document.getElementById("flashlight").onclick = () => {};
+$("cancelButton").onclick = closePasscode;
+$("camera").onclick = openPasscode;
+$("flashlight").onclick = () => {};
 
-/* SWIPE UP */
-const phone = document.getElementById("phone");
+const phone = $("phone");
 
 phone.addEventListener("touchstart", event => {
   if (unlocked || passcode.classList.contains("show") ||
       ownerPanel.classList.contains("show")) return;
+
   touchStartY = event.changedTouches[0].clientY;
-}, {passive:true});
+}, { passive: true });
 
 phone.addEventListener("touchend", event => {
   if (unlocked || passcode.classList.contains("show") ||
@@ -577,37 +611,40 @@ phone.addEventListener("touchend", event => {
   }
 
   touchStartY = null;
-}, {passive:true});
+}, { passive: true });
 
-/* OWNER-ONLY WALLPAPER */
-document.getElementById("ownerButton").onclick = () => {
+/* OWNER ACCESS */
+$("ownerButton").onclick = () => {
   ownerVerified = false;
   failedOwnerAttempts = 0;
-  document.getElementById("ownerLogin").hidden = false;
-  document.getElementById("ownerOptions").hidden = true;
-  document.getElementById("ownerPin").value = "";
-  document.getElementById("ownerMessage").textContent = "";
+
+  $("ownerLogin").hidden = false;
+  $("ownerOptions").hidden = true;
+  $("ownerPin").value = "";
+  $("ownerMessage").textContent = "";
+  $("verifyOwner").disabled = false;
+
   ownerPanel.classList.add("show");
 };
 
-document.getElementById("verifyOwner").onclick = () => {
-  const pin = document.getElementById("ownerPin").value;
-
-  if (pin === OWNER_PIN) {
+$("verifyOwner").onclick = () => {
+  if ($("ownerPin").value === OWNER_PIN) {
     ownerVerified = true;
-    document.getElementById("ownerLogin").hidden = true;
-    document.getElementById("ownerOptions").hidden = false;
+    $("ownerLogin").hidden = true;
+    $("ownerOptions").hidden = false;
   } else {
     failedOwnerAttempts++;
-    document.getElementById("ownerMessage").textContent = "Incorrect owner PIN.";
-    document.getElementById("ownerPin").value = "";
+    $("ownerMessage").textContent = "Incorrect owner PIN.";
+    $("ownerPin").value = "";
 
     if (failedOwnerAttempts >= 5) {
-      document.getElementById("verifyOwner").disabled = true;
-      document.getElementById("ownerMessage").textContent = "Too many attempts. Please wait.";
+      $("verifyOwner").disabled = true;
+      $("ownerMessage").textContent = "Too many attempts. Wait 15 seconds.";
+
       setTimeout(() => {
-        document.getElementById("verifyOwner").disabled = false;
+        $("verifyOwner").disabled = false;
         failedOwnerAttempts = 0;
+        $("ownerMessage").textContent = "";
       }, 15000);
     }
   }
@@ -618,43 +655,248 @@ function closeOwnerPanel() {
   ownerPanel.classList.remove("show");
 }
 
-document.getElementById("closeOwner").onclick = closeOwnerPanel;
-document.getElementById("doneOwner").onclick = closeOwnerPanel;
+$("closeOwner").onclick = closeOwnerPanel;
+$("doneOwner").onclick = closeOwnerPanel;
 
-document.getElementById("chooseWallpaper").onclick = () => {
-  if (ownerVerified) document.getElementById("wallpaperFile").click();
+/* IMAGE READER */
+function readImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* WALLPAPER PICKER */
+$("chooseWallpaper").onclick = () => {
+  if (ownerVerified) wallpaperFile.click();
 };
 
-document.getElementById("wallpaperFile").addEventListener("change", event => {
+wallpaperFile.onchange = async event => {
   if (!ownerVerified) return;
+
   const file = event.target.files[0];
   if (!file) return;
 
   if (!file.type.startsWith("image/")) {
     alert("Please choose an image.");
+    event.target.value = "";
     return;
   }
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    const imageData = reader.result;
-    wallpaper.style.backgroundImage = `url("${imageData}")`;
+  try {
+    const data = await readImage(file);
+    wallpaper.style.backgroundImage = `url("${data}")`;
 
     try {
-      localStorage.setItem("iphoneWallpaper", imageData);
+      localStorage.setItem("iphoneWallpaper", data);
     } catch (error) {
-      alert("Photo applied, but could not be saved. Try a smaller image.");
+      alert("Wallpaper applied, but storage is full. Try a smaller image.");
     }
 
     closeOwnerPanel();
-    event.target.value = "";
-  };
+  } catch (error) {
+    alert("Could not load this photo.");
+  }
 
-  reader.onerror = () => alert("Could not load this photo.");
-  reader.readAsDataURL(file);
+  event.target.value = "";
+};
+
+/* INSTAGRAM PROFILE PHOTO */
+function showProfilePhoto(data) {
+  const img = $("igProfilePhoto");
+  const placeholder = $("igProfilePlaceholder");
+
+  if (!img || !placeholder) return;
+
+  if (data) {
+    img.src = data;
+    img.style.display = "block";
+    placeholder.style.display = "none";
+  } else {
+    img.removeAttribute("src");
+    img.style.display = "none";
+    placeholder.style.display = "block";
+  }
+}
+
+$("chooseProfilePhoto").onclick = () => {
+  if (ownerVerified) profilePhotoFile.click();
+};
+
+profilePhotoFile.onchange = async event => {
+  if (!ownerVerified) return;
+
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Please choose an image.");
+    event.target.value = "";
+    return;
+  }
+
+  try {
+    const data = await readImage(file);
+    showProfilePhoto(data);
+
+    try {
+      localStorage.setItem("iphoneInstagramProfile", data);
+    } catch (error) {
+      alert("Photo applied, but storage is full. Try a smaller image.");
+    }
+  } catch (error) {
+    alert("Could not load this photo.");
+  }
+
+  event.target.value = "";
+};
+
+/* INSTAGRAM POST PHOTOS — UP TO 9 */
+function renderInstagramPosts() {
+  const grid = $("igGrid");
+  grid.innerHTML = "";
+
+  if (!savedPostPhotos.length) {
+    grid.innerHTML = `
+      <div class="ig-post">📷</div>
+      <div class="ig-post">🌿</div>
+      <div class="ig-post">🌆</div>
+    `;
+    return;
+  }
+
+  savedPostPhotos.forEach((photo, index) => {
+    const post = document.createElement("div");
+    post.className = "ig-post";
+
+    const img = document.createElement("img");
+    img.src = photo;
+    img.alt = "Instagram post " + (index + 1);
+
+    post.appendChild(img);
+    grid.appendChild(post);
+  });
+}
+
+$("choosePostPhotos").onclick = () => {
+  if (ownerVerified) postPhotosFile.click();
+};
+
+postPhotosFile.onchange = async event => {
+  if (!ownerVerified) return;
+
+  const files = Array.from(event.target.files)
+    .filter(file => file.type.startsWith("image/"))
+    .slice(0, 9);
+
+  if (!files.length) {
+    event.target.value = "";
+    return;
+  }
+
+  try {
+    const photos = await Promise.all(files.map(readImage));
+
+    try {
+      localStorage.setItem("iphoneInstagramPosts", JSON.stringify(photos));
+      savedPostPhotos = photos;
+      renderInstagramPosts();
+      renderPhotosGallery();
+      alert("Instagram photos saved!");
+    } catch (error) {
+      alert("Storage is full. Try fewer or smaller photos.");
+    }
+  } catch (error) {
+    alert("Could not load the selected photos.");
+  }
+
+  event.target.value = "";
+};
+
+/* INSTAGRAM APP */
+$("openInstagram").onclick = () => {
+  instagramScreen.classList.add("show");
+  renderInstagramPosts();
+  showProfilePhoto(localStorage.getItem("iphoneInstagramProfile"));
+};
+
+$("igHome").onclick = () => {
+  instagramScreen.classList.remove("show");
+};
+
+document.querySelectorAll(".ig-tabs button").forEach(button => {
+  button.onclick = () => {
+    document.querySelectorAll(".ig-tabs button").forEach(tab => {
+      tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const tab = button.dataset.tab;
+    const grid = $("igGrid");
+
+    if (tab === "posts") {
+      renderInstagramPosts();
+    } else if (tab === "reels") {
+      grid.innerHTML = `
+        <div class="ig-post">▷<small>Reel</small></div>
+        <div class="ig-post">▷<small>Reel</small></div>
+        <div class="ig-post">▷<small>Reel</small></div>`;
+    } else if (tab === "reposts") {
+      grid.innerHTML = `
+        <div class="ig-post">⇄</div>
+        <div class="ig-post">⇄</div>
+        <div class="ig-post">⇄</div>`;
+    } else {
+      grid.innerHTML = `
+        <div class="ig-post">♙<small>Tagged</small></div>
+        <div class="ig-post">♙<small>Tagged</small></div>
+        <div class="ig-post">♙<small>Tagged</small></div>`;
+    }
+  };
 });
 
-/* SPOTIFY PLAYLIST */
+$("igFollowing").onclick = event => {
+  event.currentTarget.textContent =
+    event.currentTarget.textContent === "Following" ? "Follow" : "Following";
+};
+
+$("igMessage").onclick = () => alert("This is a simulated Instagram profile.");
+$("igContact").onclick = () => alert("Contact details are displayed in the profile bio.");
+$("igAdd").onclick = () => alert("This is a simulated Instagram profile.");
+
+/* PHOTOS APP */
+function renderPhotosGallery() {
+  const grid = $("photosGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  savedPostPhotos.forEach((photo, index) => {
+    const img = document.createElement("img");
+    img.src = photo;
+    img.alt = "Saved photo " + (index + 1);
+    img.style.cssText = "width:100%;aspect-ratio:1;object-fit:cover";
+    grid.appendChild(img);
+  });
+
+  if (!savedPostPhotos.length) {
+    grid.textContent = "No selected photos yet.";
+  }
+}
+
+$("openPhotos").onclick = () => {
+  photosScreen.classList.add("show");
+  renderPhotosGallery();
+};
+
+$("photosHome").onclick = () => {
+  photosScreen.classList.remove("show");
+};
+
+/* SPOTIFY */
 const playlistURL =
   "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=heaGQUV6QXCAL4T745ou_g&utm_source=copy-link&pi=YDpoHpKBSwKGf";
 
@@ -662,29 +904,23 @@ function openPlaylist() {
   window.location.href = playlistURL;
 }
 
-document.getElementById("spotifyWidget").onclick = openPlaylist;
-document.getElementById("playButton").onclick = event => {
+$("spotifyWidget").onclick = openPlaylist;
+
+$("playButton").onclick = event => {
   event.stopPropagation();
   openPlaylist();
 };
 
-document.getElementById("spotifyWidget").onkeydown = event => {
+$("spotifyWidget").onkeydown = event => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     openPlaylist();
   }
 };
 
-document.getElementById("searchButton").onclick = () => {
-  alert("Search is a visual demo.");
-};
+$("searchButton").onclick = () => alert("Search is a visual demo.");
 
 /* CALENDAR */
-const calendarApp = document.getElementById("calendarApp");
-const calendarGrid = document.getElementById("calendarGrid");
-const monthName = document.getElementById("monthName");
-const selectedDateTitle = document.getElementById("selectedDateTitle");
-
 let viewedMonth = new Date();
 let selectedDate = new Date();
 
@@ -692,7 +928,8 @@ function renderCalendar() {
   calendarGrid.innerHTML = "";
 
   monthName.textContent = viewedMonth.toLocaleDateString([], {
-    month: "long", year: "numeric"
+    month: "long",
+    year: "numeric"
   });
 
   ["S","M","T","W","T","F","S"].forEach(day => {
@@ -721,6 +958,7 @@ function renderCalendar() {
     if (date.toDateString() === new Date().toDateString()) {
       button.classList.add("today");
     }
+
     if (date.toDateString() === selectedDate.toDateString()) {
       button.classList.add("selected");
     }
@@ -734,46 +972,43 @@ function renderCalendar() {
   }
 
   selectedDateTitle.textContent = selectedDate.toLocaleDateString([], {
-    weekday: "long", month: "long", day: "numeric"
+    weekday: "long",
+    month: "long",
+    day: "numeric"
   });
 }
 
-document.getElementById("openCalendar").onclick = () => {
+$("openCalendar").onclick = () => {
   viewedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
   renderCalendar();
   calendarApp.classList.add("show");
 };
 
-document.getElementById("closeCalendar").onclick = () => {
-  calendarApp.classList.remove("show");
-};
+$("closeCalendar").onclick = () => calendarApp.classList.remove("show");
 
-document.getElementById("previousMonth").onclick = () => {
+$("previousMonth").onclick = () => {
   viewedMonth.setMonth(viewedMonth.getMonth() - 1);
   renderCalendar();
 };
 
-document.getElementById("nextMonth").onclick = () => {
+$("nextMonth").onclick = () => {
   viewedMonth.setMonth(viewedMonth.getMonth() + 1);
   renderCalendar();
 };
 
-document.getElementById("todayCalendar").onclick = () => {
+$("todayCalendar").onclick = () => {
   selectedDate = new Date();
   viewedMonth = new Date();
   renderCalendar();
 };
 
-/* IPHONE SETTINGS */
-const iphoneSettings = document.getElementById("iphoneSettings");
-const settingsDetail = document.getElementById("settingsDetail");
-
-document.getElementById("openSettings").onclick = () => {
+/* SETTINGS */
+$("openSettings").onclick = () => {
   iphoneSettings.classList.add("show");
   settingsDetail.classList.remove("show");
 };
 
-document.getElementById("settingsHome").onclick = () => {
+$("settingsHome").onclick = () => {
   iphoneSettings.classList.remove("show");
   settingsDetail.classList.remove("show");
 };
@@ -781,106 +1016,33 @@ document.getElementById("settingsHome").onclick = () => {
 document.querySelectorAll(".settings-row").forEach(row => {
   row.onclick = () => {
     const name = row.dataset.setting;
-    document.getElementById("detailTitle").textContent = name;
+    $("detailTitle").textContent = name;
 
     const descriptions = {
-      "Airplane Mode":"Airplane Mode is shown for demonstration only.",
-      "Wi-Fi":"This simulated screen cannot change your actual iPhone Wi-Fi.",
-      "Bluetooth":"This simulated screen cannot control actual Bluetooth.",
-      "Mobile Service":"Mobile data settings preview.",
-      "Battery":"Battery information preview.",
-      "General":"About, Software Update, Storage, and other settings.",
-      "Accessibility":"Display, motion, hearing, and accessibility options.",
-      "Display & Brightness":"Display and brightness settings preview.",
-      "Wallpaper":"Use Owner settings to change your simulated wallpaper.",
-      "Notifications":"Notification settings preview.",
-      "Sounds & Haptics":"Sound and vibration settings preview.",
-      "Privacy & Security":"Privacy and security settings preview."
+      "Airplane Mode": "Airplane Mode is shown for demonstration only.",
+      "Wi-Fi": "This simulated screen cannot change your actual iPhone Wi-Fi.",
+      "Bluetooth": "This simulated screen cannot control actual Bluetooth.",
+      "Mobile Service": "Mobile data settings preview.",
+      "Battery": "Battery information preview.",
+      "General": "About, Software Update, Storage, and other settings.",
+      "Accessibility": "Display, motion, hearing, and accessibility options.",
+      "Display & Brightness": "Display and brightness settings preview.",
+      "Wallpaper": "Use Owner Settings to change your simulated wallpaper.",
+      "Notifications": "Notification settings preview.",
+      "Sounds & Haptics": "Sound and vibration settings preview.",
+      "Privacy & Security": "Privacy and security settings preview."
     };
 
-    document.getElementById("detailText").textContent =
-      descriptions[name] || name + " settings preview.";
-
+    $("detailText").textContent = descriptions[name] || name + " settings preview.";
     settingsDetail.classList.add("show");
   };
 });
 
-document.getElementById("settingsBack").onclick = () => {
-  settingsDetail.classList.remove("show");
-};
+$("settingsBack").onclick = () => settingsDetail.classList.remove("show");
 
-/* INSTAGRAM PROFILE */
-const instagramScreen = document.getElementById("instagramScreen");
-
-document.getElementById("openInstagram").onclick = () => {
-  instagramScreen.classList.add("show");
-};
-
-document.getElementById("igHome").onclick = () => {
-  instagramScreen.classList.remove("show");
-};
-
-/* INSTAGRAM PROFILE TABS */
-document.querySelectorAll(".ig-tabs button").forEach(button => {
-  button.onclick = () => {
-    document.querySelectorAll(".ig-tabs button").forEach(tab => {
-      tab.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    const grid = document.getElementById("igGrid");
-    const tab = button.dataset.tab;
-
-    if (tab === "posts") {
-      grid.innerHTML = `
-        <div class="ig-post">📷<small>New</small></div>
-        <div class="ig-post">📷<small>New</small></div>
-        <div class="ig-post">🌿</div>
-        <div class="ig-post">🍂</div>
-        <div class="ig-post">📷</div>
-        <div class="ig-post">🌆</div>
-        <div class="ig-post">📷</div>
-        <div class="ig-post">☁️</div>
-        <div class="ig-post">🌳</div>`;
-    } else if (tab === "reels") {
-      grid.innerHTML = `
-        <div class="ig-post">▷<small>Reel</small></div>
-        <div class="ig-post">▷<small>Reel</small></div>
-        <div class="ig-post">▷<small>Reel</small></div>`;
-    } else if (tab === "reposts") {
-      grid.innerHTML = `
-        <div class="ig-post">⇄</div>
-        <div class="ig-post">⇄</div>
-        <div class="ig-post">⇄</div>`;
-    } else {
-      grid.innerHTML = `
-        <div class="ig-post">♙<small>Tagged</small></div>
-        <div class="ig-post">♙<small>Tagged</small></div>
-        <div class="ig-post">♙<small>Tagged</small></div>`;
-    }
-  };
-});
-
-/* FOLLOW BUTTON DEMO */
-document.getElementById("igFollowing").onclick = event => {
-  event.currentTarget.textContent =
-    event.currentTarget.textContent === "Following"
-      ? "Follow"
-      : "Following";
-};
-
-document.getElementById("igMessage").onclick = () => {
-  alert("This is a simulated Instagram profile.");
-};
-
-document.getElementById("igContact").onclick = () => {
-  alert("Contact details are displayed in the profile bio.");
-};
-
-document.getElementById("igAdd").onclick = () => {
-  alert("This is a simulated Instagram profile.");
-};
+/* INITIALIZE */
+renderInstagramPosts();
+renderPhotosGallery();
 </script>
 </body>
 </html>
