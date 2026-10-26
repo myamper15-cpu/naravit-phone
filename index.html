@@ -40,7 +40,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 .ico-clock{background:#fff;color:#222;border:1px solid #ddd}
 .ico-youtube{background:#fff;color:#f00}
 .dock{position:absolute;z-index:8;bottom:12px;left:15px;right:15px;height:80px;border-radius:27px;background:rgba(255,255,255,.48);backdrop-filter:blur(25px);display:flex;align-items:center;justify-content:space-evenly;box-shadow:inset 0 0 0 1px #ffffff66}
-.dock .app-icon{width:53px;height:53px;border-radius:
+.dock .app-icon{width:53px;height:53px;border-radius:15px}
 .ico-phone{background:linear-gradient(#4fe074,#20b74d);color:white}
 .ico-msg{background:linear-gradient(#64e977,#13b843);color:white}
 .ico-ft{background:linear-gradient(#75d9ff,#087cff);color:white}
@@ -226,11 +226,10 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 <section class="screen" id="contactDetail"><div class="appheader"><button class="back" onclick="openApp('contacts')">‹ Contacts</button><h1>Contact</h1></div><div class="panel"><div class="contactbig"><div class="avatar" id="detailAvatar">P</div><h2 id="detailName">Pond Naravit</h2></div><div class="contactactions"><button onclick="openCall(document.getElementById('detailName').textContent)">☎ call</button><button onclick="openChat('pond')">✉ message</button></div></div></section>
 
 <section class="screen" id="messages" style="background:#fff;color:#111;padding:0 16px 90px;box-sizing:border-box;">
-<div style="display:flex; justify-content:flex-end; padding:10px 16px;">
-  <button
-    type="button"
-    onclick="goHome()"
-    style="border:none; background:#f2f2f7; color:#007aff; border-radius:20px; padding:8px 16px; font-size:15px; cursor:pointer;">
+
+  
+<div style="display:flex;justify-content:flex-end;padding:10px 16px;">
+  <button onclick="goHome()" style="border:0;background:#f2f2f7;color:#007aff;border-radius:20px;padding:8px 16px;font-size:15px;cursor:pointer;">
     ✕ Exit
   </button>
 </div>
@@ -291,64 +290,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 
 </section>
 
+<section class="screen" id="appleChat" style="background:#fff;color:#111;padding:0 14px 15px;">
 
-<!-- APPLE CHAT SCREEN -->
-<section class="screen" id="appleChat">
-
-  <!-- TOP NAVIGATION -->
-  <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 10px; border-bottom:1px solid #eee; background:#fff;">
-
-<button
-  type="button"
-  onclick="openApp('messages')"
-  style="border:none; background:transparent; color:#007aff; font-size:17px; cursor:pointer; padding:8px 0;">
-  ‹ Messages
-</button>
-    
-    <span style="font-size:17px; font-weight:600;">iMessage</span>
-
-  </div>
-
-  <!-- CHAT HEADER -->
-  <div style="text-align:center; padding:16px 10px; border-bottom:1px solid #eee; background:#fff;">
-    <div id="appleChatAvatar" style="width:55px; height:55px; border-radius:50%; background:#dce8f8; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; font-size:23px;">
-      ❤️
-    </div>
-
-    <div id="appleChatName" style="font-size:17px; font-weight:600;">
-      Phu ❤️
-    </div>
-
-    <div style="font-size:12px; color:#888; margin-top:4px;">
-      iMessage
-    </div>
-  </div>
-
-  <!-- MESSAGES -->
-  <div id="appleChatMessages" style="padding:16px; height:45vh; overflow-y:auto; background:#fff;">
-  </div>
-
-  <!-- MESSAGE INPUT -->
-  <div style="display:flex; align-items:center; gap:8px; padding:12px; border-top:1px solid #eee; background:#fff;">
-    <input
-      id="appleMessageInput"
-      type="text"
-      placeholder="iMessage"
-      style="flex:1; min-width:0; border:1px solid #ddd; border-radius:22px; padding:11px 14px; font-size:15px; outline:none;"
-      onkeydown="if(event.key==='Enter'){sendAppleMessage();}"
-    />
-
-    <button
-      type="button"
-      onclick="sendAppleMessage()"
-      style="border:none; background:#007aff; color:white; border-radius:50%; width:40px; height:40px; font-size:19px; cursor:pointer;">
-      ↑
-    </button>
-  </div>
-
-</section>
-
-
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
+  <button onclick="openApp('messages')" style="border:0;background:none;color:#087cff;font-size:17px;cursor:pointer;">‹ Messages</button>
+  <button onclick="goHome()" style="border:0;background:none;color:#087cff;font-size:15px;cursor:pointer;">Exit</button>
+</div>
 
 
   <div style="text-align:center;padding:12px 0 15px;">
