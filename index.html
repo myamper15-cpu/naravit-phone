@@ -802,6 +802,209 @@ button {
   background: #111;
 }
 
+/* IPHONE SETTINGS APPEARANCE */
+.iphone-settings {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  display: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 16px 45px;
+  background: #f2f2f7;
+  color: #17171b;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+.iphone-settings.show {
+  display: block;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+.settings-header button,
+.settings-detail > button {
+  border: 0;
+  background: transparent;
+  color: #087aff;
+  font-size: 16px;
+  padding: 8px 0;
+}
+
+.settings-header h1 {
+  font-size: 34px;
+  margin: 8px 0 14px 18px;
+  font-weight: 750;
+}
+
+.settings-search {
+  padding: 11px 13px;
+  margin: 4px 0 20px;
+  background: #e3e3e8;
+  color: #77777f;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.settings-search span {
+  font-size: 22px;
+  margin-right: 8px;
+}
+
+.settings-card {
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.apple-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 13px;
+}
+
+.apple-avatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #d9d9df;
+  font-size: 26px;
+}
+
+.account-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.account-info strong {
+  font-size: 17px;
+}
+
+.account-info span {
+  font-size: 12px;
+  color: #77777f;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 55px;
+  padding: 8px 13px;
+  border: 0;
+  background: white;
+  color: #17171b;
+  text-align: left;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.settings-row + .settings-row::before {
+  content: "";
+  position: absolute;
+}
+
+.settings-row:active {
+  background: #e5e5ea;
+}
+
+.setting-icon {
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #8e8e93;
+  color: white;
+  font-size: 19px;
+}
+
+.airplane { background: #ff9f0a; }
+.wifi-icon { background: #087aff; }
+.bluetooth-icon { background: #087aff; }
+.mobile-icon { background: #34c759; }
+.battery-icon { background: #34c759; }
+.general-icon { background: #8e8e93; }
+.accessibility-icon { background: #087aff; }
+.display-icon { background: #777780; }
+.wallpaper-icon { background: #bf65d9; }
+.notifications-icon { background: #ff453a; }
+.sounds-icon { background: #ff375f; }
+.privacy-icon { background: #087aff; }
+
+.settings-chevron {
+  margin-left: auto;
+  color: #b6b6bd;
+  font-size: 25px;
+}
+
+.setting-value {
+  margin-left: auto;
+  color: #8e8e93;
+  font-size: 15px;
+}
+
+.settings-toggle {
+  margin-left: auto;
+  width: 42px;
+  height: 25px;
+  border-radius: 20px;
+  background: #34c759;
+  position: relative;
+}
+
+.settings-toggle::after {
+  content: "";
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  top: 2px;
+  right: 2px;
+  border-radius: 50%;
+  background: white;
+}
+
+.settings-detail {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background: #f2f2f7;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 50px;
+}
+
+.settings-detail.show {
+  display: block;
+}
+
+.settings-detail h2 {
+  font-size: 30px;
+  margin-top: 25px;
+}
+
+.settings-detail p {
+  color: #66666e;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.settings-indicator {
+  background: #17171b;
+}
+
 </style>
 </head>
 
@@ -903,7 +1106,9 @@ button {
       </div>
 
       <div class="home-app">
-        <button class="app-icon clock-app">🕒</button>
+    <button class="app-icon settings-app" id="openSettings">
+  ⚙️
+</button>
         <span>Clock</span>
       </div>
 
@@ -990,6 +1195,116 @@ button {
   </div>
 
   <div class="home-indicator"></div>
+</section>
+
+<!-- IPHONE SETTINGS SCREEN -->
+<section class="iphone-settings" id="iphoneSettings">
+
+  <div class="settings-header">
+    <button id="settingsHome">‹ Home</button>
+    <h1>Settings</h1>
+  </div>
+
+  <div class="settings-search">
+    <span>⌕</span> Search
+  </div>
+
+  <div class="apple-account settings-card">
+    <div class="apple-avatar">👤</div>
+    <div class="account-info">
+      <strong>Apple Account</strong>
+      <span>Apple ID, iCloud, and more</span>
+    </div>
+    <span class="settings-chevron">›</span>
+  </div>
+
+  <div class="settings-card connection-card">
+    <button class="settings-row" data-setting="Airplane Mode">
+      <span class="setting-icon airplane">✈</span>
+      <span>Airplane Mode</span>
+      <span class="settings-toggle"></span>
+    </button>
+
+    <button class="settings-row" data-setting="Wi-Fi">
+      <span class="setting-icon wifi-icon">◔</span>
+      <span>Wi-Fi</span>
+      <span class="setting-value">Wi-Fi</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Bluetooth">
+      <span class="setting-icon bluetooth-icon">ᛒ</span>
+      <span>Bluetooth</span>
+      <span class="setting-value">On</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Mobile Service">
+      <span class="setting-icon mobile-icon">▥</span>
+      <span>Mobile Service</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Battery">
+      <span class="setting-icon battery-icon">▰</span>
+      <span>Battery</span>
+      <span class="settings-chevron">›</span>
+    </button>
+  </div>
+
+  <div class="settings-card">
+    <button class="settings-row" data-setting="General">
+      <span class="setting-icon general-icon">⚙</span>
+      <span>General</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Accessibility">
+      <span class="setting-icon accessibility-icon">♿</span>
+      <span>Accessibility</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Display & Brightness">
+      <span class="setting-icon display-icon">◐</span>
+      <span>Display & Brightness</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Wallpaper">
+      <span class="setting-icon wallpaper-icon">🌈</span>
+      <span>Wallpaper</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Notifications">
+      <span class="setting-icon notifications-icon">▣</span>
+      <span>Notifications</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Sounds & Haptics">
+      <span class="setting-icon sounds-icon">🔔</span>
+      <span>Sounds & Haptics</span>
+      <span class="settings-chevron">›</span>
+    </button>
+
+    <button class="settings-row" data-setting="Privacy & Security">
+      <span class="setting-icon privacy-icon">✋</span>
+      <span>Privacy & Security</span>
+      <span class="settings-chevron">›</span>
+    </button>
+  </div>
+
+  <div class="settings-detail" id="settingsDetail">
+    <button id="settingsBack">‹ Settings</button>
+    <h2 id="settingsDetailTitle">Settings</h2>
+    <p id="settingsDetailText">
+      Select an option to view its settings.
+    </p>
+  </div>
+
+  <div class="home-indicator settings-indicator"></div>
 </section>
 
 </main>
@@ -1412,6 +1727,51 @@ spotifyWidget.addEventListener("keydown", function(event) {
     event.preventDefault();
     openBlackCardPlaylist();
   }
+});
+
+const iphoneSettings = document.getElementById("iphoneSettings");
+const settingsDetail = document.getElementById("settingsDetail");
+
+document.getElementById("openSettings").addEventListener("click", () => {
+  iphoneSettings.classList.add("show");
+  settingsDetail.classList.remove("show");
+});
+
+document.getElementById("settingsHome").addEventListener("click", () => {
+  iphoneSettings.classList.remove("show");
+  settingsDetail.classList.remove("show");
+});
+
+document.querySelectorAll(".settings-row").forEach(row => {
+  row.addEventListener("click", () => {
+    const name = row.dataset.setting;
+
+    document.getElementById("settingsDetailTitle").textContent = name;
+
+    const descriptions = {
+      "Wi-Fi": "Wi-Fi settings. Your simulated phone cannot change your actual iPhone's Wi-Fi connection.",
+      "Bluetooth": "Bluetooth settings. This demo does not control your actual Bluetooth connection.",
+      "Mobile Service": "View mobile data settings in this simulated interface.",
+      "Battery": "View battery information in this simulated interface.",
+      "General": "About, Software Update, Storage, and other general settings.",
+      "Accessibility": "Display, motion, hearing, and accessibility options.",
+      "Display & Brightness": "Adjust the simulated appearance of your phone.",
+      "Wallpaper": "Choose a wallpaper for your simulated phone.",
+      "Notifications": "Manage notification preferences in this demo.",
+      "Sounds & Haptics": "Sound and vibration settings preview.",
+      "Privacy & Security": "Privacy and security settings preview.",
+      "Airplane Mode": "Airplane Mode is shown for demonstration only."
+    };
+
+    document.getElementById("settingsDetailText").textContent =
+      descriptions[name] || name + " settings preview.";
+
+    settingsDetail.classList.add("show");
+  });
+});
+
+document.getElementById("settingsBack").addEventListener("click", () => {
+  settingsDetail.classList.remove("show");
 });
 
 </script>
