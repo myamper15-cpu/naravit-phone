@@ -121,6 +121,18 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hel
 .fakephoto span{position:absolute;bottom:5px;left:5px;font-size:10px;text-shadow:0 1px 4px #000}
 .igtabs{display:flex;justify-content:space-around;padding:12px 0;border-bottom:1px solid #ddd}.igpost{background:white;border-radius:14px;margin-bottom:14px;overflow:hidden}.posthead{display:flex;align-items:center;gap:10px;padding:11px}.postimage{height:280px;background:linear-gradient(135deg,#b5a6a4,#5c6578);display:grid;place-items:center;color:white;font-size:64px}.postimage img{width:100%;height:100%;object-fit:cover}.postactions{padding:10px 12px;font-size:22px;display:flex;gap:13px}.caption{font-size:13px;padding:0 12px 12px;line-height:1.45}.fbtop{font-size:27px;color:#1877f2;font-weight:850;margin:0 0 15px}.fbpost{background:white;border-radius:14px;padding:13px;margin-bottom:12px}.fbposthead{display:flex;align-items:center;gap:10px;margin-bottom:12px}.fbposthead strong{font-size:14px}.fbposthead small{display:block;color:#888;font-size:11px;margin-top:3px}.fbimg{height:245px;background:linear-gradient(135deg,#d4bdb4,#77758b);display:grid;place-items:center;color:white;font-size:65px;margin:10px -13px}.fbactions{display:flex;justify-content:space-around;border-top:1px solid #eee;padding-top:10px;color:#68676b;font-size:13px}.chatlist .rowitem{padding:13px 0}.bubble{max-width:82%;padding:10px 13px;border-radius:18px;margin:7px 0;font-size:14px;line-height:1.35;background:#e9e8ed;align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere}.bubble.mine{background:#087cff;color:white;align-self:flex-end}.chatmsgs{display:flex;flex-direction:column;min-height:300px;max-height:calc(100% - 155px);overflow:auto;padding:8px 2px}.compose{display:flex;gap:7px;align-items:center;position:sticky;bottom:0;background:#f7f6f7;padding:8px 0}.compose input{flex:1;min-width:0;border:1px solid #ddd;border-radius:22px;padding:11px;font:inherit}.compose button{border:0;border-radius:50%;background:#087cff;color:white;width:38px;height:38px;font-size:18px}.phoneperson{text-align:center;padding:22px 0}.phoneperson .avatar{width:95px;height:95px;font-size:42px;margin:0 auto 12px}.phoneperson h2{margin:0 0 4px}.callcontrols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:270px;margin:45px auto 0;text-align:center}.callcontrols button{border:0;border-radius:50%;width:58px;height:58px;background:#e8e7ec;font-size:22px}.callcontrols span{display:block;font-size:11px;margin-top:6px}.endcall{background:#ff3b30!important;color:white}.contactbig{text-align:center;padding:15px 0}.contactbig .avatar{width:90px;height:90px;margin:0 auto 12px;font-size:38px}.contactactions{display:flex;justify-content:center;gap:18px;margin:15px}.contactactions button{border:0;background:#e7f2ff;color:#087cff;border-radius:15px;padding:12px 15px}.yeargrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.yearcard{aspect-ratio:1;border-radius:9px;background:linear-gradient(145deg,#e4d5cf,#948a94);display:flex;align-items:end;padding:8px;color:white;font-size:20px;font-weight:800;text-shadow:0 1px 4px #0008;cursor:pointer}.yearcard:nth-child(3n+2){background:linear-gradient(145deg,#b8cbd1,#667b8a)}.yearcard:nth-child(3n){background:linear-gradient(145deg,#e6d5a8,#9e8274)}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.gallery-grid .fakephoto{cursor:pointer}.photo-view{position:fixed;z-index:40;inset:0;background:#09090b;display:none;align-items:center;justify-content:center;flex-direction:column;color:white;padding:18px}.photo-view.show{display:flex}.photo-view img{max-width:100%;max-height:75%;object-fit:contain}.photo-view .closephoto{position:absolute;top:22px;left:20px;border:0;background:#333;color:white;border-radius:50%;width:40px;height:40px;font-size:22px}.photo-view .phototools{display:flex;gap:10px;margin-top:15px}.clocktime{font-size:56px;font-weight:200;letter-spacing:-2px;text-align:center;margin:20px 0}.weatherhero{text-align:center;padding:15px 0 22px}.weatherhero .wicon{font-size:65px}.weatherhero .temp{font-size:58px;font-weight:250}.weatherhero .condition{font-size:18px}.forecastrow{display:flex;justify-content:space-between;text-align:center;font-size:12px}.forecastrow div{display:flex;flex-direction:column;gap:9px}.forecastrow b{font-size:14px}.lock-bottom button{cursor:pointer}.hidden{display:none!important}
 @media(max-height:700px){.phone{min-height:0}.widget{height:135px}.app-grid{row-gap:15px}.app-icon{width:51px;height:51px}.dock{height:70px}.home{padding-top:50px}}
+
+#homeDock {
+  display: none;
+}
+
+#phone.unlocked.on-home #homeDock {
+  display: flex;
+}
+
+#phone.unlocked:not(.on-home) #homeDock {
+  display: none;
+}
 </style></head><body>
 <div class="phone" id="phone"><div class="wallpaper" id="wallpaper"></div><div class="status"><span id="statusTime">9:41</span><span class="right">◐ ▮▮▮ ◉ ▰</span></div>
 <div class="lock" id="lock"><div class="date" id="lockDate">Monday, October 26</div><div class="bigtime" id="lockTime">9:41</div><div class="lockhint">Tap to unlock</div><div class="lock-bottom"><button class="roundbtn" onclick="showPass()">🔦</button><button class="roundbtn" onclick="showPass()">📷</button></div></div>
@@ -376,8 +388,14 @@ function checkPass() {
   if (pass === '0705') {
     $('passmodal').classList.remove('show');
     $('lock').style.display = 'none';
+
+    $('phone').classList.add('unlocked', 'on-home');
+
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+    });
+
     $('home').classList.add('active');
-    $('homeDock').style.display = 'flex';
     $('passError').textContent = '';
   } else {
     $('passError').textContent = 'Incorrect passcode. Try again.';
@@ -385,14 +403,22 @@ function checkPass() {
     updateDots();
   }
 }
+
+}
 $('lock').addEventListener('click',e=>{
   if (!e.target.closest('button')) showPass();
 });
 
+
 function openApp(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  $('homeDock').style.display = 'none';
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+  });
+
+  $('phone').classList.remove('on-home');
+
   if ($(id)) $(id).classList.add('active');
+
   if (id === 'calendar') renderCalendar();
   if (id === 'photos') renderYears();
   if (id === 'clock') updateTime();
@@ -403,9 +429,14 @@ function openApp(id) {
 }
 
 function goHome() {
-  document.querySelectorAll('.screen').forEach(function(screen) {
+  document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('active');
   });
+
+  $('home').classList.add('active');
+  $('phone').classList.add('unlocked', 'on-home');
+}
+
 
   const home = document.getElementById('home');
   if (home) {
