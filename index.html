@@ -715,8 +715,8 @@ $("photosYearEdit").onclick = () => {
   $("verifyOwner").onclick = () => {
     if ($("ownerPin").value === OWNER_PIN) {
       ownerVerified = true;
-      closeOwnerPanel();
-      startYearPicker(selectedYear, selectedPhotoIndex);
+ownerPanel.classList.remove("active");
+startYearPicker(selectedYear, selectedPhotoIndex);
     } else {
       $("ownerMessage").textContent = "Incorrect PIN. Try again.";
     }
