@@ -159,9 +159,9 @@ t-size:13px;background:#ffffff2b;padding:11px 18px;border-radius:22px;backdrop-f
     <div class="date" id="lockDate">Monday, October 26</div>
     <div class="bigtime" id="lockTime">9:41</div>
 
-    <div class="lockhint" onclick="showPass()">
-      Tap to unlock
-    </div>
+<button class="lockhint" onclick="showPass()" type="button">
+  Tap to unlock
+</button>
 
     <div class="lock-bottom">
       <button class="roundbtn" onclick="showPass()">🔦</button>
@@ -926,7 +926,9 @@ function filterAppleMessages(query) {
       .includes(query.toLowerCase()) ? 'block' : 'none';
   });
 }
-
+function showPass() {
+  document.getElementById('passmodal').classList.add('show');
+}
 </script>
 </body>
 </html>
