@@ -58,44 +58,128 @@ body {
   display: block;
 }
 
+
+/* LOCK SCREEN */
+#lock {
+  padding-top: env(safe-area-inset-top, 0px);
+  text-align: center;
+}
+
+.lock-top {
+  position: absolute;
+  top: 30px;
+  left: 10.5%;
+  right: 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.lock-status-icons {
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+.lock-symbol {
+  position: absolute;
+  top: 7.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  color: white;
+}
+
+.swipe-text {
+  position: absolute;
+  top: 12.5%;
+  left: 0;
+  right: 0;
+  font-size: clamp(20px, 5.5vw, 29px);
+  font-weight: 750;
+  text-shadow: 0 1px 5px #0003;
+}
+
 .lock-clock {
-  margin-top: 105px;
-  font-size: 76px;
+  position: absolute;
+  top: 15.8%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: clamp(112px, 31vw, 160px);
+  line-height: 1;
+  letter-spacing: -7px;
   font-weight: 300;
-  letter-spacing: -3px;
+  color: rgba(255,255,255,.48);
+  -webkit-text-stroke: 1px rgba(255,255,255,.4);
+  text-shadow: 0 2px 2px rgba(0,0,0,.18);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .date {
-  font-size: 19px;
+  display: none;
 }
 
 .lock-bottom {
   position: absolute;
-  bottom: 35px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 45px);
   left: 0;
   right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 11.5%;
 }
 
-.lock-button {
-  border: 1px solid #ffffff80;
-  background: #ffffff24;
+.round-control {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(225,225,225,.20);
   color: white;
-  border-radius: 25px;
-  padding: 13px 25px;
-  font-size: 15px;
+  font-size: 32px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.focus-label {
+  font-size: clamp(13px, 3.7vw, 20px);
+  font-weight: 650;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px #0005;
 }
 
 .home-indicator {
-  position: absolute;
-  width: 125px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  width: 135px;
   height: 5px;
-  border-radius: 9px;
   background: white;
-  bottom: 9px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+  z-index: 100;
 }
+
+@media (max-height: 700px) {
+  .lock-clock {
+    top: 17%;
+    font-size: clamp(90px, 26vw, 125px);
+  }
+
+  .lock-bottom {
+    bottom: 35px;
+  }
+
+  .round-control {
+    width: 62px;
+    height: 62px;
+    flex-basis: 62px;
+  }
+}
+
 
 /* PASSCODE */
 #passcode {
@@ -437,16 +521,34 @@ body {
     <span>●●●　Wi-Fi　▰</span>
   </div>
 
-  <!-- LOCK SCREEN -->
-  <section class="screen active" id="lock">
-    <div class="lock-clock" id="clock">9:41</div>
-    <div class="date" id="date"></div>
-    <div class="lock-bottom">
-      <p>🔦　　　　　　　　　📷</p>
-      <button class="lock-button" onclick="showPasscode()">Tap to unlock</button>
-      <p>Tap to enter passcode</p>
-    </div>
-  </section>
+  
+<!-- LOCK SCREEN -->
+<section class="screen active" id="lock">
+  <div class="lock-top">
+    <span class="tm">TM</span>
+    <span class="lock-status-icons">●●●　 Wi-Fi　▰</span>
+  </div>
+
+  <div class="lock-symbol">♙</div>
+
+  <div class="swipe-text" onclick="showPasscode()">
+    Swipe up to unlock
+  </div>
+
+  <div class="lock-clock" id="clock">4:41</div>
+  <div class="date" id="date"></div>
+
+  <div class="lock-bottom">
+    <button class="round-control"
+      onclick="toggleFlashlight()">▮</button>
+
+    <div class="focus-label">☾ Do Not Disturb</div>
+
+    <button class="round-control"
+      onclick="showPasscode()">📷</button>
+  </div>
+</section>
+
 
   <!-- PASSCODE -->
   <section class="screen" id="passcode">
