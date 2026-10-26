@@ -146,11 +146,48 @@ t-size:13px;background:#ffffff2b;padding:11px 18px;border-radius:22px;backdrop-f
   display: none;
 }
 </style></head><body>
-<div class="phone" id="phone"><div class="wallpaper" id="wallpaper"></div><div class="status"><span id="statusTime">9:41</span><span class="right">◐ ▮▮▮ ◉ ▰</span></div>
-<div class="lock" id="lock"><div class="date" id="lockDate">Monday, October 26</div><div class="bigtime" id="lockTime">9:41</div>
-<div class="lockhint" onclick="showPass()">Tap to unlock</div>
-</div><div class="lock-bottom"><button class="roundbtn" onclick="showPass()">🔦</button><button class="roundbtn" onclick="showPass()">📷</button></div></div>
-<div class="passmodal" id="passmodal"><div class="passbox"><h2>Enter Passcode</h2><div class="dots" id="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div><div class="keypad" id="keypad"></div><p id="passError" style="font-size:12px"></p><button class="back" style="color:white" onclick="hidePass()">Cancel</button></div></div>
+
+<div class="phone" id="phone">
+  <div class="wallpaper" id="wallpaper"></div>
+
+  <div class="status">
+    <span id="statusTime">9:41</span>
+    <span class="right">◐ ▮▮▮ ◉ ▰</span>
+  </div>
+
+  <div class="lock" id="lock">
+    <div class="date" id="lockDate">Monday, October 26</div>
+    <div class="bigtime" id="lockTime">9:41</div>
+
+    <div class="lockhint" onclick="showPass()">
+      Tap to unlock
+    </div>
+
+    <div class="lock-bottom">
+      <button class="roundbtn" onclick="showPass()">🔦</button>
+      <button class="roundbtn" onclick="showPass()">📷</button>
+    </div>
+  </div>
+
+  <div class="passmodal" id="passmodal">
+    <div class="passbox">
+      <h2>Enter Passcode</h2>
+
+      <div class="dots" id="dots">
+        <i class="dot"></i>
+        <i class="dot"></i>
+        <i class="dot"></i>
+        <i class="dot"></i>
+      </div>
+
+      <div class="keypad" id="keypad"></div>
+      <p id="passError" style="font-size:12px"></p>
+
+      <button class="back" style="color:white" onclick="hidePass()">
+        Cancel
+      </button>
+    </div>
+  </div>
 <section class="screen home" id="home"><div class="widget-row"><div class="widget cal-widget" onclick="openApp('calendar')"><div class="small-label">Calendar</div><div><div class="cal-number" id="homeDay">26</div><div id="homeWeekday" style="font-weight:650;font-size:13px">Monday</div></div><div class="cal-event">No more events today</div></div><div class="widget spotify-widget" onclick="openExternal('https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA?si=TETarVHPQKGjuaLleZeSzA&utm_source=copy-link&pi=XWIq5w1BQjOJu')"><div class="tag">♫ Spotify</div><div class="spotify-bottom"><div class="album">♬</div><div><div class="track">Black Card</div><div class="artist">Phuwin</div><div style="font-size:12px;margin-top:9px">▶︎　♡</div></div></div></div></div>
 <div class="app-grid">
 <button class="app" onclick="openApp('settings')"><span class="app-icon ico-settings">⚙️</span><span>Settings</span></button><button class="app" onclick="openApp('instagram')"><span class="app-icon ico-insta">◎</span><span>Instagram</span></button><button class="app" onclick="openApp('photos')"><span class="app-icon ico-photos">🌈</span><span>Photos</span></button><button class="app" onclick="openApp('facebook')"><span class="app-icon ico-facebook">f</span><span>Facebook</span></button>
@@ -399,17 +436,18 @@ function buildKeys() {
 buildKeys();
 
 
+
 function checkPass() {
   if (pass === '0705') {
     $('passmodal').classList.remove('show');
     $('lock').style.display = 'none';
-    $('phone').classList.add('unlocked', 'on-home');
 
-    document.querySelectorAll('.screen').forEach(s => {
-      s.classList.remove('active');
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.classList.remove('active');
     });
 
     $('home').classList.add('active');
+    $('phone').classList.add('unlocked', 'on-home');
     $('homeDock').style.display = 'flex';
     $('passError').textContent = '';
   } else {
@@ -419,19 +457,24 @@ function checkPass() {
   }
 }
 
-$('lock').addEventListener('click',e=>{
-  if (!e.target.closest('button')) showPass();
+$('lock').addEventListener('click', function(event) {
+  if (!event.target.closest('button')) {
+    showPass();
+  }
 });
 
-
 function openApp(id) {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
   });
 
   $('phone').classList.remove('on-home');
 
-  if ($(id)) $(id).classList.add('active');
+  if ($(id)) {
+    $(id).classList.add('active');
+  }
+
+  $('homeDock').style.display = 'none';
 
   if (id === 'calendar') renderCalendar();
   if (id === 'photos') renderYears();
@@ -449,8 +492,8 @@ function goHome() {
 
   $('home').classList.add('active');
   $('phone').classList.add('unlocked', 'on-home');
+  $('homeDock').style.display = 'flex';
 }
-
 
   const home = document.getElementById('home');
   if (home) {
