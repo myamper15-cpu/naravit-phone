@@ -251,7 +251,10 @@ button{font:inherit;cursor:pointer}
   <button id="openClock" type="button">🕒</button>
   Clock
 </div>
-    <div class="app"><button>▶</button>YouTube</div>
+    <div class="app">
+  <button id="openYouTube" type="button">▶</button>
+  YouTube
+</div>
   </div>
 
   <div class="dock">
@@ -1680,6 +1683,12 @@ document.getElementById("closeClock").onclick = () => {
 // Keep the clock running
 updateClockApp();
 setInterval(updateClockApp, 1000);
+
+ // YOUTUBE REDIRECT
+document.getElementById("openYouTube").onclick = () => {
+  window.location.href =
+    "https://youtu.be/BmNBZWjJW6I?si=xeC9W26Lx0T4IDKy";
+};
 </script>
 </main>
 </body>
