@@ -97,14 +97,17 @@ button{font:inherit;cursor:pointer}
 .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:8px;background:white;z-index:50}
 
 /* MUSIC APP */
-.music-list{display:flex;flex-direction:column;gap:12px;margin-top:20px;padding-bottom:30px}
-.music-item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px;border-radius:16px;background:white;box-shadow:0 2px 8px #00000008}
-.music-cover{width:52px;height:52px;flex-shrink:0;border-radius:10px;background:linear-gradient(135deg,#e7bed0,#8b91aa);display:grid;place-items:center;font-size:25px;color:white}
-.music-info{flex:1;min-width:0}
+.music-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;padding-bottom:30px}
+.music-item{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;padding:12px;background:white;border-radius:17px;box-shadow:0 3px 12px #0000000a}
+.music-cover{width:76px;height:76px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#f5c8dc,#b0a0bc);display:grid;place-items:center;color:white;font-size:30px}
+.music-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.music-info{min-width:0}
 .music-info strong{display:block;font-size:14px;overflow-wrap:anywhere}
-.music-info small{display:block;color:#777;margin-top:4px;font-size:12px}
-.music-item button{border:0;border-radius:10px;padding:9px 12px;background:#222;color:white}
-.music-item audio{width:100%;margin-top:4px}
+.music-info small{display:block;margin-top:5px;color:#888;font-size:12px}
+.music-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.music-actions a,.music-actions button{display:inline-block;text-align:center;text-decoration:none;border:0;border-radius:10px;padding:10px 12px;font-size:12px;cursor:pointer}
+.music-open{background:#222;color:white}
+.music-edit{background:#eee7ed;color:#333}
 .music-note{font-size:13px;color:#777;line-height:1.5}
 </style>
 </head>
@@ -134,7 +137,6 @@ button{font:inherit;cursor:pointer}
 
 <section class="home-screen" id="homeScreen">
   <button class="owner-button" id="ownerButton">Owner Settings</button>
-
   <div class="widgets">
     <button class="widget calendar-widget" id="openCalendar">
       <div class="calendar-day" id="calendarDay"></div>
@@ -157,10 +159,7 @@ button{font:inherit;cursor:pointer}
     <div class="app"><button>🕒</button>Clock</div>
     <div class="app"><button>▶</button>YouTube</div>
   </div>
-
-  <div class="dock">
-    <button>☎</button><button>●</button><button>▣</button><button>👤</button>
-  </div>
+  <div class="dock"><button>☎</button><button>●</button><button>▣</button><button>👤</button></div>
 </section>
 
 <section class="owner-panel" id="ownerPanel">
@@ -188,6 +187,7 @@ button{font:inherit;cursor:pointer}
 <input class="hidden-file" id="profilePhotoFile" type="file" accept="image/*">
 <input class="hidden-file" id="postPhotosFile" type="file" accept="image/*" multiple>
 <input class="hidden-file" id="yearPhotosFile" type="file" accept="image/*" multiple>
+<input class="hidden-file" id="musicCoverFile" type="file" accept="image/*">
 
 <section class="app-screen" id="calendarScreen">
   <button class="back" data-home="calendarScreen">‹ Home</button>
@@ -241,13 +241,11 @@ button{font:inherit;cursor:pointer}
   </div>
 </section>
 
-<!-- MUSIC APP: walang Spotify app na bubuksan -->
 <section class="app-screen" id="musicScreen">
   <button class="back" data-home="musicScreen">‹ Home</button>
   <h1 class="app-title">Music ♫</h1>
-  <p class="music-note">My favorite songs. Add an audio file to each song slot to play it here.</p>
+  <p class="music-note">My favorite songs 💗 Tap a song to open it. Use Edit to change its title or cover photo.</p>
   <div class="music-list" id="musicList"></div>
-  <input class="hidden-file" id="musicFile" type="file" accept="audio/*">
 </section>
 
 <div class="home-indicator"></div>
@@ -258,273 +256,289 @@ const PASSCODE = "0705";
 const OWNER_PIN = "2610";
 const YEARS = [2021,2022,2023,2024,2025,2026];
 
-let unlocked = false;
-let ownerVerified = false;
-let entered = "";
-let selectedYear = 2026;
-let selectedPhotoIndex = null;
-let viewedMonth = new Date();
-let db;
-let yearlyPhotos = {};
-let data = {wallpaper:"",profile:"",posts:[],years:{}};
+let unlocked=false,ownerVerified=false,entered="";
+let selectedYear=2026,selectedPhotoIndex=null,viewedMonth=new Date(),db;
+let yearlyPhotos={};
+let data={wallpaper:"",profile:"",posts:[],years:{},musicCovers:[]};
 
-YEARS.forEach(y => {
-  data.years[y] = Array(6).fill("");
-  yearlyPhotos[y] = data.years[y];
-});
+YEARS.forEach(y=>{data.years[y]=Array(6).fill("");yearlyPhotos[y]=data.years[y];});
 
-/* MUSIC DATA */
-const musicTracks = [
-  {title:"Favorite Song 1", audio:""},
-  {title:"Favorite Song 2", audio:""},
-  {title:"Favorite Song 3", audio:""},
-  {title:"Favorite Song 4", audio:""},
-  {title:"Favorite Song 5", audio:""},
-  {title:"Favorite Song 6", audio:""},
-  {title:"Favorite Song 7", audio:""}
+/* MUSIC: links only, no audio files */
+const defaultTracks=[
+ {title:"Favorite Song 1",link:"https://open.spotify.com/track/4oHQ8n9OKQ3599e8noCrDX"},
+ {title:"Favorite Song 2",link:"https://open.spotify.com/track/6DH13QYXK7lKkYHSU88N48"},
+ {title:"Favorite Song 3",link:"https://open.spotify.com/track/2aL4lMGhWdPpyPL6COPou7"},
+ {title:"Favorite Song 4",link:"https://open.spotify.com/track/3afkJSKX0EAMsJXTZnDXXJ"},
+ {title:"Favorite Song 5",link:"https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"},
+ {title:"Favorite Song 6",link:"https://open.spotify.com/track/4d9vh09S952aur0SM4RhzT"},
+ {title:"Favorite Song 7",link:"https://open.spotify.com/track/43t6oyPWJ67nifk7JgDgoI"}
 ];
 
-let selectedMusicIndex = 0;
-let temporaryAudioUrls = [];
-
-function renderMusic(){
-  const list = $("musicList");
-  list.innerHTML = "";
-
-  musicTracks.forEach((track,index)=>{
-    const item = document.createElement("div");
-    item.className = "music-item";
-
-    const cover = document.createElement("div");
-    cover.className = "music-cover";
-    cover.textContent = "♫";
-
-    const info = document.createElement("div");
-    info.className = "music-info";
-
-    const title = document.createElement("strong");
-    title.textContent = track.title;
-
-    const subtitle = document.createElement("small");
-    subtitle.textContent = track.audio ? "Ready to play" : "No audio file added";
-
-    info.append(title,subtitle);
-
-    const addButton = document.createElement("button");
-    addButton.type = "button";
-    addButton.textContent = track.audio ? "Change" : "Add audio";
-    addButton.onclick = ()=>{
-      selectedMusicIndex = index;
-      $("musicFile").click();
-    };
-
-    item.append(cover,info,addButton);
-
-    if(track.audio){
-      const audio = document.createElement("audio");
-      audio.controls = true;
-      audio.preload = "none";
-      audio.src = track.audio;
-      audio.style.width = "100%";
-      item.appendChild(audio);
-    }
-
-    list.appendChild(item);
-  });
-}
-
-$("openMusic").onclick = ()=>{
-  $("musicScreen").classList.add("active");
-  renderMusic();
-};
-
-$("musicFile").onchange = event=>{
-  const file = event.target.files[0];
-  if(!file || !file.type.startsWith("audio/")) return;
-
-  const index = selectedMusicIndex;
-  const url = URL.createObjectURL(file);
-  temporaryAudioUrls.push(url);
-  musicTracks[index].audio = url;
-
-  renderMusic();
-  event.target.value = "";
-};
+let musicTracks=defaultTracks.map(t=>({...t}));
+let selectedMusicIndex=0;
 
 /* CLOCK */
 function updateClock(){
-  const now = new Date();
-  $("lockClock").textContent = now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",hour12:false});
-  $("statusTime").textContent = now.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
-  $("lockDate").textContent = now.toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"});
-  $("calendarDay").textContent = now.toLocaleDateString([],{weekday:"long"}).toUpperCase();
-  $("calendarNumber").textContent = now.getDate();
+ const now=new Date();
+ $("lockClock").textContent=now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",hour12:false});
+ $("statusTime").textContent=now.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
+ $("lockDate").textContent=now.toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"});
+ $("calendarDay").textContent=now.toLocaleDateString([],{weekday:"long"}).toUpperCase();
+ $("calendarNumber").textContent=now.getDate();
 }
-updateClock();
-setInterval(updateClock,1000);
+updateClock();setInterval(updateClock,1000);
 
 /* DATABASE */
 function openDB(){
-  return new Promise((resolve,reject)=>{
-    const request = indexedDB.open("MyiPhonePhotoStorage",1);
-    request.onupgradeneeded = ()=>{
-      if(!request.result.objectStoreNames.contains("images")){
-        request.result.createObjectStore("images",{keyPath:"id"});
-      }
-    };
-    request.onsuccess = ()=>{db=request.result;resolve(db);};
-    request.onerror = ()=>reject(request.error);
-  });
+ return new Promise((resolve,reject)=>{
+  const request=indexedDB.open("MyiPhonePhotoStorage",1);
+  request.onupgradeneeded=()=>{
+   if(!request.result.objectStoreNames.contains("images"))request.result.createObjectStore("images",{keyPath:"id"});
+  };
+  request.onsuccess=()=>{db=request.result;resolve(db);};
+  request.onerror=()=>reject(request.error);
+ });
 }
 function readDB(){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("images","readonly");
-    const req=tx.objectStore("images").get("appData");
-    req.onsuccess=()=>resolve(req.result?.data||null);
-    req.onerror=()=>reject(req.error);
-  });
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction("images","readonly");
+  const req=tx.objectStore("images").get("appData");
+  req.onsuccess=()=>resolve(req.result?.data||null);
+  req.onerror=()=>reject(req.error);
+ });
 }
 function writeDB(){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("images","readwrite");
-    tx.objectStore("images").put({id:"appData",data});
-    tx.oncomplete=()=>resolve(true);
-    tx.onerror=()=>reject(tx.error);
-    tx.onabort=()=>reject(tx.error);
-  });
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction("images","readwrite");
+  tx.objectStore("images").put({id:"appData",data});
+  tx.oncomplete=()=>resolve(true);
+  tx.onerror=()=>reject(tx.error);
+  tx.onabort=()=>reject(tx.error);
+ });
 }
 async function saveData(){
-  try{await writeDB();return true;}
-  catch(error){console.error(error);alert("Storage is full or unavailable.");return false;}
+ try{await writeDB();return true;}
+ catch(error){console.error(error);alert("Storage is full or unavailable.");return false;}
 }
 function oldGet(key,fallback=null){
-  try{return localStorage.getItem(key)??fallback;}
-  catch{return fallback;}
+ try{return localStorage.getItem(key)??fallback;}catch{return fallback;}
 }
 async function migrateOldData(){
-  if(!data.wallpaper)data.wallpaper=oldGet("iphoneWallpaper","");
-  if(!data.profile)data.profile=oldGet("iphoneInstagramProfile","");
-  try{
-    const posts=JSON.parse(oldGet("iphoneInstagramPosts","[]"));
-    if(!data.posts.length&&Array.isArray(posts))data.posts=posts.slice(0,9);
-  }catch{}
-  try{
-    const years=JSON.parse(oldGet("iphoneYearlyPhotos","{}"));
-    YEARS.forEach(y=>{
-      if(!data.years[y].some(Boolean)&&Array.isArray(years[y])){
-        data.years[y]=Array(6).fill("");
-        years[y].slice(0,6).forEach((p,i)=>data.years[y][i]=p||"");
-      }
-    });
-  }catch{}
-  await saveData();
+ if(!data.wallpaper)data.wallpaper=oldGet("iphoneWallpaper","");
+ if(!data.profile)data.profile=oldGet("iphoneInstagramProfile","");
+ try{
+  const posts=JSON.parse(oldGet("iphoneInstagramPosts","[]"));
+  if(!data.posts.length&&Array.isArray(posts))data.posts=posts.slice(0,9);
+ }catch{}
+ try{
+  const years=JSON.parse(oldGet("iphoneYearlyPhotos","{}"));
+  YEARS.forEach(y=>{
+   if(!data.years[y].some(Boolean)&&Array.isArray(years[y])){
+    data.years[y]=Array(6).fill("");
+    years[y].slice(0,6).forEach((p,i)=>data.years[y][i]=p||"");
+   }
+  });
+ }catch{}
+ await saveData();
 }
 
 /* IMAGE COMPRESSION */
 function compressImage(file){
-  return new Promise((resolve,reject)=>{
-    if(!file||!file.type.startsWith("image/"))return reject(new Error("Invalid image"));
-    const reader=new FileReader();
-    reader.onerror=()=>reject(new Error("Cannot read image"));
-    reader.onload=()=>{
-      const img=new Image();
-      img.onerror=()=>reject(new Error("Cannot open image"));
-      img.onload=()=>{
-        const max=1400;
-        const scale=Math.min(1,max/Math.max(img.width,img.height));
-        const canvas=document.createElement("canvas");
-        canvas.width=Math.max(1,Math.round(img.width*scale));
-        canvas.height=Math.max(1,Math.round(img.height*scale));
-        canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
-        resolve(canvas.toDataURL("image/jpeg",0.72));
-      };
-      img.src=reader.result;
-    };
-    reader.readAsDataURL(file);
-  });
+ return new Promise((resolve,reject)=>{
+  if(!file||!file.type.startsWith("image/"))return reject(new Error("Invalid image"));
+  const reader=new FileReader();
+  reader.onerror=()=>reject(new Error("Cannot read image"));
+  reader.onload=()=>{
+   const img=new Image();
+   img.onerror=()=>reject(new Error("Cannot open image"));
+   img.onload=()=>{
+    const max=1400,scale=Math.min(1,max/Math.max(img.width,img.height));
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.max(1,Math.round(img.width*scale));
+    canvas.height=Math.max(1,Math.round(img.height*scale));
+    canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+    resolve(canvas.toDataURL("image/jpeg",0.72));
+   };
+   img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+ });
 }
+
+/* MUSIC APP */
+function renderMusic(){
+ const list=$("musicList");
+ list.innerHTML="";
+
+ musicTracks.forEach((track,index)=>{
+  const item=document.createElement("article");
+  item.className="music-item";
+
+  const cover=document.createElement("div");
+  cover.className="music-cover";
+
+  const savedCover=data.musicCovers?.[index]||"";
+  if(savedCover){
+   const img=document.createElement("img");
+   img.src=savedCover;
+   img.alt=track.title+" cover";
+   cover.appendChild(img);
+  }else{
+   cover.textContent="♫";
+  }
+
+  const info=document.createElement("div");
+  info.className="music-info";
+  const title=document.createElement("strong");
+  title.textContent=track.title;
+  const subtitle=document.createElement("small");
+  subtitle.textContent="Tap Open Song to listen";
+  info.append(title,subtitle);
+
+  const actions=document.createElement("div");
+  actions.className="music-actions";
+
+  const open=document.createElement("a");
+  open.className="music-open";
+  open.href=track.link;
+  open.target="_blank";
+  open.rel="noopener noreferrer";
+  open.textContent="Open Song ↗";
+
+  const edit=document.createElement("button");
+  edit.className="music-edit";
+  edit.type="button";
+  edit.textContent="Edit Song";
+  edit.onclick=()=>editMusicTrack(index);
+
+  const changeCover=document.createElement("button");
+  changeCover.className="music-edit";
+  changeCover.type="button";
+  changeCover.textContent=savedCover?"Change Cover":"Add Cover Photo";
+  changeCover.onclick=()=>{
+   selectedMusicIndex=index;
+   $("musicCoverFile").click();
+  };
+
+  actions.append(open,edit,changeCover);
+  item.append(cover,info,actions);
+  list.appendChild(item);
+ });
+}
+
+function editMusicTrack(index){
+ const track=musicTracks[index];
+ const newTitle=prompt("Enter song title:",track.title);
+ if(newTitle===null)return;
+ const trimmed=newTitle.trim();
+ if(trimmed)track.title=trimmed;
+
+ const newLink=prompt("Paste the song link:",track.link);
+ if(newLink!==null&&newLink.trim()){
+  const link=newLink.trim();
+  if(/^https:\/\/open\.spotify\.com\/track\/[A-Za-z0-9]+/.test(link)){
+   track.link=link.split("?")[0];
+  }else{
+   alert("Please enter a valid Spotify track link.");
+  }
+ }
+
+ try{
+  localStorage.setItem("myMusicTracks",JSON.stringify(musicTracks));
+ }catch{}
+ renderMusic();
+}
+
+$("musicCoverFile").onchange=async event=>{
+ const file=event.target.files[0];
+ if(!file)return;
+ try{
+  const image=await compressImage(file);
+  if(!Array.isArray(data.musicCovers))data.musicCovers=Array(7).fill("");
+  data.musicCovers[selectedMusicIndex]=image;
+  if(await saveData()){
+   renderMusic();
+   alert("Song cover photo saved! 💗");
+  }
+ }catch(error){
+  alert("Could not load that picture. Please try another image.");
+ }
+ event.target.value="";
+};
+
+$("openMusic").onclick=()=>{
+ $("musicScreen").classList.add("active");
+ renderMusic();
+};
 
 /* PASSCODE */
 function updateDots(){
-  $("dots").innerHTML="";
-  for(let i=0;i<4;i++){
-    const d=document.createElement("span");
-    d.className="dot"+(i<entered.length?" filled":"");
-    $("dots").appendChild(d);
-  }
+ $("dots").innerHTML="";
+ for(let i=0;i<4;i++){
+  const d=document.createElement("span");
+  d.className="dot"+(i<entered.length?" filled":"");
+  $("dots").appendChild(d);
+ }
 }
 function openPasscode(){
-  if(unlocked)return;
-  entered="";
-  $("passMessage").textContent="";
-  updateDots();
-  $("passcode").classList.add("active");
+ if(unlocked)return;
+ entered="";$("passMessage").textContent="";updateDots();
+ $("passcode").classList.add("active");
 }
 function enterDigit(n){
-  if(entered.length>=4)return;
-  entered+=n;
-  updateDots();
-  if(entered.length===4){
-    if(entered===PASSCODE){
-      $("passMessage").textContent="Unlocked!";
-      setTimeout(()=>{
-        unlocked=true;
-        $("passcode").classList.remove("active");
-        $("lockScreen").style.display="none";
-        $("homeScreen").classList.add("active");
-      },300);
-    }else{
-      $("passMessage").textContent="Incorrect passcode";
-      setTimeout(()=>{entered="";$("passMessage").textContent="";updateDots();},700);
-    }
+ if(entered.length>=4)return;
+ entered+=n;updateDots();
+ if(entered.length===4){
+  if(entered===PASSCODE){
+   $("passMessage").textContent="Unlocked!";
+   setTimeout(()=>{
+    unlocked=true;$("passcode").classList.remove("active");
+    $("lockScreen").style.display="none";$("homeScreen").classList.add("active");
+   },300);
+  }else{
+   $("passMessage").textContent="Incorrect passcode";
+   setTimeout(()=>{entered="";$("passMessage").textContent="";updateDots();},700);
   }
+ }
 }
 ["1","2","3","4","5","6","7","8","9","","0","⌫"].forEach(n=>{
-  const b=document.createElement("button");
-  b.className="key";b.type="button";b.textContent=n;
-  if(n===""){b.style.visibility="hidden";b.disabled=true;}
-  else if(n==="⌫")b.onclick=()=>{entered=entered.slice(0,-1);updateDots();};
-  else b.onclick=()=>enterDigit(n);
-  $("keypad").appendChild(b);
+ const b=document.createElement("button");
+ b.className="key";b.type="button";b.textContent=n;
+ if(n===""){b.style.visibility="hidden";b.disabled=true;}
+ else if(n==="⌫")b.onclick=()=>{entered=entered.slice(0,-1);updateDots();};
+ else b.onclick=()=>enterDigit(n);
+ $("keypad").appendChild(b);
 });
 $("cameraButton").onclick=openPasscode;
 $("cancelPasscode").onclick=()=>{
-  $("passcode").classList.remove("active");entered="";updateDots();
+ $("passcode").classList.remove("active");entered="";updateDots();
 };
 let touchStartY=null;
 $("phone").addEventListener("touchstart",e=>{
-  if(unlocked||$("passcode").classList.contains("active"))return;
-  touchStartY=e.changedTouches[0].clientY;
+ if(unlocked||$("passcode").classList.contains("active"))return;
+ touchStartY=e.changedTouches[0].clientY;
 },{passive:true});
 $("phone").addEventListener("touchend",e=>{
-  if(unlocked||$("passcode").classList.contains("active")||touchStartY===null){touchStartY=null;return;}
-  if(touchStartY-e.changedTouches[0].clientY>45)openPasscode();
-  touchStartY=null;
+ if(unlocked||$("passcode").classList.contains("active")||touchStartY===null){touchStartY=null;return;}
+ if(touchStartY-e.changedTouches[0].clientY>45)openPasscode();
+ touchStartY=null;
 },{passive:true});
 
 /* OWNER SETTINGS */
 function showOwnerLogin(message="Enter your owner PIN."){
-  ownerVerified=false;
-  $("ownerLogin").hidden=false;
-  $("ownerOptions").hidden=true;
-  $("ownerPin").value="";
-  $("ownerMessage").textContent=message;
-  $("verifyOwner").onclick=verifyOwner;
-  $("ownerPanel").classList.add("active");
+ ownerVerified=false;$("ownerLogin").hidden=false;$("ownerOptions").hidden=true;
+ $("ownerPin").value="";$("ownerMessage").textContent=message;
+ $("verifyOwner").onclick=verifyOwner;$("ownerPanel").classList.add("active");
 }
 function closeOwnerPanel(){
-  ownerVerified=false;
-  $("ownerPanel").classList.remove("active");
+ ownerVerified=false;$("ownerPanel").classList.remove("active");
 }
 function verifyOwner(){
-  if($("ownerPin").value===OWNER_PIN){
-    ownerVerified=true;
-    $("ownerLogin").hidden=true;
-    $("ownerOptions").hidden=false;
-  }else{
-    $("ownerMessage").textContent="Incorrect PIN. Try again.";
-    $("ownerPin").value="";
-  }
+ if($("ownerPin").value===OWNER_PIN){
+  ownerVerified=true;$("ownerLogin").hidden=true;$("ownerOptions").hidden=false;
+ }else{
+  $("ownerMessage").textContent="Incorrect PIN. Try again.";$("ownerPin").value="";
+ }
 }
 $("ownerButton").onclick=()=>showOwnerLogin();
 $("closeOwner").onclick=closeOwnerPanel;
@@ -533,177 +547,175 @@ $("verifyOwner").onclick=verifyOwner;
 
 /* WALLPAPER */
 $("chooseWallpaper").onclick=()=>{
-  if(ownerVerified)$("wallpaperFile").click();
-  else showOwnerLogin("Enter your PIN to change wallpaper.");
+ if(ownerVerified)$("wallpaperFile").click();
+ else showOwnerLogin("Enter your PIN to change wallpaper.");
 };
 $("wallpaperFile").onchange=async e=>{
-  if(!ownerVerified)return;
-  const file=e.target.files[0];if(!file)return;
-  try{
-    const image=await compressImage(file);
-    const old=data.wallpaper;data.wallpaper=image;
-    if(await saveData()){
-      $("wallpaper").style.backgroundImage=`url("${image}")`;
-      closeOwnerPanel();alert("Wallpaper saved!");
-    }else data.wallpaper=old;
-  }catch{alert("Could not process wallpaper.");}
-  e.target.value="";
+ if(!ownerVerified)return;
+ const file=e.target.files[0];if(!file)return;
+ try{
+  const image=await compressImage(file),old=data.wallpaper;
+  data.wallpaper=image;
+  if(await saveData()){
+   $("wallpaper").style.backgroundImage=`url("${image}")`;
+   closeOwnerPanel();alert("Wallpaper saved!");
+  }else data.wallpaper=old;
+ }catch{alert("Could not process wallpaper.");}
+ e.target.value="";
 };
 
 /* INSTAGRAM PROFILE */
 function showProfilePhoto(image){
-  const img=$("igProfilePhoto"),placeholder=$("profilePlaceholder");
-  if(image){img.src=image;img.style.display="block";placeholder.style.display="none";}
-  else{img.removeAttribute("src");img.style.display="none";placeholder.style.display="block";}
+ const img=$("igProfilePhoto"),placeholder=$("profilePlaceholder");
+ if(image){img.src=image;img.style.display="block";placeholder.style.display="none";}
+ else{img.removeAttribute("src");img.style.display="none";placeholder.style.display="block";}
 }
 $("chooseProfilePhoto").onclick=()=>{
-  if(ownerVerified)$("profilePhotoFile").click();
-  else showOwnerLogin("Enter your PIN to change your profile photo.");
+ if(ownerVerified)$("profilePhotoFile").click();
+ else showOwnerLogin("Enter your PIN to change your profile photo.");
 };
 $("profilePhotoFile").onchange=async e=>{
-  if(!ownerVerified)return;
-  const file=e.target.files[0];if(!file)return;
-  try{
-    const image=await compressImage(file),old=data.profile;
-    data.profile=image;
-    if(await saveData()){showProfilePhoto(image);closeOwnerPanel();alert("Profile photo saved!");}
-    else data.profile=old;
-  }catch{alert("Could not process profile photo.");}
-  e.target.value="";
+ if(!ownerVerified)return;
+ const file=e.target.files[0];if(!file)return;
+ try{
+  const image=await compressImage(file),old=data.profile;
+  data.profile=image;
+  if(await saveData()){showProfilePhoto(image);closeOwnerPanel();alert("Profile photo saved!");}
+  else data.profile=old;
+ }catch{alert("Could not process profile photo.");}
+ e.target.value="";
 };
 
 /* INSTAGRAM POSTS */
 function renderInstagramPosts(){
-  const grid=$("igGrid");grid.innerHTML="";
-  if(!data.posts.length){
-    ["📷","🌿","🌆"].forEach(s=>{
-      const tile=document.createElement("div");tile.className="ig-post";tile.textContent=s;grid.appendChild(tile);
-    });return;
-  }
-  data.posts.forEach((image,i)=>{
-    const tile=document.createElement("div");tile.className="ig-post";
-    const img=document.createElement("img");img.src=image;img.alt="Post "+(i+1);
-    tile.appendChild(img);grid.appendChild(tile);
-  });
+ const grid=$("igGrid");grid.innerHTML="";
+ if(!data.posts.length){
+  ["📷","🌿","🌆"].forEach(s=>{
+   const tile=document.createElement("div");tile.className="ig-post";tile.textContent=s;grid.appendChild(tile);
+  });return;
+ }
+ data.posts.forEach((image,i)=>{
+  const tile=document.createElement("div");tile.className="ig-post";
+  const img=document.createElement("img");img.src=image;img.alt="Post "+(i+1);
+  tile.appendChild(img);grid.appendChild(tile);
+ });
 }
 $("choosePostPhotos").onclick=()=>{
-  if(ownerVerified)$("postPhotosFile").click();
-  else showOwnerLogin("Enter your PIN to edit Instagram posts.");
+ if(ownerVerified)$("postPhotosFile").click();
+ else showOwnerLogin("Enter your PIN to edit Instagram posts.");
 };
 $("postPhotosFile").onchange=async e=>{
-  if(!ownerVerified)return;
-  const files=Array.from(e.target.files).filter(f=>f.type.startsWith("image/")).slice(0,9);
-  if(!files.length)return;
-  try{
-    const images=[];
-    for(const f of files)images.push(await compressImage(f));
-    const old=data.posts;data.posts=images;
-    if(await saveData()){renderInstagramPosts();closeOwnerPanel();alert("Instagram posts saved!");}
-    else data.posts=old;
-  }catch{alert("Could not process posts.");}
-  e.target.value="";
+ if(!ownerVerified)return;
+ const files=Array.from(e.target.files).filter(f=>f.type.startsWith("image/")).slice(0,9);
+ if(!files.length)return;
+ try{
+  const images=[];
+  for(const f of files)images.push(await compressImage(f));
+  const old=data.posts;data.posts=images;
+  if(await saveData()){renderInstagramPosts();closeOwnerPanel();alert("Instagram posts saved!");}
+  else data.posts=old;
+ }catch{alert("Could not process posts.");}
+ e.target.value="";
 };
 $("openInstagram").onclick=()=>{
-  $("instagramScreen").classList.add("active");
-  showProfilePhoto(data.profile);renderInstagramPosts();
+ $("instagramScreen").classList.add("active");showProfilePhoto(data.profile);renderInstagramPosts();
 };
 $("followButton").onclick=e=>{
-  e.currentTarget.textContent=e.currentTarget.textContent==="Following"?"Follow":"Following";
+ e.currentTarget.textContent=e.currentTarget.textContent==="Following"?"Follow":"Following";
 };
 
 /* PHOTOS BY YEAR */
 async function saveYearPhotos(){data.years=yearlyPhotos;return saveData();}
 function makePhotoTile(year,index){
-  const tile=document.createElement("button");
-  tile.type="button";tile.className="year-photo";
-  const image=yearlyPhotos[year][index];
-  if(image){
-    const img=document.createElement("img");img.src=image;img.alt=year+" photo "+(index+1);tile.appendChild(img);
-  }else tile.textContent="＋";
-  tile.onclick=()=>{selectedYear=year;selectedPhotoIndex=index;openYearDetail(year);};
-  return tile;
+ const tile=document.createElement("button");tile.type="button";tile.className="year-photo";
+ const image=yearlyPhotos[year][index];
+ if(image){
+  const img=document.createElement("img");img.src=image;img.alt=year+" photo "+(index+1);tile.appendChild(img);
+ }else tile.textContent="＋";
+ tile.onclick=()=>{selectedYear=year;selectedPhotoIndex=index;openYearDetail(year);};
+ return tile;
 }
 function renderPhotosContent(){
-  const content=$("photosContent");content.innerHTML="";
-  YEARS.forEach(year=>{
-    const section=document.createElement("section");section.className="photos-year";
-    const heading=document.createElement("div");heading.className="photos-year-heading";
-    const title=document.createElement("h2");title.textContent=year;
-    const view=document.createElement("button");view.textContent="See All ›";
-    view.onclick=()=>{selectedPhotoIndex=null;openYearDetail(year);};
-    heading.append(title,view);
-    const grid=document.createElement("div");grid.className="photos-grid";
-    for(let i=0;i<6;i++)grid.appendChild(makePhotoTile(year,i));
-    section.append(heading,grid);content.appendChild(section);
-  });
+ const content=$("photosContent");content.innerHTML="";
+ YEARS.forEach(year=>{
+  const section=document.createElement("section");section.className="photos-year";
+  const heading=document.createElement("div");heading.className="photos-year-heading";
+  const title=document.createElement("h2");title.textContent=year;
+  const view=document.createElement("button");view.textContent="See All ›";
+  view.onclick=()=>{selectedPhotoIndex=null;openYearDetail(year);};
+  heading.append(title,view);
+  const grid=document.createElement("div");grid.className="photos-grid";
+  for(let i=0;i<6;i++)grid.appendChild(makePhotoTile(year,i));
+  section.append(heading,grid);content.appendChild(section);
+ });
 }
 function openYearDetail(year){
-  selectedYear=year;$("photosDetailTitle").textContent=year;
-  $("photosHint").textContent="6 photo slots · Owner PIN required to edit.";
-  const grid=$("photosDetailGrid");grid.innerHTML="";
-  for(let i=0;i<6;i++)grid.appendChild(makePhotoTile(year,i));
-  $("photosDetail").classList.add("active");
+ selectedYear=year;$("photosDetailTitle").textContent=year;
+ $("photosHint").textContent="6 photo slots · Owner PIN required to edit.";
+ const grid=$("photosDetailGrid");grid.innerHTML="";
+ for(let i=0;i<6;i++)grid.appendChild(makePhotoTile(year,i));
+ $("photosDetail").classList.add("active");
 }
 function startYearPicker(year,index=null){
-  const input=$("yearPhotosFile");
-  input.dataset.year=String(year);input.dataset.index=index===null?"":String(index);
-  input.multiple=index===null;input.value="";input.click();
+ const input=$("yearPhotosFile");
+ input.dataset.year=String(year);input.dataset.index=index===null?"":String(index);
+ input.multiple=index===null;input.value="";input.click();
 }
 $("yearPhotosFile").onchange=async e=>{
-  if(!ownerVerified)return;
-  const year=Number(e.target.dataset.year),indexValue=e.target.dataset.index;
-  const files=Array.from(e.target.files).filter(f=>f.type.startsWith("image/"));
-  if(!files.length)return;
-  const old=[...yearlyPhotos[year]];
-  try{
-    const images=[];
-    for(const file of files.slice(0,indexValue===""?6:1))images.push(await compressImage(file));
-    if(indexValue!=="")yearlyPhotos[year][Number(indexValue)]=images[0];
-    else{yearlyPhotos[year]=Array(6).fill("");images.forEach((img,i)=>yearlyPhotos[year][i]=img);}
-    if(await saveYearPhotos()){
-      renderPhotosContent();openYearDetail(year);closeOwnerPanel();alert("Photos for "+year+" saved!");
-    }else yearlyPhotos[year]=old;
-  }catch{yearlyPhotos[year]=old;alert("Could not process selected photos.");}
-  e.target.value="";
+ if(!ownerVerified)return;
+ const year=Number(e.target.dataset.year),indexValue=e.target.dataset.index;
+ const files=Array.from(e.target.files).filter(f=>f.type.startsWith("image/"));
+ if(!files.length)return;
+ const old=[...yearlyPhotos[year]];
+ try{
+  const images=[];
+  for(const file of files.slice(0,indexValue===""?6:1))images.push(await compressImage(file));
+  if(indexValue!=="")yearlyPhotos[year][Number(indexValue)]=images[0];
+  else{yearlyPhotos[year]=Array(6).fill("");images.forEach((img,i)=>yearlyPhotos[year][i]=img);}
+  if(await saveYearPhotos()){
+   renderPhotosContent();openYearDetail(year);closeOwnerPanel();alert("Photos for "+year+" saved!");
+  }else yearlyPhotos[year]=old;
+ }catch{yearlyPhotos[year]=old;alert("Could not process selected photos.");}
+ e.target.value="";
 };
 $("openPhotos").onclick=()=>{
-  $("photosScreen").classList.add("active");renderPhotosContent();$("photosDetail").classList.remove("active");
+ $("photosScreen").classList.add("active");renderPhotosContent();$("photosDetail").classList.remove("active");
 };
 $("photosBack").onclick=()=>$("photosDetail").classList.remove("active");
 $("photosYearEdit").onclick=()=>{
-  showOwnerLogin("Enter your PIN to edit "+selectedYear+" photos.");
-  $("verifyOwner").onclick=()=>{
-    if($("ownerPin").value===OWNER_PIN){
-      ownerVerified=true;$("ownerPanel").classList.remove("active");startYearPicker(selectedYear,selectedPhotoIndex);
-    }else{$("ownerMessage").textContent="Incorrect PIN. Try again.";$("ownerPin").value="";}
-  };
+ showOwnerLogin("Enter your PIN to edit "+selectedYear+" photos.");
+ $("verifyOwner").onclick=()=>{
+  if($("ownerPin").value===OWNER_PIN){
+   ownerVerified=true;$("ownerPanel").classList.remove("active");startYearPicker(selectedYear,selectedPhotoIndex);
+  }else{$("ownerMessage").textContent="Incorrect PIN. Try again.";$("ownerPin").value="";}
+ };
 };
 $("editYearPhotos").onclick=()=>{
-  showOwnerLogin("Enter your PIN to edit a yearly album.");
-  $("verifyOwner").onclick=()=>{
-    if($("ownerPin").value===OWNER_PIN){
-      ownerVerified=true;$("ownerPanel").classList.remove("active");startYearPicker(selectedYear,null);
-    }else{$("ownerMessage").textContent="Incorrect PIN. Try again.";$("ownerPin").value="";}
-  };
+ showOwnerLogin("Enter your PIN to edit a yearly album.");
+ $("verifyOwner").onclick=()=>{
+  if($("ownerPin").value===OWNER_PIN){
+   ownerVerified=true;$("ownerPanel").classList.remove("active");startYearPicker(selectedYear,null);
+  }else{$("ownerMessage").textContent="Incorrect PIN. Try again.";$("ownerPin").value="";}
+ };
 };
 
 /* CALENDAR */
 function renderCalendar(){
-  const grid=$("calendarGrid");grid.innerHTML="";
-  $("monthName").textContent=viewedMonth.toLocaleDateString([],{month:"long",year:"numeric"});
-  ["S","M","T","W","T","F","S"].forEach(day=>{
-    const label=document.createElement("div");label.className="weekday";label.textContent=day;grid.appendChild(label);
-  });
-  const y=viewedMonth.getFullYear(),m=viewedMonth.getMonth();
-  const first=new Date(y,m,1).getDay(),total=new Date(y,m+1,0).getDate();
-  for(let i=0;i<first;i++)grid.appendChild(document.createElement("div"));
-  for(let day=1;day<=total;day++){
-    const date=new Date(y,m,day),b=document.createElement("button");
-    b.type="button";b.className="date-cell";b.textContent=day;
-    if(date.toDateString()===new Date().toDateString())b.classList.add("today");
-    b.onclick=()=>$("selectedDate").textContent=date.toLocaleDateString([],{weekday:"long",month:"long",day:"numeric"});
-    grid.appendChild(b);
-  }
+ const grid=$("calendarGrid");grid.innerHTML="";
+ $("monthName").textContent=viewedMonth.toLocaleDateString([],{month:"long",year:"numeric"});
+ ["S","M","T","W","T","F","S"].forEach(day=>{
+  const label=document.createElement("div");label.className="weekday";label.textContent=day;grid.appendChild(label);
+ });
+ const y=viewedMonth.getFullYear(),m=viewedMonth.getMonth();
+ const first=new Date(y,m,1).getDay(),total=new Date(y,m+1,0).getDate();
+ for(let i=0;i<first;i++)grid.appendChild(document.createElement("div"));
+ for(let day=1;day<=total;day++){
+  const date=new Date(y,m,day),b=document.createElement("button");
+  b.type="button";b.className="date-cell";b.textContent=day;
+  if(date.toDateString()===new Date().toDateString())b.classList.add("today");
+  b.onclick=()=>$("selectedDate").textContent=date.toLocaleDateString([],{weekday:"long",month:"long",day:"numeric"});
+  grid.appendChild(b);
+ }
 }
 $("openCalendar").onclick=()=>{renderCalendar();$("calendarScreen").classList.add("active");};
 $("prevMonth").onclick=()=>{viewedMonth.setMonth(viewedMonth.getMonth()-1);renderCalendar();};
@@ -712,53 +724,67 @@ $("nextMonth").onclick=()=>{viewedMonth.setMonth(viewedMonth.getMonth()+1);rende
 /* SETTINGS */
 $("openSettings").onclick=()=>$("settingsScreen").classList.add("active");
 document.querySelectorAll(".settings-row").forEach(button=>{
-  button.onclick=()=>{
-    const name=button.dataset.setting;
-    $("detailTitle").textContent=name;
-    $("detailText").textContent=name==="Wallpaper"?"Use Owner Settings to change your simulated wallpaper.":"This is a simulated iPhone setting.";
-    $("settingsDetail").classList.add("active");
-  };
+ button.onclick=()=>{
+  const name=button.dataset.setting;
+  $("detailTitle").textContent=name;
+  $("detailText").textContent=name==="Wallpaper"?"Use Owner Settings to change your simulated wallpaper.":"This is a simulated iPhone setting.";
+  $("settingsDetail").classList.add("active");
+ };
 });
 $("settingsBack").onclick=()=>$("settingsDetail").classList.remove("active");
 
 /* BACK BUTTONS */
 document.querySelectorAll("[data-home]").forEach(button=>{
-  button.onclick=()=>$(button.dataset.home).classList.remove("active");
+ button.onclick=()=>$(button.dataset.home).classList.remove("active");
 });
 
 /* SPOTIFY WIDGET */
 $("spotifyWidget").onclick=()=>{
-  window.open("https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA","_blank");
+ window.open("https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA","_blank");
 };
 
-/* LOAD SAVED PHOTOS */
+/* LOAD SAVED DATA */
 async function loadSaved(){
-  try{
-    await openDB();
-    const stored=await readDB();
-    if(stored){
-      data={
-        wallpaper:stored.wallpaper||"",
-        profile:stored.profile||"",
-        posts:Array.isArray(stored.posts)?stored.posts.slice(0,9):[],
-        years:stored.years||{}
-      };
-      YEARS.forEach(y=>{
-        data.years[y]=Array.isArray(data.years[y])?data.years[y].slice(0,6):[];
-        while(data.years[y].length<6)data.years[y].push("");
-      });
-    }
-    await migrateOldData();
-    yearlyPhotos=data.years;
-    if(data.wallpaper)$("wallpaper").style.backgroundImage=`url("${data.wallpaper}")`;
-    showProfilePhoto(data.profile);
-    renderInstagramPosts();
-    renderPhotosContent();
-    renderCalendar();
-  }catch(error){
-    console.error(error);
-    alert("Could not open website storage. Please use a supported browser.");
+ try{
+  await openDB();
+  const stored=await readDB();
+  if(stored){
+   data={
+    wallpaper:stored.wallpaper||"",
+    profile:stored.profile||"",
+    posts:Array.isArray(stored.posts)?stored.posts.slice(0,9):[],
+    years:stored.years||{},
+    musicCovers:Array.isArray(stored.musicCovers)?stored.musicCovers:Array(7).fill("")
+   };
+   YEARS.forEach(y=>{
+    data.years[y]=Array.isArray(data.years[y])?data.years[y].slice(0,6):[];
+    while(data.years[y].length<6)data.years[y].push("");
+   });
   }
+  await migrateOldData();
+  yearlyPhotos=data.years;
+  if(data.wallpaper)$("wallpaper").style.backgroundImage=`url("${data.wallpaper}")`;
+  showProfilePhoto(data.profile);
+  renderInstagramPosts();
+  renderPhotosContent();
+  renderCalendar();
+
+  try{
+   const savedTracks=JSON.parse(localStorage.getItem("myMusicTracks")||"null");
+   if(Array.isArray(savedTracks)&&savedTracks.length===7){
+    musicTracks=defaultTracks.map((track,i)=>({
+     ...track,
+     title:savedTracks[i].title||track.title,
+     link:savedTracks[i].link||track.link
+    }));
+   }
+  }catch{}
+
+  renderMusic();
+ }catch(error){
+  console.error(error);
+  alert("Could not open website storage. Please use a supported browser.");
+ }
 }
 loadSaved();
 renderMusic();
