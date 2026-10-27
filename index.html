@@ -202,73 +202,6 @@ button{font:inherit;cursor:pointer}
   font-size:22px;
 }
 
-/* IPHONE-STYLE CALL SCREEN */
-#callScreen {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  padding: calc(env(safe-area-inset-top) + 65px) 22px 45px;
-  color: white;
-  background: linear-gradient(155deg, #756748, #4a4231 75%);
-  overflow: auto;
-}
-
-#callScreen #callAvatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  margin: 25px auto;
-  overflow: hidden;
-  background-position: center;
-  background-size: cover;
-}
-
-#callScreen #callName {
-  text-align: center;
-  font-size: 36px;
-  margin-top: 10px;
-}
-
-#callScreen #callStatus {
-  text-align: center;
-  color: #ded8ca;
-  font-size: 17px;
-}
-
-.call-controls {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 35px 15px;
-  margin-top: 100px;
-  text-align: center;
-}
-
-.call-control {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: white;
-  font-size: 14px;
-  border: 0;
-  background: transparent;
-}
-
-.call-control span {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #ffffff30;
-  border: 1px solid #ffffff40;
-  font-size: 27px;
-}
-
-.call-control.end span {
-  background: #e52c24;
-}
-
 </style>
 </head>
 <body>
@@ -497,39 +430,22 @@ button{font:inherit;cursor:pointer}
 
   <div id="contactList"></div>
 
+  <div id="callScreen" style="display:none;text-align:center;padding-top:70px">
+    <div id="callAvatar" style="
+      width:100px;height:100px;border-radius:50%;
+      background:#e6d5e9;margin:0 auto 20px;
+      display:grid;place-items:center;font-size:42px">
+      💗
+    </div>
 
-<div id="callScreen" style="display:none">
-  <div id="callAvatar"></div>
-  <h2 id="callName"></h2>
-  <p id="callStatus">Calling…</p>
+    <h2 id="callName" style="font-size:28px"></h2>
+    <p id="callStatus" style="color:#777">Calling…</p>
 
-  <div class="call-controls">
-    <button class="call-control" type="button" onclick="this.classList.toggle('selected')">
-      <span>🔊</span>Speaker
-    </button>
-
-    <button class="call-control" type="button" onclick="alert('FaceTime is a visual demo only.')">
-      <span>▣</span>FaceTime
-    </button>
-
-    <button class="call-control" type="button" onclick="this.classList.toggle('selected')">
-      <span>🎙️</span>Mute
-    </button>
-
-    <button class="call-control" type="button" onclick="alert('More call options')">
-      <span>•••</span>More
-    </button>
-
-    <button class="call-control end" id="endCall" type="button">
-      <span>☎</span>End
-    </button>
-
-    <button class="call-control" type="button" onclick="alert('Keypad is a visual demo only.')">
-      <span>⠿</span>Keypad
-    </button>
+    <button id="endCall" type="button" style="
+      margin-top:55px;width:65px;height:65px;
+      border:0;border-radius:50%;background:#ff3b30;
+      color:white;font-size:27px">☎</button>
   </div>
-</div>
-
 </section>
 
 <section class="app-screen" id="calendarScreen">
@@ -1844,201 +1760,73 @@ document.getElementById("openYouTube").onclick = () => {
     "https://youtu.be/BmNBZWjJW6I?si=xeC9W26Lx0T4IDKy";
 };
 
-
-/* PHONE APP — CONTACT PHOTOS + IPHONE CALL SCREEN */
-
-const contacts = [
-  { name: "Phu", photo: "" },
-  { name: "Mom", photo: "" },
-  { name: "Amma", photo: "" },
-  { name: "Joong", photo: "" },
-  { name: "Aou", photo: "" },
-  { name: "Santa", photo: "" },
-  { name: "Dew", photo: "" },
-  { name: "Dunk", photo: "" }
+/* PHONE APP */
+const favoriteContacts = [
+  "Phu",
+  "Mom",
+  "Amma",
+  "Joong",
+  "Aou",
+  "Santa",
+  "Dew",
+  "Dunk"
 ];
 
-let activeContact = null;
-let callSeconds = 0;
-let callTimer = null;
-let callStartedAt = 0;
+const contactList = document.getElementById("contactList");
+const callScreen = document.getElementById("callScreen");
 
 function renderContacts() {
-  const list = document.getElementById("contactList");
-  list.innerHTML = "";
+  contactList.innerHTML = "";
 
-  contacts.forEach((contact, index) => {
+  favoriteContacts.forEach(name => {
     const row = document.createElement("button");
     row.type = "button";
     row.className = "contact-row";
 
     const avatar = document.createElement("span");
     avatar.className = "contact-avatar";
+    avatar.textContent = "💗";
 
-    if (contact.photo) {
-      avatar.style.backgroundImage = `url("${contact.photo}")`;
-      avatar.style.backgroundSize = "cover";
-      avatar.style.backgroundPosition = "center";
-      avatar.textContent = "";
-    } else {
-      avatar.textContent = "👤";
-    }
+    const label = document.createElement("span");
+    label.className = "contact-name";
+    label.textContent = name;
 
-    const name = document.createElement("span");
-    name.className = "contact-name";
-    name.textContent = contact.name;
+    const callIcon = document.createElement("span");
+    callIcon.className = "contact-call";
+    callIcon.textContent = "📞";
 
-    const actions = document.createElement("span");
-    actions.style.display = "flex";
-    actions.style.gap = "12px";
-    actions.style.alignItems = "center";
+    row.append(avatar, label, callIcon);
 
-    const photoButton = document.createElement("span");
-    photoButton.textContent = "📷";
-    photoButton.title = "Change contact photo";
+    row.onclick = () => {
+      contactList.style.display = "none";
+      callScreen.style.display = "block";
 
-    photoButton.onclick = (event) => {
-      event.stopPropagation();
-      chooseContactPhoto(index);
+      document.getElementById("callName").textContent = name;
+      document.getElementById("callStatus").textContent =
+        "Calling " + name + "…";
     };
 
-    const callButton = document.createElement("span");
-    callButton.className = "contact-call";
-    callButton.textContent = "☎";
-
-    actions.append(photoButton, callButton);
-    row.append(avatar, name, actions);
-
-    row.onclick = () => startCall(contact);
-
-    list.appendChild(row);
+    contactList.appendChild(row);
   });
-}
-
-function chooseContactPhoto(index) {
-  const input = document.getElementById("contactPhotoFile");
-  input.dataset.contactIndex = index;
-  input.value = "";
-  input.click();
-}
-
-document.getElementById("contactPhotoFile").onchange = async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const index = Number(event.target.dataset.contactIndex);
-
-  try {
-    const image = await compressImage(file);
-    contacts[index].photo = image;
-
-    localStorage.setItem(
-      "myIphoneContactPhotos",
-      JSON.stringify(contacts)
-    );
-
-    renderContacts();
-
-    if (activeContact === contacts[index]) {
-      document.getElementById("callAvatar").style.backgroundImage =
-        `url("${image}")`;
-      document.getElementById("callAvatar").style.backgroundSize = "cover";
-      document.getElementById("callAvatar").textContent = "";
-    }
-  } catch (error) {
-    alert("Could not upload photo. Please try another image.");
-  }
-
-  event.target.value = "";
-};
-
-function startCall(contact) {
-  activeContact = contact;
-  callSeconds = 0;
-  callStartedAt = Date.now();
-
-  document.getElementById("contactList").style.display = "none";
-  document.getElementById("callScreen").style.display = "block";
-
-  document.getElementById("callName").textContent = contact.name;
-
-  const avatar = document.getElementById("callAvatar");
-  avatar.style.backgroundImage = contact.photo
-    ? `url("${contact.photo}")`
-    : "linear-gradient(135deg,#cbbca4,#6f6759)";
-  avatar.style.backgroundSize = "cover";
-  avatar.style.backgroundPosition = "center";
-  avatar.textContent = contact.photo ? "" : "👤";
-
-  document.getElementById("callStatus").textContent = "Calling…";
-
-  clearInterval(callTimer);
-
-  callTimer = setInterval(() => {
-    callSeconds = Math.floor((Date.now() - callStartedAt) / 1000);
-
-    const minutes = String(Math.floor(callSeconds / 60)).padStart(2, "0");
-    const seconds = String(callSeconds % 60).padStart(2, "0");
-
-    document.getElementById("callStatus").textContent =
-      "Calling… " + minutes + ":" + seconds;
-  }, 1000);
-}
-
-function endCall() {
-  clearInterval(callTimer);
-  callTimer = null;
-
-  document.getElementById("callScreen").style.display = "none";
-  document.getElementById("contactList").style.display = "block";
 }
 
 document.getElementById("openPhone").onclick = () => {
   document.getElementById("phoneScreen").classList.add("active");
-  document.getElementById("contactList").style.display = "block";
-  document.getElementById("callScreen").style.display = "none";
+  contactList.style.display = "block";
+  callScreen.style.display = "none";
   renderContacts();
 };
 
 document.getElementById("closePhone").onclick = () => {
-  endCall();
   document.getElementById("phoneScreen").classList.remove("active");
 };
 
-document.getElementById("endCall").onclick = endCall;
+document.getElementById("endCall").onclick = () => {
+  callScreen.style.display = "none";
+  contactList.style.display = "block";
+};
 
-// Restore saved contact photos
-try {
-  const savedContacts = JSON.parse(
-    localStorage.getItem("myIphoneContactPhotos") || "null"
-  );
-
-  if (Array.isArray(savedContacts)) {
-    contacts.forEach((contact, index) => {
-      if (savedContacts[index]) {
-        contact.photo = savedContacts[index].photo || "";
-      }
-    });
-  }
-} catch (error) {
-  console.log("Using default contact photos.");
-}
-
-renderContacts();
 </script>
- renderContacts();
-</script>
-
-<input
-  type="file"
-  id="contactPhotoFile"
-  accept="image/*"
-  class="hidden-file"
->
-
-</main>
-</body>
-</html>
 </main>
 </body>
 </html>
