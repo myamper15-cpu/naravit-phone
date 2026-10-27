@@ -8,32 +8,15 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#222;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;color:white}
-.phone{position:relative;width:100%;max-width:430px;height:100dvh;margin:auto;overflow:hidden;background:#a9a29a}
+.phone{position:relative;width:100%;max-width:430px;height:100dvh;min-height:580px;margin:auto;overflow:hidden;background:#a9a29a}
 .wallpaper{position:absolute;inset:0;background:linear-gradient(135deg,#cdbb9c,#827a71,#d6c8b0);background-size:cover;background-position:center;z-index:0}
-
-/* IPHONE STATUS BAR AND BATTERY */
-.status{
- position:absolute;top:18px;left:7%;right:7%;z-index:15;
- display:flex;justify-content:space-between;align-items:center;
- font-size:14px;font-weight:bold;pointer-events:none;color:white;
- text-shadow:0 1px 3px #0005;
-}
-.status-icons{display:flex;align-items:center;gap:6px}
-.signal-icon{font-size:15px;letter-spacing:-3px}
-.wifi-icon{font-size:15px}
-.battery-icon{
- width:25px;height:12px;border:1.5px solid white;border-radius:3px;
- position:relative;padding:1.5px;display:flex;align-items:center;
-}
-.battery-icon:after{
- content:"";position:absolute;right:-4px;top:3px;
- width:2px;height:4px;border-radius:0 2px 2px 0;background:white;
-}
-.battery-fill{
- width:100%;height:100%;background:white;border-radius:1px;
- transition:width .4s ease,background .4s ease;
-}
-
+.status{position:absolute;top:15px;left:7%;right:7%;z-index:15;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;pointer-events:none;text-shadow:0 1px 3px #0005}
+.status-right{display:flex;align-items:center;gap:6px}
+.signal{font-size:13px;letter-spacing:-2px}
+.wifi{font-size:13px}
+.battery{position:relative;width:25px;height:12px;border:1.5px solid currentColor;border-radius:3px;padding:1.5px;display:inline-flex;align-items:center}
+.battery:after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:4px;background:currentColor;border-radius:0 2px 2px 0}
+.battery-fill{height:100%;width:85%;background:currentColor;border-radius:1px}
 button{font:inherit;cursor:pointer}
 .lock-screen{position:absolute;inset:0;z-index:3;text-align:center}
 .lock-date{margin-top:155px;font-size:24px;font-weight:600}
@@ -41,7 +24,6 @@ button{font:inherit;cursor:pointer}
 .unlock-hint{margin-top:20px;font-size:14px}
 .lock-bottom{position:absolute;bottom:55px;left:0;right:0;display:flex;justify-content:space-around}
 .round{width:58px;height:58px;border:1px solid #ffffff80;border-radius:50%;background:#ffffff40;color:white;font-size:25px}
-
 .passcode{position:absolute;inset:0;z-index:40;display:none;background:#222e;backdrop-filter:blur(20px);text-align:center;padding-top:90px}
 .passcode.active{display:block}
 .dots{display:flex;justify-content:center;gap:15px;margin:25px}
@@ -49,10 +31,9 @@ button{font:inherit;cursor:pointer}
 .dot.filled{background:white}
 .keypad{display:grid;grid-template-columns:repeat(3,65px);gap:12px;justify-content:center}
 .key{width:65px;height:65px;border:1px solid #ffffff60;border-radius:50%;background:#ffffff20;color:white;font-size:25px}
-
-.home-screen{position:absolute;inset:0;z-index:2;display:none;padding:85px 18px 120px;overflow-y:auto}
+.home-screen{position:absolute;inset:0;z-index:2;display:none;padding:75px 18px 120px;overflow-y:auto}
 .home-screen.active{display:block}
-.owner-button{position:absolute;top:52px;right:15px;background:#2229;color:white;border:1px solid #ffffff60;border-radius:18px;padding:7px 10px;font-size:11px;z-index:8}
+.owner-button{position:absolute;top:45px;right:15px;background:#2229;color:white;border:1px solid #ffffff60;border-radius:18px;padding:7px 10px;font-size:11px;z-index:8}
 .widgets{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .widget{aspect-ratio:1;border:0;border-radius:24px;padding:14px;text-align:left;overflow:hidden}
 .calendar-widget{background:#fff;color:#222}
@@ -68,11 +49,9 @@ button{font:inherit;cursor:pointer}
 .app .photos-icon{color:#f45b99}
 .app .settings-icon{background:#bbb;color:white}
 .app .music-icon{background:linear-gradient(145deg,#f7b9d4,#c65a8e);color:white}
-.app .weather-icon{background:linear-gradient(145deg,#62c9ff,#3276df);color:white}
-
+.app .weather-icon{background:linear-gradient(145deg,#76d3ff,#2873cf);color:white}
 .dock{position:absolute;bottom:25px;left:4%;right:4%;height:75px;border-radius:28px;background:#ffffff45;backdrop-filter:blur(18px);display:flex;justify-content:space-around;align-items:center}
 .dock button{width:55px;height:55px;border:0;border-radius:18px;background:#36cf64;color:white;font-size:28px}
-
 .owner-panel{position:absolute;inset:0;z-index:35;display:none;align-items:center;justify-content:center;padding:20px;background:#111b;backdrop-filter:blur(15px)}
 .owner-panel.active{display:flex}
 .owner-card{width:100%;max-width:330px;max-height:85%;overflow:auto;background:#292929;border-radius:22px;padding:22px;text-align:center}
@@ -80,7 +59,6 @@ button{font:inherit;cursor:pointer}
 .owner-card input{width:95%;padding:12px;border:1px solid #777;border-radius:10px;background:#444;color:white;text-align:center}
 .owner-action{width:100%;padding:12px;margin-top:9px;border:0;border-radius:10px;background:white;color:#222}
 .cancel-action{background:#555;color:white}
-
 .app-screen{position:absolute;inset:0;z-index:10;display:none;overflow-y:auto;background:#f6f6f8;color:#171717;padding:calc(env(safe-area-inset-top) + 15px) 16px 50px}
 .app-screen.active{display:block}
 .back{border:0;background:transparent;color:#087aff;font-size:16px;padding:8px 0}
@@ -95,33 +73,6 @@ button{font:inherit;cursor:pointer}
 .settings-row{display:block;width:100%;padding:17px 12px;text-align:left;border:0;border-bottom:1px solid #eee;background:white;color:#222}
 .detail{display:none;position:absolute;inset:0;background:#f6f6f8;padding:65px 20px;z-index:4}
 .detail.active{display:block}
-
-/* WEATHER APP */
-.weather-screen{
- background:linear-gradient(180deg,#65b9f5,#4c85db 65%,#4266b6);
- color:white;
-}
-.weather-screen .back{color:white}
-.weather-main{text-align:center;padding:12px 0 20px}
-.weather-city{font-size:22px;font-weight:600}
-.weather-condition{font-size:17px;margin-top:6px}
-.weather-temperature{font-size:78px;font-weight:200;line-height:1.2;margin-top:8px}
-.weather-highlow{font-size:15px;margin-top:5px}
-.weather-search{display:flex;gap:8px;margin:15px 0}
-.weather-search input{flex:1;min-width:0;padding:12px;border:0;border-radius:12px;background:#ffffffdd;color:#222;font-size:15px}
-.weather-search button,.weather-refresh{border:0;border-radius:12px;padding:10px 13px;background:#ffffff35;color:white}
-.weather-card{background:#ffffff24;border-radius:18px;padding:16px;margin:13px 0;backdrop-filter:blur(10px)}
-.weather-card-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#ffffffcc;margin-bottom:14px}
-.weather-details{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.weather-detail-label{font-size:13px;color:#ffffffcc}
-.weather-detail-value{font-size:22px;margin-top:5px}
-.forecast-row{display:flex;justify-content:space-between;align-items:center;gap:7px}
-.forecast-day{flex:1;text-align:center;font-size:12px}
-.forecast-icon{font-size:23px;margin:9px 0}
-.forecast-temp{font-size:13px}
-.weather-message{text-align:center;font-size:13px;color:#ffffffdd;line-height:1.5}
-.weather-loading{opacity:.8}
-
 .ig-header{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:bold}
 .ig-profile{display:grid;grid-template-columns:110px 1fr;gap:15px;align-items:center;margin:22px 0}
 .ig-avatar{width:100px;height:100px;border-radius:50%;border:3px solid #ff5b91;background:#ddd;overflow:hidden;display:grid;place-items:center;font-size:40px}
@@ -149,8 +100,9 @@ button{font:inherit;cursor:pointer}
 .photos-detail.active{display:block}
 .photos-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
 .hidden-file{display:none}
+.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:8px;background:white;z-index:50}
 
-/* MUSIC APP */
+/* MUSIC */
 .music-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;padding-bottom:30px}
 .music-item{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;padding:12px;background:white;border-radius:17px;box-shadow:0 3px 12px #0000000a}
 .music-cover{width:76px;height:76px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#f5c8dc,#b0a0bc);display:grid;place-items:center;color:white;font-size:30px}
@@ -164,7 +116,31 @@ button{font:inherit;cursor:pointer}
 .music-edit{background:#eee7ed;color:#333}
 .music-note{font-size:13px;color:#777;line-height:1.5}
 
-.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:8px;background:white;z-index:50}
+/* WEATHER */
+#weatherScreen{background:linear-gradient(180deg,#5da8ed 0%,#b6d8f7 45%,#f2f7fc 100%);color:white}
+.weather-top{text-align:center;padding:22px 0 24px}
+.weather-location{font-size:27px;font-weight:650}
+.weather-description{margin-top:8px;font-size:16px}
+.weather-temperature{font-size:88px;font-weight:250;line-height:1.2;margin-top:8px}
+.weather-icon-large{font-size:58px;margin:5px 0}
+.weather-range{font-size:14px}
+.weather-card{background:#ffffffdf;color:#26364a;border-radius:20px;padding:17px;margin:14px 0;box-shadow:0 4px 14px #315b8120}
+.weather-label{color:#71849a;font-size:11px;font-weight:750;letter-spacing:1px;margin-bottom:16px}
+.weather-details{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.weather-details div{display:flex;flex-direction:column;gap:7px;font-size:23px}
+.weather-details span{font-size:11px;color:#71849a}
+.weather-details strong{font-size:14px}
+.forecast-row{display:grid;grid-template-columns:1fr 30px 75px 1fr;align-items:center;gap:5px;padding:10px 0;border-bottom:1px solid #e7edf3;font-size:12px}
+.forecast-row:last-child{border-bottom:0}
+.forecast-icon{font-size:21px}
+.forecast-temps{text-align:right;font-weight:bold}
+.forecast-condition{text-align:right;color:#8495a8;font-size:10px}
+.weather-refresh{width:100%;border:0;padding:14px;border-radius:14px;background:#ffffffdf;color:#2766a9;font-weight:bold;margin:5px 0 12px}
+.weather-message{color:#24486c;text-align:center;font-size:12px;line-height:1.5}
+.weather-search{display:flex;gap:8px;margin:12px 0}
+.weather-search input{min-width:0;flex:1;padding:12px;border:0;border-radius:10px;color:#222}
+.weather-search button{padding:10px;border:0;border-radius:10px;color:#2464a5;background:white}
+@media(max-height:700px){.lock-date{margin-top:100px}.lock-clock{font-size:90px}.home-screen{padding-top:70px}.apps{gap:14px 10px;margin-top:18px}}
 </style>
 </head>
 <body>
@@ -173,12 +149,10 @@ button{font:inherit;cursor:pointer}
 
 <div class="status">
   <span id="statusTime">9:41</span>
-  <span class="status-icons">
-    <span class="signal-icon">▂▄▆</span>
-    <span class="wifi-icon">◉</span>
-    <span class="battery-icon">
-      <span class="battery-fill" id="batteryFill"></span>
-    </span>
+  <span class="status-right">
+    <span class="signal">▂▄▆</span>
+    <span class="wifi">◉</span>
+    <span class="battery"><span class="battery-fill" id="batteryFill"></span></span>
   </span>
 </div>
 
@@ -224,31 +198,31 @@ button{font:inherit;cursor:pointer}
       <button class="settings-icon" id="openSettings">⚙️</button>
       Settings
     </div>
-
     <div class="app">
       <button class="instagram-icon" id="openInstagram">◎</button>
       Instagram
     </div>
-
     <div class="app">
       <button class="photos-icon" id="openPhotos">🌈</button>
       Photos
     </div>
-
     <div class="app"><button>f</button>Facebook</div>
-
     <div class="app">
       <button class="music-icon" id="openMusic">♫</button>
       Music
     </div>
-
     <div class="app">
       <button class="weather-icon" id="openWeather">🌤️</button>
       Weather
     </div>
-
-    <div class="app"><button>🕒</button>Clock</div>
-    <div class="app"><button>▶</button>YouTube</div>
+    <div class="app">
+      <button id="openClock">🕒</button>
+      Clock
+    </div>
+    <div class="app">
+      <button id="openYouTube">▶</button>
+      YouTube
+    </div>
   </div>
 
   <div class="dock">
@@ -287,59 +261,6 @@ button{font:inherit;cursor:pointer}
 <input class="hidden-file" id="yearPhotosFile" type="file" accept="image/*" multiple>
 <input class="hidden-file" id="musicCoverFile" type="file" accept="image/*">
 
-<section class="app-screen" id="weatherScreen">
-  <button class="back" data-home="weatherScreen">‹ Home</button>
-
-  <div class="weather-main">
-    <div class="weather-city" id="weatherCity">Your Location</div>
-    <div class="weather-condition" id="weatherCondition">Checking weather…</div>
-    <div class="weather-temperature" id="weatherTemperature">--°</div>
-    <div class="weather-highlow" id="weatherHighLow">H: --°　L: --°</div>
-  </div>
-
-  <div class="weather-search">
-    <input id="weatherCityInput" type="text" placeholder="Search city, e.g. Manila">
-    <button id="weatherSearchButton" type="button">Search</button>
-  </div>
-
-  <div class="weather-card">
-    <div class="weather-card-title">Weather details</div>
-    <div class="weather-details">
-      <div>
-        <div class="weather-detail-label">Feels like</div>
-        <div class="weather-detail-value" id="weatherFeels">--°</div>
-      </div>
-      <div>
-        <div class="weather-detail-label">Humidity</div>
-        <div class="weather-detail-value" id="weatherHumidity">--%</div>
-      </div>
-      <div>
-        <div class="weather-detail-label">Wind</div>
-        <div class="weather-detail-value" id="weatherWind">-- km/h</div>
-      </div>
-      <div>
-        <div class="weather-detail-label">UV Index</div>
-        <div class="weather-detail-value" id="weatherUV">--</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="weather-card">
-    <div class="weather-card-title">5-day forecast</div>
-    <div class="forecast-row" id="weatherForecast">
-      <div class="weather-message">Loading forecast…</div>
-    </div>
-  </div>
-
-  <p class="weather-message" id="weatherMessage">
-    Weather information provided by Open-Meteo.
-  </p>
-
-  <button class="weather-refresh" id="weatherRefresh" type="button">
-    ↻ Refresh Weather
-  </button>
-</section>
-
 <section class="app-screen" id="calendarScreen">
   <button class="back" data-home="calendarScreen">‹ Home</button>
   <h1 class="app-title">Calendar</h1>
@@ -372,6 +293,7 @@ button{font:inherit;cursor:pointer}
     <p id="detailText"></p>
   </div>
 </section>
+
 <section class="app-screen" id="instagramScreen">
   <div class="ig-header">
     <button class="back" data-home="instagramScreen">‹</button>
@@ -437,1176 +359,1187 @@ button{font:inherit;cursor:pointer}
   <div class="music-list" id="musicList"></div>
 </section>
 
+<section class="app-screen" id="weatherScreen">
+  <button class="back" data-home="weatherScreen">‹ Home</button>
+
+  <div class="weather-top">
+    <div class="weather-location" id="weatherLocation">Quezon City</div>
+    <div class="weather-description" id="weatherDescription">Loading weather…</div>
+    <div class="weather-temperature" id="weatherTemperature">--°</div>
+    <div class="weather-icon-large" id="weatherIcon">🌤️</div>
+    <div class="weather-range" id="weatherRange">H: --°　L: --°</div>
+  </div>
+
+  <div class="weather-card">
+    <div class="weather-label">CURRENT CONDITIONS</div>
+    <div class="weather-details">
+      <div>🌡️<span>Feels like</span><strong id="weatherFeels">--°</strong></div>
+      <div>💧<span>Humidity</span><strong id="weatherHumidity">--%</strong></div>
+      <div>💨<span>Wind</span><strong id="weatherWind">-- km/h</strong></div>
+    </div>
+  </div>
+
+  <div class="weather-card">
+    <div class="weather-label">5-DAY FORECAST</div>
+    <div id="weatherForecast"></div>
+  </div>
+
+  <div class="weather-search" id="weatherSearch">
+    <input id="weatherCityInput" placeholder="Enter city, e.g. Manila">
+    <button id="weatherCityButton">Search</button>
+  </div>
+
+  <button id="refreshWeather" class="weather-refresh">↻ Refresh Weather</button>
+  <p class="weather-message" id="weatherMessage">Weather information by Open-Meteo.</p>
+</section>
+
+<section class="app-screen" id="clockScreen" style="background:#111;color:white">
+  <button class="back" data-home="clockScreen">‹ Home</button>
+  <h1 class="app-title" style="color:white">Clock</h1>
+
+  <div style="text-align:center;margin-top:70px">
+    <div id="clockAppTime" style="font-size:65px;font-weight:200;letter-spacing:-2px">
+      00:00:00
+    </div>
+    <div id="clockAppDate" style="font-size:17px;color:#aaa;margin-top:12px"></div>
+    <div style="font-size:55px;margin-top:35px">🕒</div>
+    <p style="color:#aaa">Your local time</p>
+  </div>
+</section>
+
 <div class="home-indicator"></div>
+
 <script>
-const $ = id => document.getElementById(id);
+ const $ = (id) => document.getElementById(id);
 
 const PASSCODE = "0705";
 const OWNER_PIN = "2610";
-const YEARS = [2021,2022,2023,2024,2025,2026];
+const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
 
-let unlocked=false,ownerVerified=false,entered="";
-let selectedYear=2026,selectedPhotoIndex=null;
-let viewedMonth=new Date(),db;
-let yearlyPhotos={};
+let currentScreen = "lockScreen";
+let enteredCode = "";
+let ownerUnlocked = false;
+let currentPhotoYear = 2026;
 
-let data={
-  wallpaper:"",
-  profile:"",
-  posts:[],
-  years:{},
-  musicCovers:[]
-};
-
-YEARS.forEach(y=>{
-  data.years[y]=Array(6).fill("");
-  yearlyPhotos[y]=data.years[y];
-});
-
-/* MUSIC LINKS */
-const defaultTracks=[
- {title:"Favorite Song 1",link:"https://open.spotify.com/track/4oHQ8n9OKQ3599e8noCrDX"},
- {title:"Favorite Song 2",link:"https://open.spotify.com/track/6DH13QYXK7lKkYHSU88N48"},
- {title:"Favorite Song 3",link:"https://open.spotify.com/track/2aL4lMGhWdPpyPL6COPou7"},
- {title:"Favorite Song 4",link:"https://open.spotify.com/track/3afkJSKX0EAMsJXTZnDXXJ"},
- {title:"Favorite Song 5",link:"https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v"},
- {title:"Favorite Song 6",link:"https://open.spotify.com/track/4d9vh09S952aur0SM4RhzT"},
- {title:"Favorite Song 7",link:"https://open.spotify.com/track/43t6oyPWJ67nifk7JgDgoI"}
+const defaultTracks = [
+  {
+    title: "Song 1",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/4oHQ8n9OKQ3599e8noCrDX",
+    cover: ""
+  },
+  {
+    title: "Song 2",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/6DH13QYXK7lKkYHSU88N48",
+    cover: ""
+  },
+  {
+    title: "Song 3",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/2aL4lMGhWdPpyPL6COPou7",
+    cover: ""
+  },
+  {
+    title: "Song 4",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/3afkJSKX0EAMsJXTZnDXXJ",
+    cover: ""
+  },
+  {
+    title: "Song 5",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v",
+    cover: ""
+  },
+  {
+    title: "Song 6",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/4d9vh09S952aur0SM4RhzT",
+    cover: ""
+  },
+  {
+    title: "Song 7",
+    artist: "Spotify",
+    url: "https://open.spotify.com/track/43t6oyPWJ67nifk7JgDgoI",
+    cover: ""
+  }
 ];
 
-let musicTracks=defaultTracks.map(t=>({...t}));
-let selectedMusicIndex=0;
+let musicTracks = JSON.parse(
+  localStorage.getItem("myIphoneMusicTracks") || "null"
+) || defaultTracks;
 
-/* CLOCK */
-function updateClock(){
-  const now=new Date();
+let appData = {
+  wallpaper: "",
+  profilePhoto: "",
+  postPhotos: [],
+  yearPhotos: {},
+  musicCovers: {},
+  calendarNotes: {}
+};
 
-  $("lockClock").textContent=now.toLocaleTimeString([],{
-    hour:"2-digit",minute:"2-digit",hour12:false
+function saveMusicTracks() {
+  localStorage.setItem(
+    "myIphoneMusicTracks",
+    JSON.stringify(musicTracks)
+  );
+}
+
+function updateClock() {
+  const now = new Date();
+
+  const time = now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
   });
 
-  $("statusTime").textContent=now.toLocaleTimeString([],{
-    hour:"numeric",minute:"2-digit"
+  const date = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric"
   });
 
-  $("lockDate").textContent=now.toLocaleDateString([],{
-    weekday:"short",month:"short",day:"numeric"
-  });
+  if ($("lockTime")) $("lockTime").textContent = time;
+  if ($("lockDate")) $("lockDate").textContent = date;
+  if ($("statusTime")) {
+    $("statusTime").textContent = now.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    });
+  }
 
-  $("calendarDay").textContent=now.toLocaleDateString([],{
-    weekday:"long"
-  }).toUpperCase();
+  // Live clock inside the Clock app
+  if ($("clockAppTime")) {
+    $("clockAppTime").textContent =
+      now.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      });
+  }
 
-  $("calendarNumber").textContent=now.getDate();
+  if ($("clockAppDate")) {
+    $("clockAppDate").textContent =
+      now.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+  }
 }
 
 updateClock();
-setInterval(updateClock,1000);
+setInterval(updateClock, 1000);
 
-/* BATTERY BAR */
-async function initBattery(){
-  const fill=$("batteryFill");
-  if(!fill)return;
 
-  function setBattery(level,charging){
-    fill.style.width=Math.max(5,level*100)+"%";
-    fill.style.background=level<=0.2?"#ff453a":"white";
-    fill.title=Math.round(level*100)+"% battery"+
-      (charging?" · Charging":"");
+// ------------------------------
+// APP SCREEN NAVIGATION
+// ------------------------------
+
+function showScreen(screenId) {
+  document.querySelectorAll(".screen").forEach((screen) => {
+    screen.classList.remove("active");
+  });
+
+  const target = $(screenId);
+
+  if (target) {
+    target.classList.add("active");
+    currentScreen = screenId;
   }
+}
 
-  /* Default display if the browser hides battery information */
-  setBattery(1,false);
+function goHome() {
+  showScreen("homeScreen");
+}
 
-  try{
-    if(navigator.getBattery){
-      const battery=await navigator.getBattery();
+document.querySelectorAll("[data-home]").forEach((button) => {
+  button.addEventListener("click", () => {
+    goHome();
+  });
+});
 
-      const update=()=>{
-        setBattery(battery.level,battery.charging);
-      };
 
-      update();
-      battery.addEventListener("levelchange",update);
-      battery.addEventListener("chargingchange",update);
+// ------------------------------
+// CLOCK APP
+// ------------------------------
+
+function openClock() {
+  showScreen("clockScreen");
+  updateClock();
+}
+
+// The Clock screen opens only when its icon is tapped.
+if ($("clockIcon")) {
+  $("clockIcon").addEventListener("click", openClock);
+}
+
+
+// ------------------------------
+// YOUTUBE APP
+// ------------------------------
+
+function openYouTube() {
+  window.location.href =
+    "https://youtu.be/BmNBZWjJW6I?si=_4OOqmdO3yCn_8Bh";
+}
+
+// Redirect when the YouTube icon is tapped.
+if ($("youtubeIcon")) {
+  $("youtubeIcon").addEventListener("click", openYouTube);
+}
+
+
+// ------------------------------
+// MUSIC APP
+// ------------------------------
+
+function renderMusic() {
+  const list = $("musicList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  musicTracks.forEach((track, index) => {
+    const item = document.createElement("div");
+    item.className = "music-item";
+
+    const cover = document.createElement("div");
+    cover.className = "music-cover";
+
+    if (track.cover) {
+      cover.style.backgroundImage = `url("${track.cover}")`;
+      cover.style.backgroundSize = "cover";
+      cover.style.backgroundPosition = "center";
+    } else {
+      cover.textContent = "♫";
     }
-  }catch(error){
-    console.log("Battery information is unavailable.");
-  }
-}
 
-initBattery();
+    const details = document.createElement("div");
+    details.className = "music-details";
 
-/* DATABASE */
-function openDB(){
-  return new Promise((resolve,reject)=>{
-    const request=indexedDB.open("MyiPhonePhotoStorage",1);
+    const title = document.createElement("div");
+    title.className = "music-title";
+    title.textContent = track.title || `Song ${index + 1}`;
 
-    request.onupgradeneeded=()=>{
-      if(!request.result.objectStoreNames.contains("images")){
-        request.result.createObjectStore("images",{keyPath:"id"});
-      }
-    };
+    const artist = document.createElement("div");
+    artist.className = "music-artist";
+    artist.textContent = track.artist || "Spotify";
 
-    request.onsuccess=()=>{
-      db=request.result;
-      resolve(db);
-    };
+    details.appendChild(title);
+    details.appendChild(artist);
 
-    request.onerror=()=>reject(request.error);
-  });
-}
+    const playButton = document.createElement("button");
+    playButton.className = "music-play";
+    playButton.textContent = "▶";
+    playButton.type = "button";
 
-function readDB(){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("images","readonly");
-    const req=tx.objectStore("images").get("appData");
-
-    req.onsuccess=()=>resolve(req.result?.data||null);
-    req.onerror=()=>reject(req.error);
-  });
-}
-
-function writeDB(){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("images","readwrite");
-    tx.objectStore("images").put({id:"appData",data});
-
-    tx.oncomplete=()=>resolve(true);
-    tx.onerror=()=>reject(tx.error);
-    tx.onabort=()=>reject(tx.error);
-  });
-}
-
-async function saveData(){
-  try{
-    await writeDB();
-    return true;
-  }catch(error){
-    console.error(error);
-    alert("Storage is full or unavailable.");
-    return false;
-  }
-}
-
-function oldGet(key,fallback=null){
-  try{
-    return localStorage.getItem(key)??fallback;
-  }catch{
-    return fallback;
-  }
-}
-
-async function migrateOldData(){
-  if(!data.wallpaper)data.wallpaper=oldGet("iphoneWallpaper","");
-  if(!data.profile)data.profile=oldGet("iphoneInstagramProfile","");
-
-  try{
-    const posts=JSON.parse(oldGet("iphoneInstagramPosts","[]"));
-    if(!data.posts.length&&Array.isArray(posts)){
-      data.posts=posts.slice(0,9);
-    }
-  }catch{}
-
-  try{
-    const years=JSON.parse(oldGet("iphoneYearlyPhotos","{}"));
-
-    YEARS.forEach(y=>{
-      if(!data.years[y].some(Boolean)&&Array.isArray(years[y])){
-        data.years[y]=Array(6).fill("");
-        years[y].slice(0,6).forEach((p,i)=>{
-          data.years[y][i]=p||"";
-        });
+    playButton.addEventListener("click", () => {
+      if (track.url) {
+        window.open(track.url, "_blank");
       }
     });
-  }catch{}
 
-  await saveData();
-}
+    item.appendChild(cover);
+    item.appendChild(details);
+    item.appendChild(playButton);
 
-/* IMAGE COMPRESSION */
-function compressImage(file){
-  return new Promise((resolve,reject)=>{
-    if(!file||!file.type.startsWith("image/")){
-      return reject(new Error("Invalid image"));
+    if (ownerUnlocked) {
+      const editButton = document.createElement("button");
+      editButton.className = "music-edit";
+      editButton.textContent = "Edit";
+      editButton.type = "button";
+
+      editButton.addEventListener("click", () => {
+        editMusicTrack(index);
+      });
+
+      item.appendChild(editButton);
     }
 
-    const reader=new FileReader();
+    list.appendChild(item);
+  });
+}
 
-    reader.onerror=()=>reject(new Error("Cannot read image"));
+function editMusicTrack(index) {
+  const track = musicTracks[index];
+  if (!track) return;
 
-    reader.onload=()=>{
-      const img=new Image();
+  const newTitle = prompt("Enter song title:", track.title);
+  if (newTitle === null) return;
 
-      img.onerror=()=>reject(new Error("Cannot open image"));
+  const newArtist = prompt("Enter artist name:", track.artist);
+  if (newArtist === null) return;
 
-      img.onload=()=>{
-        const max=1400;
-        const scale=Math.min(1,max/Math.max(img.width,img.height));
-        const canvas=document.createElement("canvas");
+  const newURL = prompt("Enter Spotify link:", track.url);
+  if (newURL === null) return;
 
-        canvas.width=Math.max(1,Math.round(img.width*scale));
-        canvas.height=Math.max(1,Math.round(img.height*scale));
+  track.title = newTitle.trim() || `Song ${index + 1}`;
+  track.artist = newArtist.trim() || "Spotify";
+  track.url = newURL.trim() || track.url;
 
-        canvas.getContext("2d").drawImage(
-          img,0,0,canvas.width,canvas.height
+  saveMusicTracks();
+  renderMusic();
+}
+
+function openMusic() {
+  showScreen("musicScreen");
+  renderMusic();
+}
+
+if ($("musicIcon")) {
+  $("musicIcon").addEventListener("click", openMusic);
+}
+
+
+// ------------------------------
+// IMAGE COMPRESSION
+// ------------------------------
+
+function compressImage(file, maxWidth = 1200, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("Please select an image file."));
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const image = new Image();
+
+      image.onload = () => {
+        const scale = Math.min(1, maxWidth / image.width);
+        const canvas = document.createElement("canvas");
+
+        canvas.width = Math.round(image.width * scale);
+        canvas.height = Math.round(image.height * scale);
+
+        const context = canvas.getContext("2d");
+        context.drawImage(
+          image,
+          0,
+          0,
+          canvas.width,
+          canvas.height
         );
 
-        resolve(canvas.toDataURL("image/jpeg",0.72));
+        resolve(canvas.toDataURL("image/jpeg", quality));
       };
 
-      img.src=reader.result;
+      image.onerror = () => reject(
+        new Error("Could not load the selected image.")
+      );
+
+      image.src = reader.result;
     };
+
+    reader.onerror = () => reject(
+      new Error("Could not read the selected file.")
+    );
 
     reader.readAsDataURL(file);
   });
 }
 
-/* MUSIC APP */
-function renderMusic(){
-  const list=$("musicList");
-  list.innerHTML="";
 
-  musicTracks.forEach((track,index)=>{
-    const item=document.createElement("article");
-    item.className="music-item";
+// ------------------------------
+// OPEN SETTINGS AND OTHER APPS
+// ------------------------------
 
-    const cover=document.createElement("div");
-    cover.className="music-cover";
+function openSettings() {
+  showScreen("settingsScreen");
+}
 
-    const savedCover=data.musicCovers?.[index]||"";
+function openInstagram() {
+  showScreen("instagramScreen");
+}
 
-    if(savedCover){
-      const img=document.createElement("img");
-      img.src=savedCover;
-      img.alt=track.title+" cover";
-      cover.appendChild(img);
-    }else{
-      cover.textContent="♫";
-    }
+function openPhotos() {
+  showScreen("photosScreen");
+}
 
-    const info=document.createElement("div");
-    info.className="music-info";
+function openWeather() {
+  showScreen("weatherScreen");
+}
 
-    const title=document.createElement("strong");
-    title.textContent=track.title;
+if ($("settingsIcon")) {
+  $("settingsIcon").addEventListener("click", openSettings);
+}
 
-    const subtitle=document.createElement("small");
-    subtitle.textContent="Tap Open Song to listen";
+if ($("instagramIcon")) {
+  $("instagramIcon").addEventListener("click", openInstagram);
+}
 
-    info.append(title,subtitle);
+if ($("photosIcon")) {
+  $("photosIcon").addEventListener("click", openPhotos);
+}
 
-    const actions=document.createElement("div");
-    actions.className="music-actions";
+if ($("weatherIcon")) {
+  $("weatherIcon").addEventListener("click", openWeather);
+}
+ // ------------------------------
+// PASSCODE / LOCK SCREEN
+// ------------------------------
 
-    const open=document.createElement("a");
-    open.className="music-open";
-    open.href=track.link;
-    open.target="_blank";
-    open.rel="noopener noreferrer";
-    open.textContent="Open Song ↗";
-
-    const edit=document.createElement("button");
-    edit.className="music-edit";
-    edit.type="button";
-    edit.textContent="Edit Song";
-    edit.onclick=()=>editMusicTrack(index);
-
-    const changeCover=document.createElement("button");
-    changeCover.className="music-edit";
-    changeCover.type="button";
-    changeCover.textContent=savedCover?"Change Cover":"Add Cover Photo";
-
-    changeCover.onclick=()=>{
-      selectedMusicIndex=index;
-      $("musicCoverFile").click();
-    };
-
-    actions.append(open,edit,changeCover);
-    item.append(cover,info,actions);
-    list.appendChild(item);
+function updatePasscodeDots() {
+  document.querySelectorAll(".passcode-dot").forEach((dot, index) => {
+    dot.classList.toggle("filled", index < enteredCode.length);
   });
 }
 
-function editMusicTrack(index){
-  const track=musicTracks[index];
-  const newTitle=prompt("Enter song title:",track.title);
-
-  if(newTitle===null)return;
-
-  if(newTitle.trim())track.title=newTitle.trim();
-
-  const newLink=prompt("Paste the song link:",track.link);
-
-  if(newLink!==null&&newLink.trim()){
-    const link=newLink.trim();
-
-    if(/^https:\/\/open\.spotify\.com\/track\/[A-Za-z0-9]+/.test(link)){
-      track.link=link.split("?")[0];
-    }else{
-      alert("Please enter a valid Spotify track link.");
-    }
-  }
-
-  try{
-    localStorage.setItem("myMusicTracks",JSON.stringify(musicTracks));
-  }catch{}
-
-  renderMusic();
-}
-
-$("musicCoverFile").onchange=async event=>{
-  const file=event.target.files[0];
-  if(!file)return;
-
-  try{
-    const image=await compressImage(file);
-
-    if(!Array.isArray(data.musicCovers)){
-      data.musicCovers=Array(7).fill("");
-    }
-
-    data.musicCovers[selectedMusicIndex]=image;
-
-    if(await saveData()){
-      renderMusic();
-      alert("Song cover photo saved! 💗");
-    }
-  }catch(error){
-    alert("Could not load that picture. Please try another image.");
-  }
-
-  event.target.value="";
-};
-
-$("openMusic").onclick=()=>{
-  $("musicScreen").classList.add("active");
-  renderMusic();
-};
-  /* WEATHER APP — OPEN-METEO, NO API KEY REQUIRED */
-
-const weatherCodes={
-  0:["Clear sky","☀️"],
-  1:["Mainly clear","🌤️"],
-  2:["Partly cloudy","⛅"],
-  3:["Overcast","☁️"],
-  45:["Foggy","🌫️"],
-  48:["Rime fog","🌫️"],
-  51:["Light drizzle","🌦️"],
-  53:["Drizzle","🌦️"],
-  55:["Heavy drizzle","🌧️"],
-  56:["Freezing drizzle","🌧️"],
-  57:["Freezing drizzle","🌧️"],
-  61:["Light rain","🌦️"],
-  63:["Moderate rain","🌧️"],
-  65:["Heavy rain","🌧️"],
-  66:["Freezing rain","🌧️"],
-  67:["Freezing rain","🌧️"],
-  71:["Light snow","🌨️"],
-  73:["Snow","🌨️"],
-  75:["Heavy snow","❄️"],
-  77:["Snow grains","❄️"],
-  80:["Rain showers","🌦️"],
-  81:["Rain showers","🌧️"],
-  82:["Heavy showers","⛈️"],
-  85:["Snow showers","🌨️"],
-  86:["Heavy snow showers","❄️"],
-  95:["Thunderstorm","⛈️"],
-  96:["Thunderstorm with hail","⛈️"],
-  99:["Severe thunderstorm","⛈️"]
-};
-
-let weatherLocation={
-  name:"Quezon City",
-  latitude:14.6760,
-  longitude:121.0437
-};
-
-function getWeatherDescription(code){
-  return weatherCodes[code]||["Unknown conditions","🌡️"];
-}
-
-async function findWeatherCity(city){
-  const url=
-    "https://geocoding-api.open-meteo.com/v1/search?name="+
-    encodeURIComponent(city)+
-    "&count=1&language=en&format=json";
-
-  const response=await fetch(url);
-
-  if(!response.ok)throw new Error("City search failed.");
-
-  const result=await response.json();
-
-  if(!result.results||!result.results.length){
-    throw new Error("City not found. Please try another city.");
-  }
-
-  const place=result.results[0];
-
-  return {
-    name:place.name+(place.country?", "+place.country:""),
-    latitude:place.latitude,
-    longitude:place.longitude
-  };
-}
-
-async function loadWeather(location=weatherLocation){
-  $("weatherCity").textContent=location.name;
-  $("weatherCondition").textContent="Loading weather…";
-  $("weatherTemperature").textContent="--°";
-  $("weatherMessage").textContent="Getting the latest weather…";
-  $("weatherForecast").innerHTML=
-    '<div class="weather-message">Loading forecast…</div>';
-
-  try{
-    const url=
-      "https://api.open-meteo.com/v1/forecast"+
-      "?latitude="+location.latitude+
-      "&longitude="+location.longitude+
-      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m"+
-      "&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max"+
-      "&timezone=auto&forecast_days=5";
-
-    const response=await fetch(url);
-
-    if(!response.ok)throw new Error("Weather service unavailable.");
-
-    const result=await response.json();
-
-    if(!result.current)throw new Error("Weather data unavailable.");
-
-    const current=result.current;
-    const daily=result.daily;
-    const description=getWeatherDescription(current.weather_code);
-
-    $("weatherCity").textContent=location.name;
-    $("weatherCondition").textContent=
-      description[1]+" "+description[0];
-
-    $("weatherTemperature").textContent=
-      Math.round(current.temperature_2m)+"°";
-
-    $("weatherHighLow").textContent=
-      "H: "+Math.round(daily.temperature_2m_max[0])+
-      "°　L: "+Math.round(daily.temperature_2m_min[0])+"°";
-
-    $("weatherFeels").textContent=
-      Math.round(current.apparent_temperature)+"°";
-
-    $("weatherHumidity").textContent=
-      current.relative_humidity_2m+"%";
-
-    $("weatherWind").textContent=
-      Math.round(current.wind_speed_10m)+" km/h";
-
-    $("weatherUV").textContent=
-      daily.uv_index_max[0]??"--";
-
-    const forecast=$("weatherForecast");
-    forecast.innerHTML="";
-
-    daily.time.forEach((day,index)=>{
-      const date=new Date(day+"T12:00:00");
-      const label=index===0?"Today":
-        date.toLocaleDateString("en",{weekday:"short"});
-
-      const condition=getWeatherDescription(daily.weather_code[index]);
-
-      const item=document.createElement("div");
-      item.className="forecast-day";
-
-      const dayName=document.createElement("div");
-      dayName.textContent=label;
-
-      const icon=document.createElement("div");
-      icon.className="forecast-icon";
-      icon.textContent=condition[1];
-
-      const temps=document.createElement("div");
-      temps.className="forecast-temp";
-      temps.textContent=
-        Math.round(daily.temperature_2m_max[index])+"° / "+
-        Math.round(daily.temperature_2m_min[index])+"°";
-
-      item.append(dayName,icon,temps);
-      forecast.appendChild(item);
-    });
-
-    $("weatherMessage").textContent=
-      "Updated "+new Date().toLocaleTimeString([],{
-        hour:"2-digit",minute:"2-digit"
-      })+". Weather by Open-Meteo.";
-
-    weatherLocation=location;
-
-  }catch(error){
-    console.error(error);
-    $("weatherCondition").textContent="Unable to load weather";
-    $("weatherMessage").textContent=
-      error.message+
-      " Check your internet connection and try again.";
-  }
-}
-
-$("openWeather").onclick=()=>{
-  $("weatherScreen").classList.add("active");
-  loadWeather();
-};
-
-$("weatherRefresh").onclick=()=>{
-  loadWeather(weatherLocation);
-};
-
-async function searchWeatherCity(){
-  const city=$("weatherCityInput").value.trim();
-
-  if(!city){
-    $("weatherMessage").textContent="Please enter a city name.";
-    return;
-  }
-
-  $("weatherMessage").textContent="Searching for "+city+"…";
-
-  try{
-    const location=await findWeatherCity(city);
-    await loadWeather(location);
-    $("weatherCityInput").value="";
-  }catch(error){
-    $("weatherMessage").textContent=error.message;
-  }
-}
-
-$("weatherSearchButton").onclick=searchWeatherCity;
-
-$("weatherCityInput").addEventListener("keydown",event=>{
-  if(event.key==="Enter")searchWeatherCity();
-});
-  /* PASSCODE */
-function updateDots(){
-  $("dots").innerHTML="";
-
-  for(let i=0;i<4;i++){
-    const d=document.createElement("span");
-    d.className="dot"+(i<entered.length?" filled":"");
-    $("dots").appendChild(d);
-  }
-}
-
-function openPasscode(){
-  if(unlocked)return;
-
-  entered="";
-  $("passMessage").textContent="";
-  updateDots();
-  $("passcode").classList.add("active");
-}
-
-function enterDigit(n){
-  if(entered.length>=4)return;
-
-  entered+=n;
-  updateDots();
-
-  if(entered.length===4){
-    if(entered===PASSCODE){
-      $("passMessage").textContent="Unlocked!";
-
-      setTimeout(()=>{
-        unlocked=true;
-        $("passcode").classList.remove("active");
-        $("lockScreen").style.display="none";
-        $("homeScreen").classList.add("active");
-      },300);
-    }else{
-      $("passMessage").textContent="Incorrect passcode";
-
-      setTimeout(()=>{
-        entered="";
-        $("passMessage").textContent="";
-        updateDots();
-      },700);
-    }
-  }
-}
-
-["1","2","3","4","5","6","7","8","9","","0","⌫"].forEach(n=>{
-  const b=document.createElement("button");
-  b.className="key";
-  b.type="button";
-  b.textContent=n;
-
-  if(n===""){
-    b.style.visibility="hidden";
-    b.disabled=true;
-  }else if(n==="⌫"){
-    b.onclick=()=>{
-      entered=entered.slice(0,-1);
-      updateDots();
-    };
-  }else{
-    b.onclick=()=>enterDigit(n);
-  }
-
-  $("keypad").appendChild(b);
-});
-
-$("cameraButton").onclick=openPasscode;
-
-$("cancelPasscode").onclick=()=>{
-  $("passcode").classList.remove("active");
-  entered="";
-  updateDots();
-};
-
-let touchStartY=null;
-
-$("phone").addEventListener("touchstart",e=>{
-  if(unlocked||$("passcode").classList.contains("active"))return;
-  touchStartY=e.changedTouches[0].clientY;
-},{passive:true});
-
-$("phone").addEventListener("touchend",e=>{
-  if(unlocked||$("passcode").classList.contains("active")||touchStartY===null){
-    touchStartY=null;
-    return;
-  }
-
-  if(touchStartY-e.changedTouches[0].clientY>45)openPasscode();
-  touchStartY=null;
-},{passive:true});
-
-/* OWNER SETTINGS */
-function showOwnerLogin(message="Enter your owner PIN."){
-  ownerVerified=false;
-  $("ownerLogin").hidden=false;
-  $("ownerOptions").hidden=true;
-  $("ownerPin").value="";
-  $("ownerMessage").textContent=message;
-  $("verifyOwner").onclick=verifyOwner;
-  $("ownerPanel").classList.add("active");
-}
-
-function closeOwnerPanel(){
-  ownerVerified=false;
-  $("ownerPanel").classList.remove("active");
-}
-
-function verifyOwner(){
-  if($("ownerPin").value===OWNER_PIN){
-    ownerVerified=true;
-    $("ownerLogin").hidden=true;
-    $("ownerOptions").hidden=false;
-  }else{
-    $("ownerMessage").textContent="Incorrect PIN. Try again.";
-    $("ownerPin").value="";
-  }
-}
-
-$("ownerButton").onclick=()=>showOwnerLogin();
-$("closeOwner").onclick=closeOwnerPanel;
-$("doneOwner").onclick=closeOwnerPanel;
-$("verifyOwner").onclick=verifyOwner;
-
-/* WALLPAPER */
-$("chooseWallpaper").onclick=()=>{
-  if(ownerVerified)$("wallpaperFile").click();
-  else showOwnerLogin("Enter your PIN to change wallpaper.");
-};
-
-$("wallpaperFile").onchange=async e=>{
-  if(!ownerVerified)return;
-
-  const file=e.target.files[0];
-  if(!file)return;
-
-  try{
-    const image=await compressImage(file);
-    const old=data.wallpaper;
-    data.wallpaper=image;
-
-    if(await saveData()){
-      $("wallpaper").style.backgroundImage=`url("${image}")`;
-      closeOwnerPanel();
-      alert("Wallpaper saved!");
-    }else{
-      data.wallpaper=old;
-    }
-  }catch{
-    alert("Could not process wallpaper.");
-  }
-
-  e.target.value="";
-};
-
-/* INSTAGRAM PROFILE PHOTO */
-function showProfilePhoto(image){
-  const img=$("igProfilePhoto");
-  const placeholder=$("profilePlaceholder");
-
-  if(image){
-    img.src=image;
-    img.style.display="block";
-    placeholder.style.display="none";
-  }else{
-    img.removeAttribute("src");
-    img.style.display="none";
-    placeholder.style.display="block";
-  }
-}
-
-$("chooseProfilePhoto").onclick=()=>{
-  if(ownerVerified)$("profilePhotoFile").click();
-  else showOwnerLogin("Enter your PIN to change your profile photo.");
-};
-
-$("profilePhotoFile").onchange=async e=>{
-  if(!ownerVerified)return;
-
-  const file=e.target.files[0];
-  if(!file)return;
-
-  try{
-    const image=await compressImage(file);
-    const old=data.profile;
-    data.profile=image;
-
-    if(await saveData()){
-      showProfilePhoto(image);
-      closeOwnerPanel();
-      alert("Profile photo saved!");
-    }else{
-      data.profile=old;
-    }
-  }catch{
-    alert("Could not process profile photo.");
-  }
-
-  e.target.value="";
-};
-
-/* INSTAGRAM POSTS */
-function renderInstagramPosts(){
-  const grid=$("igGrid");
-  grid.innerHTML="";
-
-  if(!data.posts.length){
-    ["📷","🌿","🌆"].forEach(s=>{
-      const tile=document.createElement("div");
-      tile.className="ig-post";
-      tile.textContent=s;
-      grid.appendChild(tile);
-    });
-    return;
-  }
-
-  data.posts.forEach((image,i)=>{
-    const tile=document.createElement("div");
-    tile.className="ig-post";
-
-    const img=document.createElement("img");
-    img.src=image;
-    img.alt="Post "+(i+1);
-
-    tile.appendChild(img);
-    grid.appendChild(tile);
-  });
-}
-
-$("choosePostPhotos").onclick=()=>{
-  if(ownerVerified)$("postPhotosFile").click();
-  else showOwnerLogin("Enter your PIN to edit Instagram posts.");
-};
-
-$("postPhotosFile").onchange=async e=>{
-  if(!ownerVerified)return;
-
-  const files=Array.from(e.target.files)
-    .filter(f=>f.type.startsWith("image/"))
-    .slice(0,9);
-
-  if(!files.length)return;
-
-  try{
-    const images=[];
-
-    for(const f of files){
-      images.push(await compressImage(f));
-    }
-
-    const old=data.posts;
-    data.posts=images;
-
-    if(await saveData()){
-      renderInstagramPosts();
-      closeOwnerPanel();
-      alert("Instagram posts saved!");
-    }else{
-      data.posts=old;
-    }
-  }catch{
-    alert("Could not process posts.");
-  }
-
-  e.target.value="";
-};
-
-$("openInstagram").onclick=()=>{
-  $("instagramScreen").classList.add("active");
-  showProfilePhoto(data.profile);
-  renderInstagramPosts();
-};
-
-$("followButton").onclick=e=>{
-  e.currentTarget.textContent=
-    e.currentTarget.textContent==="Following"?"Follow":"Following";
-};
-  /* PHOTOS BY YEAR */
-async function saveYearPhotos(){
-  data.years=yearlyPhotos;
-  return saveData();
-}
-
-function makePhotoTile(year,index){
-  const tile=document.createElement("button");
-  tile.type="button";
-  tile.className="year-photo";
-
-  const image=yearlyPhotos[year][index];
-
-  if(image){
-    const img=document.createElement("img");
-    img.src=image;
-    img.alt=year+" photo "+(index+1);
-    tile.appendChild(img);
-  }else{
-    tile.textContent="＋";
-  }
-
-  tile.onclick=()=>{
-    selectedYear=year;
-    selectedPhotoIndex=index;
-    openYearDetail(year);
-  };
-
-  return tile;
-}
-
-function renderPhotosContent(){
-  const content=$("photosContent");
-  content.innerHTML="";
-
-  YEARS.forEach(year=>{
-    const section=document.createElement("section");
-    section.className="photos-year";
-
-    const heading=document.createElement("div");
-    heading.className="photos-year-heading";
-
-    const title=document.createElement("h2");
-    title.textContent=year;
-
-    const view=document.createElement("button");
-    view.textContent="See All ›";
-    view.onclick=()=>{
-      selectedPhotoIndex=null;
-      openYearDetail(year);
-    };
-
-    heading.append(title,view);
-
-    const grid=document.createElement("div");
-    grid.className="photos-grid";
-
-    for(let i=0;i<6;i++){
-      grid.appendChild(makePhotoTile(year,i));
-    }
-
-    section.append(heading,grid);
-    content.appendChild(section);
-  });
-}
-
-function openYearDetail(year){
-  selectedYear=year;
-  $("photosDetailTitle").textContent=year;
-  $("photosHint").textContent="6 photo slots · Owner PIN required to edit.";
-
-  const grid=$("photosDetailGrid");
-  grid.innerHTML="";
-
-  for(let i=0;i<6;i++){
-    grid.appendChild(makePhotoTile(year,i));
-  }
-
-  $("photosDetail").classList.add("active");
-}
-
-function startYearPicker(year,index=null){
-  const input=$("yearPhotosFile");
-
-  input.dataset.year=String(year);
-  input.dataset.index=index===null?"":String(index);
-  input.multiple=index===null;
-  input.value="";
-  input.click();
-}
-
-$("yearPhotosFile").onchange=async e=>{
-  if(!ownerVerified)return;
-
-  const year=Number(e.target.dataset.year);
-  const indexValue=e.target.dataset.index;
-
-  const files=Array.from(e.target.files)
-    .filter(f=>f.type.startsWith("image/"));
-
-  if(!files.length)return;
-
-  const old=[...yearlyPhotos[year]];
-
-  try{
-    const images=[];
-
-    for(const file of files.slice(0,indexValue===""?6:1)){
-      images.push(await compressImage(file));
-    }
-
-    if(indexValue!==""){
-      yearlyPhotos[year][Number(indexValue)]=images[0];
-    }else{
-      yearlyPhotos[year]=Array(6).fill("");
-      images.forEach((img,i)=>yearlyPhotos[year][i]=img);
-    }
-
-    if(await saveYearPhotos()){
-      renderPhotosContent();
-      openYearDetail(year);
-      closeOwnerPanel();
-      alert("Photos for "+year+" saved!");
-    }else{
-      yearlyPhotos[year]=old;
-    }
-  }catch{
-    yearlyPhotos[year]=old;
-    alert("Could not process selected photos.");
-  }
-
-  e.target.value="";
-};
-
-$("openPhotos").onclick=()=>{
-  $("photosScreen").classList.add("active");
-  renderPhotosContent();
-  $("photosDetail").classList.remove("active");
-};
-
-$("photosBack").onclick=()=>{
-  $("photosDetail").classList.remove("active");
-};
-
-$("photosYearEdit").onclick=()=>{
-  showOwnerLogin("Enter your PIN to edit "+selectedYear+" photos.");
-
-  $("verifyOwner").onclick=()=>{
-    if($("ownerPin").value===OWNER_PIN){
-      ownerVerified=true;
-      $("ownerPanel").classList.remove("active");
-      startYearPicker(selectedYear,selectedPhotoIndex);
-    }else{
-      $("ownerMessage").textContent="Incorrect PIN. Try again.";
-      $("ownerPin").value="";
-    }
-  };
-};
-
-$("editYearPhotos").onclick=()=>{
-  showOwnerLogin("Enter your PIN to edit a yearly album.");
-
-  $("verifyOwner").onclick=()=>{
-    if($("ownerPin").value===OWNER_PIN){
-      ownerVerified=true;
-      $("ownerPanel").classList.remove("active");
-      startYearPicker(selectedYear,null);
-    }else{
-      $("ownerMessage").textContent="Incorrect PIN. Try again.";
-      $("ownerPin").value="";
-    }
-  };
-};
-
-/* CALENDAR */
-function renderCalendar(){
-  const grid=$("calendarGrid");
-  grid.innerHTML="";
-
-  $("monthName").textContent=viewedMonth.toLocaleDateString([],{
-    month:"long",year:"numeric"
-  });
-
-  ["S","M","T","W","T","F","S"].forEach(day=>{
-    const label=document.createElement("div");
-    label.className="weekday";
-    label.textContent=day;
-    grid.appendChild(label);
-  });
-
-  const y=viewedMonth.getFullYear();
-  const m=viewedMonth.getMonth();
-  const first=new Date(y,m,1).getDay();
-  const total=new Date(y,m+1,0).getDate();
-
-  for(let i=0;i<first;i++){
-    grid.appendChild(document.createElement("div"));
-  }
-
-  for(let day=1;day<=total;day++){
-    const date=new Date(y,m,day);
-    const b=document.createElement("button");
-
-    b.type="button";
-    b.className="date-cell";
-    b.textContent=day;
-
-    if(date.toDateString()===new Date().toDateString()){
-      b.classList.add("today");
-    }
-
-    b.onclick=()=>{
-      $("selectedDate").textContent=date.toLocaleDateString([],{
-        weekday:"long",month:"long",day:"numeric"
-      });
-    };
-
-    grid.appendChild(b);
-  }
-}
-
-$("openCalendar").onclick=()=>{
-  renderCalendar();
-  $("calendarScreen").classList.add("active");
-};
-
-$("prevMonth").onclick=()=>{
-  viewedMonth.setMonth(viewedMonth.getMonth()-1);
-  renderCalendar();
-};
-
-$("nextMonth").onclick=()=>{
-  viewedMonth.setMonth(viewedMonth.getMonth()+1);
-  renderCalendar();
-};
-
-/* SETTINGS */
-$("openSettings").onclick=()=>{
-  $("settingsScreen").classList.add("active");
-};
-
-document.querySelectorAll(".settings-row").forEach(button=>{
-  button.onclick=()=>{
-    const name=button.dataset.setting;
-
-    $("detailTitle").textContent=name;
-
-    $("detailText").textContent=
-      name==="Wallpaper"
-      ?"Use Owner Settings to change your simulated wallpaper."
-      :"This is a simulated iPhone setting.";
-
-    $("settingsDetail").classList.add("active");
-  };
-});
-
-$("settingsBack").onclick=()=>{
-  $("settingsDetail").classList.remove("active");
-};
-
-/* BACK BUTTONS */
-document.querySelectorAll("[data-home]").forEach(button=>{
-  button.onclick=()=>{
-    $(button.dataset.home).classList.remove("active");
-  };
-});
-
-/* SPOTIFY WIDGET */
-$("spotifyWidget").onclick=()=>{
-  window.open(
-    "https://open.spotify.com/playlist/5XsMHEEHZFGq3Ib2IQ5coA",
-    "_blank"
-  );
-};
-  /* LOAD SAVED DATA */
-async function loadSaved(){
-  try{
-    await openDB();
-
-    const stored=await readDB();
-
-    if(stored){
-      data={
-        wallpaper:stored.wallpaper||"",
-        profile:stored.profile||"",
-        posts:Array.isArray(stored.posts)?stored.posts.slice(0,9):[],
-        years:stored.years||{},
-        musicCovers:Array.isArray(stored.musicCovers)
-          ?stored.musicCovers
-          :Array(7).fill("")
-      };
-
-      YEARS.forEach(y=>{
-        data.years[y]=Array.isArray(data.years[y])
-          ?data.years[y].slice(0,6)
-          :[];
-
-        while(data.years[y].length<6){
-          data.years[y].push("");
+function enterDigit(digit) {
+  if (enteredCode.length >= 4) return;
+
+  enteredCode += String(digit);
+  updatePasscodeDots();
+
+  if (enteredCode.length === 4) {
+    setTimeout(() => {
+      if (enteredCode === PASSCODE) {
+        showScreen("homeScreen");
+        enteredCode = "";
+        updatePasscodeDots();
+      } else {
+        enteredCode = "";
+        updatePasscodeDots();
+
+        const message = $("passcodeMessage");
+        if (message) {
+          message.textContent = "Incorrect passcode. Try again.";
         }
-      });
-    }
-
-    await migrateOldData();
-
-    yearlyPhotos=data.years;
-
-    if(data.wallpaper){
-      $("wallpaper").style.backgroundImage=
-        `url("${data.wallpaper}")`;
-    }
-
-    showProfilePhoto(data.profile);
-    renderInstagramPosts();
-    renderPhotosContent();
-    renderCalendar();
-
-    try{
-      const savedTracks=JSON.parse(
-        localStorage.getItem("myMusicTracks")||"null"
-      );
-
-      if(Array.isArray(savedTracks)&&savedTracks.length===7){
-        musicTracks=defaultTracks.map((track,i)=>({
-          ...track,
-          title:savedTracks[i].title||track.title,
-          link:savedTracks[i].link||track.link
-        }));
       }
-    }catch(error){
-      console.log("Using default music tracks.");
+    }, 250);
+  }
+}
+
+document.querySelectorAll("[data-digit]").forEach((button) => {
+  button.addEventListener("click", () => {
+    enterDigit(button.dataset.digit);
+  });
+});
+
+if ($("deleteDigit")) {
+  $("deleteDigit").addEventListener("click", () => {
+    enteredCode = enteredCode.slice(0, -1);
+    updatePasscodeDots();
+  });
+}
+
+
+// ------------------------------
+// OWNER SETTINGS
+// ------------------------------
+
+function openOwnerPanel() {
+  const pin = prompt("Enter owner PIN:");
+
+  if (pin === null) return;
+
+  if (pin === OWNER_PIN) {
+    ownerUnlocked = true;
+
+    if ($("ownerPanel")) {
+      $("ownerPanel").classList.remove("hidden");
     }
 
     renderMusic();
+    alert("Owner settings unlocked!");
+  } else {
+    alert("Incorrect owner PIN.");
+  }
+}
 
-  }catch(error){
+if ($("ownerSettingsButton")) {
+  $("ownerSettingsButton").addEventListener("click", openOwnerPanel);
+}
+
+if ($("ownerLockButton")) {
+  $("ownerLockButton").addEventListener("click", () => {
+    ownerUnlocked = false;
+
+    if ($("ownerPanel")) {
+      $("ownerPanel").classList.add("hidden");
+    }
+
+    renderMusic();
+    alert("Owner settings locked.");
+  });
+}
+
+
+// ------------------------------
+// WALLPAPER UPLOAD
+// ------------------------------
+
+if ($("wallpaperInput")) {
+  $("wallpaperInput").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const imageData = await compressImage(file, 1600, 0.82);
+      appData.wallpaper = imageData;
+      applyWallpaper();
+      await saveAppData();
+    } catch (error) {
+      alert("Could not upload wallpaper. Please try another image.");
+    }
+
+    event.target.value = "";
+  });
+}
+
+function applyWallpaper() {
+  const screens = [
+    $("lockScreen"),
+    $("homeScreen")
+  ];
+
+  screens.forEach((screen) => {
+    if (!screen) return;
+
+    if (appData.wallpaper) {
+      screen.style.backgroundImage = `url("${appData.wallpaper}")`;
+      screen.style.backgroundSize = "cover";
+      screen.style.backgroundPosition = "center";
+    } else {
+      screen.style.backgroundImage = "";
+    }
+  });
+}
+
+
+// ------------------------------
+// INSTAGRAM PROFILE PHOTO
+// ------------------------------
+
+if ($("profilePhotoInput")) {
+  $("profilePhotoInput").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      appData.profilePhoto = await compressImage(file, 800, 0.82);
+      applyProfilePhoto();
+      await saveAppData();
+    } catch (error) {
+      alert("Could not upload profile photo.");
+    }
+
+    event.target.value = "";
+  });
+}
+
+function applyProfilePhoto() {
+  const image = $("profilePhotoDisplay");
+
+  if (!image) return;
+
+  if (appData.profilePhoto) {
+    image.src = appData.profilePhoto;
+    image.classList.remove("hidden");
+  }
+}
+
+
+// ------------------------------
+// INSTAGRAM POST PHOTOS
+// ------------------------------
+
+if ($("postPhotoInput")) {
+  $("postPhotoInput").addEventListener("change", async (event) => {
+    const files = Array.from(event.target.files || []);
+
+    if (!files.length) return;
+
+    try {
+      for (const file of files) {
+        const imageData = await compressImage(file, 1000, 0.8);
+        appData.postPhotos.push(imageData);
+      }
+
+      renderPostPhotos();
+      await saveAppData();
+    } catch (error) {
+      alert("Could not upload one or more photos.");
+    }
+
+    event.target.value = "";
+  });
+}
+
+function renderPostPhotos() {
+  const container = $("postPhotos");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  appData.postPhotos.forEach((imageData, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "post-photo-item";
+
+    const image = document.createElement("img");
+    image.src = imageData;
+    image.alt = `Post photo ${index + 1}`;
+
+    wrapper.appendChild(image);
+
+    if (ownerUnlocked) {
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.textContent = "×";
+      removeButton.className = "remove-photo";
+
+      removeButton.addEventListener("click", async () => {
+        appData.postPhotos.splice(index, 1);
+        renderPostPhotos();
+        await saveAppData();
+      });
+
+      wrapper.appendChild(removeButton);
+    }
+
+    container.appendChild(wrapper);
+  });
+}
+
+
+// ------------------------------
+// PHOTOS BY YEAR
+// ------------------------------
+
+function renderYearButtons() {
+  const container = $("yearButtons");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  YEARS.forEach((year) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = year;
+    button.className =
+      year === currentPhotoYear ? "year-button active" : "year-button";
+
+    button.addEventListener("click", () => {
+      currentPhotoYear = year;
+      renderYearButtons();
+      renderYearPhotos();
+    });
+
+    container.appendChild(button);
+  });
+}
+
+function renderYearPhotos() {
+  const container = $("yearPhotos");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const yearKey = String(currentPhotoYear);
+
+  if (!appData.yearPhotos[yearKey]) {
+    appData.yearPhotos[yearKey] = [];
+  }
+
+  const photos = appData.yearPhotos[yearKey];
+
+  for (let i = 0; i < 6; i++) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "year-photo-slot";
+
+    if (photos[i]) {
+      const image = document.createElement("img");
+      image.src = photos[i];
+      image.alt = `${currentPhotoYear} photo ${i + 1}`;
+      wrapper.appendChild(image);
+
+      if (ownerUnlocked) {
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.textContent = "×";
+        removeButton.className = "remove-photo";
+
+        removeButton.addEventListener("click", async () => {
+          photos[i] = "";
+          renderYearPhotos();
+          await saveAppData();
+        });
+
+        wrapper.appendChild(removeButton);
+      }
+    } else {
+      const addLabel = document.createElement("label");
+      addLabel.textContent = "+";
+      addLabel.className = "add-year-photo";
+
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.className = "hidden";
+
+      input.addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+          photos[i] = await compressImage(file, 1000, 0.8);
+          renderYearPhotos();
+          await saveAppData();
+        } catch (error) {
+          alert("Could not upload photo.");
+        }
+      });
+
+      addLabel.appendChild(input);
+      wrapper.appendChild(addLabel);
+    }
+
+    container.appendChild(wrapper);
+  }
+}
+
+
+// ------------------------------
+// CALENDAR
+// ------------------------------
+
+let calendarDate = new Date();
+
+function renderCalendar() {
+  const title = $("calendarMonth");
+  const grid = $("calendarGrid");
+
+  if (!grid) return;
+
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  if (title) {
+    title.textContent = calendarDate.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  grid.innerHTML = "";
+
+  ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
+    const heading = document.createElement("div");
+    heading.className = "calendar-heading";
+    heading.textContent = day;
+    grid.appendChild(heading);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+
+  for (let i = 0; i < firstDay; i++) {
+    const blank = document.createElement("div");
+    blank.className = "calendar-day blank";
+    grid.appendChild(blank);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "calendar-day";
+    button.textContent = day;
+
+    if (
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    ) {
+      button.classList.add("today");
+    }
+
+    const dateKey =
+      `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    if (appData.calendarNotes[dateKey]) {
+      button.classList.add("has-note");
+    }
+
+    button.addEventListener("click", () => {
+      const existingNote = appData.calendarNotes[dateKey] || "";
+      const note = prompt(
+        `Note for ${month + 1}/${day}/${year}:`,
+        existingNote
+      );
+
+      if (note === null) return;
+
+      if (note.trim()) {
+        appData.calendarNotes[dateKey] = note.trim();
+      } else {
+        delete appData.calendarNotes[dateKey];
+      }
+
+      renderCalendar();
+      saveAppData();
+    });
+
+    grid.appendChild(button);
+  }
+}
+
+if ($("calendarPrevious")) {
+  $("calendarPrevious").addEventListener("click", () => {
+    calendarDate.setMonth(calendarDate.getMonth() - 1);
+    renderCalendar();
+  });
+}
+
+if ($("calendarNext")) {
+  $("calendarNext").addEventListener("click", () => {
+    calendarDate.setMonth(calendarDate.getMonth() + 1);
+    renderCalendar();
+  });
+}
+
+
+// ------------------------------
+// SETTINGS BUTTONS
+// ------------------------------
+
+if ($("openCalendarButton")) {
+  $("openCalendarButton").addEventListener("click", () => {
+    showScreen("calendarScreen");
+    renderCalendar();
+  });
+}
+
+if ($("openOwnerButton")) {
+  $("openOwnerButton").addEventListener("click", openOwnerPanel);
+}
+ // ------------------------------
+// SAVE AND LOAD APP DATA
+// ------------------------------
+
+const DB_NAME = "MyiPhonePhotoStorage";
+const DB_STORE = "images";
+const DB_KEY = "appData";
+
+function openDatabase() {
+  return new Promise((resolve, reject) => {
+    if (!("indexedDB" in window)) {
+      reject(new Error("Your browser does not support IndexedDB."));
+      return;
+    }
+
+    const request = indexedDB.open(DB_NAME, 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      if (!db.objectStoreNames.contains(DB_STORE)) {
+        db.createObjectStore(DB_STORE);
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveAppData() {
+  try {
+    const db = await openDatabase();
+
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction(DB_STORE, "readwrite");
+      transaction.objectStore(DB_STORE).put(appData, DB_KEY);
+
+      transaction.oncomplete = resolve;
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+
+    db.close();
+  } catch (error) {
+    console.error("Unable to save app data:", error);
+  }
+}
+
+async function loadAppData() {
+  try {
+    const db = await openDatabase();
+
+    const storedData = await new Promise((resolve, reject) => {
+      const transaction = db.transaction(DB_STORE, "readonly");
+      const request = transaction.objectStore(DB_STORE).get(DB_KEY);
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+
+    db.close();
+
+    if (storedData && typeof storedData === "object") {
+      appData = {
+        ...appData,
+        ...storedData,
+        yearPhotos: storedData.yearPhotos || {},
+        postPhotos: storedData.postPhotos || [],
+        musicCovers: storedData.musicCovers || {},
+        calendarNotes: storedData.calendarNotes || {}
+      };
+    }
+  } catch (error) {
+    console.error("Unable to load app data:", error);
+  }
+
+  applyWallpaper();
+  applyProfilePhoto();
+  renderPostPhotos();
+  renderYearButtons();
+  renderYearPhotos();
+  renderCalendar();
+  renderMusic();
+}
+
+
+// ------------------------------
+// WEATHER APP
+// ------------------------------
+
+function setWeatherMessage(message) {
+  const element = $("weatherMessage");
+
+  if (element) {
+    element.textContent = message;
+  }
+}
+
+async function loadWeather(city) {
+  const cityName = (city || "").trim();
+
+  if (!cityName) {
+    setWeatherMessage("Please enter a city.");
+    return;
+  }
+
+  setWeatherMessage("Loading weather...");
+
+  try {
+    const geoURL =
+      "https://geocoding-api.open-meteo.com/v1/search?name=" +
+      encodeURIComponent(cityName) +
+      "&count=1&language=en&format=json";
+
+    const geoResponse = await fetch(geoURL);
+
+    if (!geoResponse.ok) {
+      throw new Error("Could not find the city.");
+    }
+
+    const geoData = await geoResponse.json();
+    const place = geoData.results && geoData.results[0];
+
+    if (!place) {
+      setWeatherMessage("City not found. Please try another name.");
+      return;
+    }
+
+    const weatherURL =
+      "https://api.open-meteo.com/v1/forecast?" +
+      "latitude=" + encodeURIComponent(place.latitude) +
+      "&longitude=" + encodeURIComponent(place.longitude) +
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature," +
+      "is_day,precipitation,weather_code,wind_speed_10m" +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+      "&timezone=auto&forecast_days=5";
+
+    const weatherResponse = await fetch(weatherURL);
+
+    if (!weatherResponse.ok) {
+      throw new Error("Weather information is unavailable.");
+    }
+
+    const data = await weatherResponse.json();
+    const current = data.current;
+    const daily = data.daily;
+
+    const descriptions = {
+      0: ["Clear sky", "☀️"],
+      1: ["Mainly clear", "🌤️"],
+      2: ["Partly cloudy", "⛅"],
+      3: ["Overcast", "☁️"],
+      45: ["Foggy", "🌫️"],
+      48: ["Depositing rime fog", "🌫️"],
+      51: ["Light drizzle", "🌦️"],
+      53: ["Moderate drizzle", "🌦️"],
+      55: ["Dense drizzle", "🌧️"],
+      61: ["Slight rain", "🌧️"],
+      63: ["Moderate rain", "🌧️"],
+      65: ["Heavy rain", "🌧️"],
+      71: ["Slight snow", "🌨️"],
+      73: ["Moderate snow", "🌨️"],
+      75: ["Heavy snow", "❄️"],
+      80: ["Rain showers", "🌦️"],
+      81: ["Moderate rain showers", "🌧️"],
+      82: ["Heavy rain showers", "⛈️"],
+      95: ["Thunderstorm", "⛈️"],
+      96: ["Thunderstorm with hail", "⛈️"],
+      99: ["Severe thunderstorm with hail", "⛈️"]
+    };
+
+    const description =
+      descriptions[current.weather_code] || ["Current conditions", "🌡️"];
+
+    if ($("weatherLocation")) {
+      $("weatherLocation").textContent =
+        place.name + (place.country ? ", " + place.country : "");
+    }
+
+    if ($("weatherDescription")) {
+      $("weatherDescription").textContent = description[0];
+    }
+
+    if ($("weatherTemperature")) {
+      $("weatherTemperature").textContent =
+        Math.round(current.temperature_2m) + "°C";
+    }
+
+    if ($("weatherIcon")) {
+      $("weatherIcon").textContent = description[1];
+    }
+
+    if ($("weatherRange")) {
+      $("weatherRange").textContent =
+        "H: " + Math.round(daily.temperature_2m_max[0]) + "° " +
+        "L: " + Math.round(daily.temperature_2m_min[0]) + "°";
+    }
+
+    if ($("weatherFeels")) {
+      $("weatherFeels").textContent =
+        Math.round(current.apparent_temperature) + "°C";
+    }
+
+    if ($("weatherHumidity")) {
+      $("weatherHumidity").textContent =
+        current.relative_humidity_2m + "%";
+    }
+
+    if ($("weatherWind")) {
+      $("weatherWind").textContent =
+        Math.round(current.wind_speed_10m) + " km/h";
+    }
+
+    if ($("weatherForecast")) {
+      const forecast = daily.time.map((date, index) => {
+        const dayCode = daily.weather_code[index];
+        const dayWeather =
+          descriptions[dayCode] || ["Weather", "🌡️"];
+
+        const dayName = new Date(date + "T12:00:00")
+          .toLocaleDateString("en-US", { weekday: "short" });
+
+        return (
+          `<div class="forecast-day">` +
+          `<div>${dayName}</div>` +
+          `<div>${dayWeather[1]}</div>` +
+          `<div>${Math.round(daily.temperature_2m_max[index])}°</div>` +
+          `<div>${Math.round(daily.temperature_2m_min[index])}°</div>` +
+          `</div>`
+        );
+      });
+
+      $("weatherForecast").innerHTML = forecast.join("");
+    }
+
+    setWeatherMessage("Weather updated successfully.");
+  } catch (error) {
     console.error(error);
-    alert(
-      "Could not open website storage. Please use a supported browser."
+    setWeatherMessage(
+      "Unable to load weather. Check your internet connection and try again."
     );
   }
 }
 
-loadSaved();
-renderMusic();
-</script>
-</main>
+if ($("weatherCityButton")) {
+  $("weatherCityButton").addEventListener("click", () => {
+    loadWeather($("weatherCityInput")?.value);
+  });
+}
+
+if ($("weatherCityInput")) {
+  $("weatherCityInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      loadWeather(event.target.value);
+    }
+  });
+}
+
+if ($("refreshWeather")) {
+  $("refreshWeather").addEventListener("click", () => {
+    const city = $("weatherCityInput")?.value || "";
+    loadWeather(city || "Quezon City");
+  });
+}
+
+
+// ------------------------------
+// BATTERY INDICATOR
+// ------------------------------
+
+async function setupBatteryIndicator() {
+  if (!navigator.getBattery) return;
+
+  try {
+    const battery = await navigator.getBattery();
+
+    function updateBattery() {
+      const fill = $("batteryFill");
+      if (!fill) return;
+
+      const percent = Math.round(battery.level * 100);
+
+      fill.style.width = percent + "%";
+      fill.title = percent + "% battery";
+
+      fill.style.backgroundColor =
+        battery.charging ? "#34c759" :
+        percent <= 20 ? "#ff3b30" :
+        "#ffffff";
+    }
+
+    updateBattery();
+
+    battery.addEventListener("levelchange", updateBattery);
+    battery.addEventListener("chargingchange", updateBattery);
+  } catch (error) {
+    console.log("Battery information is unavailable in this browser.");
+  }
+}
+
+
+// ------------------------------
+// INITIALIZE THE IPHONE PAGE
+// ------------------------------
+
+async function initializeApp() {
+  await loadAppData();
+
+  updateClock();
+  setupBatteryIndicator();
+
+  // Keep the Clock app closed until its icon is tapped.
+  showScreen("lockScreen");
+
+  // Weather loads only when the Weather app is opened/refreshed.
+}
+
+initializeApp();
+ </script>
 </body>
 </html>
