@@ -247,7 +247,10 @@ button{font:inherit;cursor:pointer}
       Weather
     </div>
 
-    <div class="app"><button>🕒</button>Clock</div>
+    <div class="app">
+  <button id="openClock" type="button">🕒</button>
+  Clock
+</div>
     <div class="app"><button>▶</button>YouTube</div>
   </div>
 
@@ -339,7 +342,39 @@ button{font:inherit;cursor:pointer}
     ↻ Refresh Weather
   </button>
 </section>
+<!-- CLOCK APP -->
+<section class="app-screen" id="clockScreen">
+  <button class="back" id="closeClock" type="button">‹ Home</button>
 
+  <div style="text-align:center; padding-top:70px;">
+    <div style="font-size:14px;color:#888;">CLOCK</div>
+
+    <div id="clockTime" style="
+      font-size:64px;
+      font-weight:300;
+      letter-spacing:-2px;
+      margin-top:30px;
+    ">00:00:00</div>
+
+    <div id="clockDate" style="
+      font-size:16px;
+      color:#777;
+      margin-top:12px;
+    "></div>
+
+    <div style="
+      margin:45px auto 0;
+      width:180px;
+      height:180px;
+      border:5px solid #ddd;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:65px;
+    ">🕒</div>
+  </div>
+</section>
 <section class="app-screen" id="calendarScreen">
   <button class="back" data-home="calendarScreen">‹ Home</button>
   <h1 class="app-title">Calendar</h1>
@@ -1606,6 +1641,45 @@ async function loadSaved(){
 
 loadSaved();
 renderMusic();
+ // CLOCK APP
+function updateClockApp() {
+  const now = new Date();
+
+  const time = document.getElementById("clockTime");
+  const date = document.getElementById("clockDate");
+
+  if (time) {
+    time.textContent = now.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+  }
+
+  if (date) {
+    date.textContent = now.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+  }
+}
+
+// Open Clock only when the icon is tapped
+document.getElementById("openClock").onclick = () => {
+  document.getElementById("clockScreen").classList.add("active");
+  updateClockApp();
+};
+
+// Return to Home screen
+document.getElementById("closeClock").onclick = () => {
+  document.getElementById("clockScreen").classList.remove("active");
+};
+
+// Keep the clock running
+updateClockApp();
+setInterval(updateClockApp, 1000);
 </script>
 </main>
 </body>
