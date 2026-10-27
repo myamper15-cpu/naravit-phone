@@ -165,6 +165,43 @@ button{font:inherit;cursor:pointer}
 .music-note{font-size:13px;color:#777;line-height:1.5}
 
 .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:8px;background:white;z-index:50}
+
+/* PHONE CONTACTS */
+.contact-row{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  width:100%;
+  padding:14px 5px;
+  border:0;
+  border-bottom:1px solid #e5e5e5;
+  background:transparent;
+  color:#222;
+  text-align:left;
+}
+
+.contact-avatar{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#f6cde0,#d9c9f6);
+  font-size:23px;
+}
+
+.contact-name{
+  flex:1;
+  font-size:16px;
+  font-weight:600;
+}
+
+.contact-call{
+  color:#34a853;
+  font-size:22px;
+}
+
 </style>
 </head>
 <body>
@@ -258,11 +295,16 @@ button{font:inherit;cursor:pointer}
   </div>
 
   <div class="dock">
-    <button>☎</button>
-    <button>●</button>
-    <button>▣</button>
-    <button>👤</button>
-  </div>
+
+  <button id="openPhone" type="button">📞</button>
+
+  <button>●</button>
+
+  <button>▣</button>
+
+  <button>👤</button>
+
+</div>
 </section>
 
 <section class="owner-panel" id="ownerPanel">
@@ -378,6 +420,34 @@ button{font:inherit;cursor:pointer}
     ">🕒</div>
   </div>
 </section>
+ 
+<!-- PHONE / CONTACTS APP -->
+<section class="app-screen" id="phoneScreen">
+  <button class="back" id="closePhone" type="button">‹ Home</button>
+
+  <h1 class="app-title">Contacts</h1>
+  <p style="color:#777">My favorite people 💗</p>
+
+  <div id="contactList"></div>
+
+  <div id="callScreen" style="display:none;text-align:center;padding-top:70px">
+    <div id="callAvatar" style="
+      width:100px;height:100px;border-radius:50%;
+      background:#e6d5e9;margin:0 auto 20px;
+      display:grid;place-items:center;font-size:42px">
+      💗
+    </div>
+
+    <h2 id="callName" style="font-size:28px"></h2>
+    <p id="callStatus" style="color:#777">Calling…</p>
+
+    <button id="endCall" type="button" style="
+      margin-top:55px;width:65px;height:65px;
+      border:0;border-radius:50%;background:#ff3b30;
+      color:white;font-size:27px">☎</button>
+  </div>
+</section>
+
 <section class="app-screen" id="calendarScreen">
   <button class="back" data-home="calendarScreen">‹ Home</button>
   <h1 class="app-title">Calendar</h1>
@@ -1689,6 +1759,73 @@ document.getElementById("openYouTube").onclick = () => {
   window.location.href =
     "https://youtu.be/BmNBZWjJW6I?si=xeC9W26Lx0T4IDKy";
 };
+
+/* PHONE APP */
+const favoriteContacts = [
+  "Phu",
+  "Mom",
+  "Amma",
+  "Joong",
+  "Aou",
+  "Santa",
+  "Dew",
+  "Dunk"
+];
+
+const contactList = document.getElementById("contactList");
+const callScreen = document.getElementById("callScreen");
+
+function renderContacts() {
+  contactList.innerHTML = "";
+
+  favoriteContacts.forEach(name => {
+    const row = document.createElement("button");
+    row.type = "button";
+    row.className = "contact-row";
+
+    const avatar = document.createElement("span");
+    avatar.className = "contact-avatar";
+    avatar.textContent = "💗";
+
+    const label = document.createElement("span");
+    label.className = "contact-name";
+    label.textContent = name;
+
+    const callIcon = document.createElement("span");
+    callIcon.className = "contact-call";
+    callIcon.textContent = "☎";
+
+    row.append(avatar, label, callIcon);
+
+    row.onclick = () => {
+      contactList.style.display = "none";
+      callScreen.style.display = "block";
+
+      document.getElementById("callName").textContent = name;
+      document.getElementById("callStatus").textContent =
+        "Calling " + name + "…";
+    };
+
+    contactList.appendChild(row);
+  });
+}
+
+document.getElementById("openPhone").onclick = () => {
+  document.getElementById("phoneScreen").classList.add("active");
+  contactList.style.display = "block";
+  callScreen.style.display = "none";
+  renderContacts();
+};
+
+document.getElementById("closePhone").onclick = () => {
+  document.getElementById("phoneScreen").classList.remove("active");
+};
+
+document.getElementById("endCall").onclick = () => {
+  callScreen.style.display = "none";
+  contactList.style.display = "block";
+};
+
 </script>
 </main>
 </body>
