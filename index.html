@@ -425,11 +425,13 @@ button{font:inherit;cursor:pointer}
 <section class="app-screen" id="phoneScreen">
   <button class="back" id="closePhone" type="button">‹ Home</button>
 
-  <h1 class="app-title">Contacts</h1>
-  <p style="color:#777">My favorite people 💗</p>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+  <h1 class="app-title">Recents</h1>
+  <span style="color:#087aff;font-size:14px">Edit</span>
+</div>
 
-  <div id="contactList"></div>
-
+<div id="contactList"></div>
+ 
   <div id="callScreen" style="display:none;text-align:center;padding-top:70px">
     <div id="callAvatar" style="
       width:100px;height:100px;border-radius:50%;
